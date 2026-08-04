@@ -387,9 +387,9 @@
     "downstreams_with_analysable_sql": 7,
     "downstreams_without_sql_definition": 10,
     "timing_seconds": {
-      "mcp_pull": 9.45,
-      "sqlglot_parse_and_impact": 0.0098,
-      "total": 9.459
+      "mcp_pull": 10.683,
+      "sqlglot_parse_and_impact": 0.0134,
+      "total": 10.697
     },
     "column_reference_scores": [
       [
@@ -433,7 +433,7 @@
     ],
     "change": "drop order_entry_db.order_entry.addresses.country_id",
     "method": "static",
-    "verified_at": "2026-08-03T10:09:22+00:00",
+    "verified_at": "2026-08-04T14:34:20+00:00",
     "patch_applied": false,
     "parse_ok": true,
     "parse_errors": [],
@@ -475,16 +475,16 @@
       "teams": 0
     },
     "deltas": {
-      "queries_total": 0,
-      "ambiguous": 0,
-      "unknown": 0,
-      "analysed": 0,
-      "degrades": 0,
-      "safe": 0,
-      "unassessed": 0,
+      "runs_impacted": 0,
       "breaks": 0,
       "teams": 0,
-      "runs_impacted": 0
+      "ambiguous": 0,
+      "queries_total": 0,
+      "analysed": 0,
+      "unknown": 0,
+      "unassessed": 0,
+      "safe": 0,
+      "degrades": 0
     },
     "coverage_before": {
       "analysed": 5,

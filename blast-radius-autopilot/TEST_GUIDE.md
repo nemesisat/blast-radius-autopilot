@@ -112,11 +112,34 @@ distinguishable in the catalog:
 | Blast Radius Approved Writes | `8` |
 | Blast Radius Approved Failures | `0` |
 
-Reproduce the whole loop against a live instance with
-`set -a && . ./.env && set +a && python scripts/b20_3_live_readback.py` — it approves and
-then reads the properties back over GraphQL (`out/b20_3_live_readback.txt`, 15/15 assertions).
-`python scripts/b20_3_capture_audit_ui.py` screenshots the Properties tab and **fails** if the
-audit is not actually on the rendered page.
+Reproduce the whole loop against a live instance. Two ways, both verified 2026-08-04:
+
+```bash
+# 1. self-contained: emits the datasets, verifies, approves, reads back (15 assertions)
+set -a && . ./.env && set +a && python scripts/b20_3_live_readback.py
+
+# 2. via the CLI, the way the demo does it — then read back EVERYTHING (26 assertions:
+#    properties + the six audit fields + tags + the institutional-memory link + the
+#    description footer + every impacted downstream's tags)
+autopilot --catalog examples/showcase-ecommerce/catalog.json \
+          --change "drop analytics.fct_orders.customer_zip" --verify --write
+autopilot --catalog examples/showcase-ecommerce/catalog.json \
+          --change "drop analytics.fct_orders.customer_zip" --verify \
+          --approve out/APPROVAL-drop-analytics-fct-orders-customer-zip.json \
+          --approver you@example.com --write
+python scripts/b20_live_full_readback.py --approver you@example.com \
+       --manifest-id <the id printed above> --expect-writes 8
+```
+
+Both end in `ALL ASSERTIONS PASS`. `python scripts/b20_3_capture_audit_ui.py` screenshots the
+Properties tab and **fails** if the audit is not actually on the rendered page.
+
+Two other guards worth running before you trust the docs:
+
+```bash
+python scripts/check_referenced_paths.py   # every artifact the docs cite must exist
+python scripts/test_E_incomplete_fix.py    # the incomplete-fix path names its file:line
+```
 
 > **Correction to an earlier claim.** This guide previously said the catalog carried
 > `Blast Radius Writeback Applied By` / `Writeback Approver` / `Approval Manifest Id`. It did

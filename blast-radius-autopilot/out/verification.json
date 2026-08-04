@@ -7,7 +7,7 @@
   ],
   "change": "drop analytics.fct_orders.customer_zip",
   "method": "static",
-  "verified_at": "2026-08-03T10:12:33+00:00",
+  "verified_at": "2026-08-04T14:33:20+00:00",
   "patch_applied": true,
   "parse_ok": true,
   "parse_errors": [],
@@ -55,16 +55,16 @@
     "teams": 3
   },
   "deltas": {
-    "runs_impacted": -6,
-    "unassessed": 0,
-    "ambiguous": 0,
-    "analysed": 0,
-    "teams": 0,
-    "queries_total": 0,
     "breaks": -1,
+    "teams": 0,
+    "runs_impacted": -6,
     "degrades": 0,
     "safe": 1,
-    "unknown": 0
+    "unknown": 0,
+    "analysed": 0,
+    "ambiguous": 0,
+    "unassessed": 0,
+    "queries_total": 0
   },
   "coverage_before": {
     "analysed": 10,

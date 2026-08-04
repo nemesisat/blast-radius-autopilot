@@ -70,6 +70,82 @@ claim to.
 
 ## Done + verified
 
+- **2026-08-04 — Desktop is now the single source of truth under git; full A–K end-to-end test
+  pass.** No feature work. Three jobs: stop the file loss, restore what it destroyed, test
+  everything.
+
+  **The file loss, and how it is now impossible.** Development happened in `~/bra` and was
+  mirrored onto Desktop with `rsync -a --delete`. `--delete` removes anything in the destination
+  that is absent from the source, so files authored directly on Desktop were destroyed:
+  `LIMITATIONS.md` (recreated 2026-08-04), and `LICENSE` + `DESIGN.md` once before on 2026-07-23.
+  Fixes: (a) the Desktop tree is a **git repo** as of commit `f07f5c8`, so any future deletion is
+  recoverable and visible; (b) `~/bra` carries a `SCRATCH-DO-NOT-SYNC-FROM-HERE.md` stating that
+  it is stale, that Desktop is canonical, and that rsync from it must never run again — with or
+  without `--delete`. **I retired the sync rather than merely dropping the flag.** `~/bra/venv`
+  is still used as the interpreter, now pointed at the Desktop tree (`pip install -e` re-homed
+  `autopilot` there, confirmed by `autopilot.__file__`).
+
+  **`out/` is tracked on purpose.** `blast-radius-autopilot/.gitignore` previously excluded it,
+  which would have left a fresh clone full of dangling links to the very artifacts that make the
+  claims checkable. 15 MB, 162 files, scanned for secrets (none — the only "token" hit is an MCP
+  budget log line, and the long strings are hashes/URNs). Only `out/b20_3_scratch/` is excluded.
+  **No secrets tracked:** `git ls-files | grep -i env` returns exactly the two `.env.example`
+  placeholder files, both with empty token values; the real `.env` and `.venv/` (155 MB) are
+  ignored, verified with `git check-ignore -v`.
+
+  **Restored.** `LIMITATIONS.md` committed (117 lines, §1–§9). The claim-scope paragraph is back
+  in `blast-radius-autopilot/README.md` immediately after the bound/single-use/attributed
+  paragraph, and a new **Documentation** table links `LIMITATIONS.md` first (that README had no
+  docs list at all). Both previously-dangling references now resolve: root `README.md:46` and
+  `PROGRESS.md:47`.
+
+  **A–K results — every row was run, and the two failures below are real.**
+
+  | | Check | Result |
+  |---|---|---|
+  | A | install + import + `acryl-datahub` | **PASS** — editable install re-homed to Desktop; acryl-datahub **1.6.0.15**, sqlglot 30.13.0, pytest 9.1.1 |
+  | B | full suite | **PASS — 181 passed** |
+  | C | offline flagship `--verify --plan --html --pr-comment` | **PASS** — REVIEW_REQUIRED, **breaks 6→5**, 3 reasons; all four outputs written |
+  | D | PASS path (`verified-migration`) | **PASS** — PASS, **breaks 2→0**, coverage 3 of 3, `would apply` (6 planned, not queued) |
+  | E | incomplete-fix path | **PASS with a corrected expectation** — the exact `file:line` **is** named (`rpt_referrals.sql:8: still references referrer_code — WHERE s.referrer_code IS NOT NULL`), but the verdict is **REVIEW_REQUIRED, not FAIL** — see below |
+  | F | 5 datasets via `--loop` | **PASS** — all 5 ran; healthcare + finance both carry `require_review` in `queued because` |
+  | G | fragility leaderboard | **PASS** — `amount` (100) outranks `customer_zip` (100, fewer runs) |
+  | H | **live** DataHub write path | **PASS** — GMS 200; REVIEW_REQUIRED → manifest, **0 written** with `--write` given; then approved → **8 human-approved**; GraphQL read-back **26/26 assertions PASS** |
+  | I | **live MCP**, both targets | **PASS** — ORDER_DETAILS 55 cols / 24 downstreams / **queries 0** / 6 SQL defs / 5 of 24 / **FAIL**, pull 13.73 s, parse 0.013 s. ADDRESSES 9 / 17 / **0** / 7 / 5 of 17 / **FAIL** (`no_patch_provided`), pull 10.68 s, parse 0.013 s |
+  | J | skill offline | **PASS after fixing my own invocation** — takes `--dataset/--column`, not `--change`; returns structured JSON (risk CRITICAL 100, breaks 6, coverage 10 of 10, `review_required: True`) |
+  | K | guards | **PASS** — no `.env` tracked; **348 cited paths across 15 docs all resolve** after fixing 2 genuine dangles; working tree clean at the final commit |
+
+  **E — the expectation was wrong, not the tool.** An incomplete fix is deliberately
+  REVIEW_REQUIRED. B16 split this in two on purpose: a file-level **scope violation** is a FAIL,
+  while a **residual column reference** is an observation that names the line and lets the impact
+  re-run decide severity. The first cut did FAIL on residual references and misfired on a
+  legitimately regenerated rewrite, producing a bogus FAIL with the wrong reason. An incomplete
+  fix *does* contribute to a FAIL when the re-run shows breaks did not move at all — the live MCP
+  ORDER_DETAILS target fails on `breaks_not_reduced` **+** `fix_incomplete_column_still_referenced`
+  together. New repeatable `scripts/test_E_incomplete_fix.py`; the old
+  `out/verification_partial_run.txt` predates B18/B19 and cited `rpt_referrals.sql:9`, a line that
+  no longer exists in that file.
+
+  **Two genuine dangling citations found by K and fixed.** (1) `PROGRESS.md` cited four
+  screenshots — `01_fct_orders_overview.png` … `04_downstream_impacted.png` — that **no longer
+  exist**: the 2026-07-25 real-datapack capture overwrote slots 01–04 with differently-named
+  files showing the real `orders` asset, and the synthetic originals were not preserved. The entry
+  now says so. (2) `out/README.md` listed a `report.html` artifact that was never regenerated
+  after B18. New `scripts/check_referenced_paths.py` guards both, with a reasoned allowlist for
+  the 8 path-shaped tokens that are not evidence citations (example-command outputs,
+  test-fixture values, an upstream DataHub filename). I verified the guard still fails on a real
+  break by planting a bogus citation and watching it flag it.
+
+  **A third institutional-memory link appeared, from this very migration.** `_save_document` is
+  idempotent *by url*, so moving canonical from `~/bra` to Desktop changed the `file://` URL and
+  added a third link with the same title beside the pre-B18 placeholder and the `~/bra` path. Same
+  additive-write behaviour recorded on 2026-08-03, now with a new instance and a known cause.
+
+  **Artifacts:** `out/test_C_flagship.{txt,html}`, `out/test_C_PR.md`, `out/test_D_pass.txt`,
+  `out/test_E_incomplete_fix.md`, `out/test_F_loop.txt`, `out/test_G_fragility.txt`,
+  `out/test_H_step1.txt`, `out/test_H_step2.txt`, `out/test_H_readback.txt` (26/26),
+  `out/test_I_order_details.txt`, `out/test_I_addresses.txt`, `out/test_J_skill.json`.
+
 - **2026-08-03 — LIVE MCP re-run + live approval round-trip, against the current build. THE
   LAST OPEN EVIDENCE GAP IS CLOSED.** No feature work: run, capture, record. Since B17 the docs
   had carried the live-MCP verdict as *reasoning* ("the gates can only tighten, so the captured
@@ -829,9 +905,14 @@ claim to.
     score=100, breaks=4, degrades=2, teams=3, assessed_at); institutional-memory doc "Blast Radius
     Assessment — drop analytics.fct_orders.customer_zip".
   - downstream `rpt_orders_by_region`: tags `impacted-by-upstream-change` + `impact-breaks`.
-  **UI screenshots** for the video in `blast-radius-autopilot/out/live_ui/`:
+  **UI screenshots** for the video were captured to `blast-radius-autopilot/out/live_ui/` as
   `01_fct_orders_overview.png`, `02_fct_orders_properties.png`, `03_fct_orders_documentation.png`,
-  `04_downstream_impacted.png`. Full read-back + notes in `LIVE_DATAHUB_EVIDENCE.md`.
+  `04_downstream_impacted.png`. **Those four files no longer exist** — the 2026-07-25
+  real-datapack capture replaced slots 01–04 with `01_orders_overview.png`,
+  `02_orders_properties.png`, `03_orders_documentation.png`, `04_downstream_order_details.png`,
+  which show the real `orders` asset instead of this synthetic one. The original synthetic
+  captures were not preserved; this reference is kept for the record, not as a live citation.
+  Full read-back + notes in `LIVE_DATAHUB_EVIDENCE.md`.
   *Issue hit + fixed:* the UI-capture login first clicked the wrong submit button ("Sign in with
   SSO") and captured the login page; fixed to `button[data-testid='sign-in']` with a post-login
   assertion, then re-captured. No secrets committed (`.env` gitignored; not copied to the canonical tree).

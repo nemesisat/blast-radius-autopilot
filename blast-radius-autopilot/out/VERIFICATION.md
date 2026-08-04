@@ -53,4 +53,4 @@ _The SQL parsed and the column was found, but it could not be confidently attrib
 
 > STATIC verification only: the patch was applied in an isolated copy, the patched SQL was re-parsed, and column-level impact was recomputed. No queries were executed, no warehouse was contacted, and no data was read. This is not evidence about runtime behaviour or results.
 
-_Verified at 2026-08-03T10:12:33+00:00 · method: static._
+_Verified at 2026-08-04T14:33:20+00:00 · method: static._

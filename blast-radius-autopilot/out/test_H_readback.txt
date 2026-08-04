@@ -1,0 +1,69 @@
+========================================================================================
+  LIVE GraphQL READ-BACK — drop analytics.fct_orders.customer_zip
+  target urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)
+========================================================================================
+
+-- structured properties (26 on the asset) --
+     blast_radius_ambiguous                           '1'
+     blast_radius_approved_at                         '2026-08-04T14:33:20+00:00' <- B20.3 AUDIT
+     blast_radius_approved_by                         'adeel.tahir@hattan.com' <- B20.3 AUDIT
+     blast_radius_approved_failures                   '0' <- B20.3 AUDIT
+     blast_radius_approved_writes                     '8' <- B20.3 AUDIT
+     blast_radius_assessed_at                         '2026-08-04T14:33:20+00:00'
+     blast_radius_breaks                              '6'
+     blast_radius_coverage                            '10 of 10 analysed'
+     blast_radius_degrades                            '0'
+     blast_radius_manifest_id                         'f8f3d50a0d328fb5' <- B20.3 AUDIT
+     blast_radius_review_required                     'True'
+     blast_radius_risk                                'CRITICAL'
+     blast_radius_score                               '100'
+     blast_radius_status                              'pending-change'
+     blast_radius_teams                               '3'
+     blast_radius_unassessed                          '0'
+     blast_radius_verification_ambiguous_after        '1'
+     blast_radius_verification_breaks_after           '5'
+     blast_radius_verification_breaks_before          '6'
+     blast_radius_verification_coverage               '10 of 10 analysed'
+     blast_radius_verification_degrades_after         '0'
+     blast_radius_verification_method                 'static'
+     blast_radius_verification_status                 'REVIEW_REQUIRED'
+     blast_radius_verification_status_at_approval     'REVIEW_REQUIRED' <- B20.3 AUDIT
+     blast_radius_verification_unmapped_files         '0'
+     blast_radius_verified_at                         '2026-08-04T14:33:20+00:00'
+
+-- assertions: the assessment --
+  [PASS] blast_radius_status == pending-change
+  [PASS] blast_radius_risk present   CRITICAL
+  [PASS] blast_radius_breaks present   6
+  [PASS] blast_radius_coverage present   10 of 10 analysed
+  [PASS] blast_radius_verification_status == REVIEW_REQUIRED   REVIEW_REQUIRED
+
+-- assertions: the B20.3 approval audit --
+  [PASS] blast_radius_approved_by present   'adeel.tahir@hattan.com'
+  [PASS] blast_radius_approved_at present   '2026-08-04T14:33:20+00:00'
+  [PASS] blast_radius_manifest_id present   'f8f3d50a0d328fb5'
+  [PASS] blast_radius_verification_status_at_approval present   'REVIEW_REQUIRED'
+  [PASS] blast_radius_approved_writes present   '8'
+  [PASS] blast_radius_approved_failures present   '0'
+  [PASS] approved_by == the supplied approver
+  [PASS] manifest_id == the consumed manifest
+  [PASS] verification_status_at_approval == REVIEW_REQUIRED
+  [PASS] approved_writes == 8
+  [PASS] approved_failures == 0
+
+-- assertions: tags / institutional memory / description --
+  [PASS] tag pending-schema-change   ['pending-schema-change']
+  [PASS] institutional-memory LINK present
+        link: 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> https://blast-radius-autopilot.local/assessment
+        link: 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> file:///Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md
+        link: 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> file:///Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md
+  [PASS] the link points at a file that EXISTS
+  [PASS] description carries the pending-change footer     ⚠️ drop analytics.fct_orders.customer_zip breaks 6 and degrades 0 downstream consumer(s)
+
+-- assertions: impacted downstreams tagged --
+  [PASS] Sales by ZIP                       impact-breaks   ['impacted-by-upstream-change', 'impact-breaks']
+  [PASS] rpt_orders_by_region               impact-breaks   ['impacted-by-upstream-change', 'impact-breaks']
+  [PASS] ZIP Heatmap                        impact-breaks   ['impacted-by-upstream-change', 'impact-breaks']
+  [PASS] Revenue by State                   impact-breaks   ['impacted-by-upstream-change', 'impact-degrades', 'impact-breaks']
+
+  ALL ASSERTIONS PASS

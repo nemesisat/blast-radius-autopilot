@@ -1,6 +1,6 @@
 {
-  "manifest_id": "f374130bcb5ce6f1",
-  "created_at": "2026-08-03T10:12:26+00:00",
+  "manifest_id": "f8f3d50a0d328fb5",
+  "created_at": "2026-08-04T14:33:12+00:00",
   "change": "drop analytics.fct_orders.customer_zip",
   "catalog": "showcase-ecommerce",
   "verification_status": "REVIEW_REQUIRED",
@@ -9,7 +9,7 @@
     "ambiguous_consumers_present",
     "manual_work_remaining"
   ],
-  "fingerprint": "74f49525b2991fa9742b187f0fe4640e38ffd5c7f6cbf35fe48354cc5eaf8782",
+  "fingerprint": "92cf7b2df7170292c247eb267cbc2b66ee22c3a5c2c6c0f56158b9a6b8a8c5d4",
   "mutations": [
     {
       "mutation_id": "add_structured_properties:urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)",
@@ -27,7 +27,7 @@
       "mutation_id": "save_document:urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)",
       "tool": "save_document",
       "target_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)",
-      "payload_summary": "institutional-memory link -> file:///Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md"
+      "payload_summary": "institutional-memory link -> file:///Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md"
     },
     {
       "mutation_id": "update_description:urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)",
@@ -60,7 +60,7 @@
       "payload_summary": "tags: impacted-by-upstream-change, impact-breaks"
     }
   ],
-  "consumed_at": "2026-08-03T10:12:33+00:00",
-  "approver": "reviewer@example.com",
+  "consumed_at": "2026-08-04T14:33:20+00:00",
+  "approver": "adeel.tahir@hattan.com",
   "note": "Static verification returned REVIEW_REQUIRED. Approving this manifest applies exactly the mutations listed above and nothing else. It is single-use and is bound to this change, this verdict and this queue. No query was executed to produce it. Approving also RECORDS THE APPROVER \u2014 your identity, the approval time, this manifest id, the verdict you approved against, and how many writes succeeded or failed \u2014 as structured properties on the changed dataset in DataHub, where anyone with access to the catalog can read them."
 }

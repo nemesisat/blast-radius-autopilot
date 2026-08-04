@@ -528,9 +528,9 @@
     "downstreams_with_analysable_sql": 6,
     "downstreams_without_sql_definition": 18,
     "timing_seconds": {
-      "mcp_pull": 9.31,
-      "sqlglot_parse_and_impact": 0.0099,
-      "total": 9.32
+      "mcp_pull": 13.728,
+      "sqlglot_parse_and_impact": 0.0132,
+      "total": 13.741
     },
     "column_reference_scores": [
       [
@@ -591,7 +591,7 @@
     ],
     "change": "drop order_entry_db.analytics.order_details.category_name",
     "method": "static",
-    "verified_at": "2026-08-03T10:09:01+00:00",
+    "verified_at": "2026-08-04T14:33:59+00:00",
     "patch_applied": true,
     "parse_ok": true,
     "parse_errors": [],
@@ -650,15 +650,15 @@
       "teams": 0
     },
     "deltas": {
-      "degrades": 0,
-      "analysed": 0,
-      "breaks": 0,
       "runs_impacted": 0,
-      "teams": 0,
-      "unassessed": 0,
       "safe": 0,
-      "queries_total": 0,
+      "teams": 0,
       "unknown": 0,
+      "degrades": 0,
+      "queries_total": 0,
+      "unassessed": 0,
+      "breaks": 0,
+      "analysed": 0,
       "ambiguous": 0
     },
     "coverage_before": {

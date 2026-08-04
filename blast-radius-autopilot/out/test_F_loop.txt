@@ -1,0 +1,68 @@
+Assessment body -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified+unresolved_impact): add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 8 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: not_verified+unresolved_impact
+Assessment body -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-nyc-trips-trip-distance.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (not_verified): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (not_verified): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — add institutional-memory link 'Blast Radius Assessment — drop nyc.trips.trip_distance' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-nyc-trips-trip-distance.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (not_verified): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:dashboard:(looker,avg_distance_by_zone) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,nyc.rpt_trip_metrics,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:chart:(powerbi,long_trips) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: not_verified
+Assessment body -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-rename-clinical-encounters-diagnosis-code-icd10-code.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (not_verified+require_review): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (not_verified+require_review): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — add institutional-memory link 'Blast Radius Assessment — rename clinical.encounters.diagnosis_code -> icd10_code' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-rename-clinical-encounters-diagnosis-code-icd10-code.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (not_verified+require_review): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:dashboard:(looker,diagnoses_by_month) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,clinical.rpt_diagnoses,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 6 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: not_verified+require_review
+Assessment body -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-retail-customers-loyalty-tier.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (not_verified): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (not_verified): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — add institutional-memory link 'Blast Radius Assessment — drop retail.customers.loyalty_tier' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-retail-customers-loyalty-tier.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (not_verified): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:dashboard:(looker,loyalty_mix) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,retail.rpt_loyalty,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified): add_tags on urn:li:chart:(powerbi,gold_members) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: not_verified
+Assessment body -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-rename-finance-fct-revenue-revenue-usd-net-revenue-usd.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (not_verified+require_review): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (not_verified+require_review): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — add institutional-memory link 'Blast Radius Assessment — rename finance.fct_revenue.revenue_usd -> net_revenue_usd' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-rename-finance-fct-revenue-revenue-usd-net-revenue-usd.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (not_verified+require_review): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:dashboard:(looker,revenue_by_region) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,finance.rpt_pnl,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (not_verified+require_review): add_tags on urn:li:chart:(powerbi,positive_revenue) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: not_verified+require_review
+
+==================================================================================
+  BLAST RADIUS AUTOPILOT — LOOP SUMMARY (same loop, many datasets)
+==================================================================================
+  RUN                       RISK       BREAKS  DEGR  SAFE FIXES  WRITE-BACK
+----------------------------------------------------------------------------------
+  ecommerce-drop-zip        CRITICAL        6     0     3     1  0 planned, 0 written (auto), 0 written (human-approved), 8 queued, 0 failed, 0 skipped  (dry run)
+                                                                 queued because: not_verified+unresolved_impact
+  nyc-taxi-drop-distance    CRITICAL        3     0     2     1  0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped  (dry run)
+                                                                 queued because: not_verified
+  healthcare-rename-dx      CRITICAL        3     0     1     1  0 planned, 0 written (auto), 0 written (human-approved), 6 queued, 0 failed, 0 skipped  (dry run)
+                                                                 queued because: not_verified+require_review
+  fiction-retail-drop-tier  CRITICAL        3     0     1     1  0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped  (dry run)
+                                                                 queued because: not_verified
+  finance-rename-revenue    CRITICAL        3     0     1     1  0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped  (dry run)
+                                                                 queued because: not_verified+require_review
+==================================================================================
+
