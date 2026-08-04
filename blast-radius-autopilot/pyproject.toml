@@ -1,0 +1,34 @@
+[project]
+name = "blast-radius-autopilot"
+version = "0.1.0"
+description = "For a proposed schema change, compute evidence-backed column-level impact from available query history and downstream SQL definitions, generate the migration fix, statically verify it, produce a CI-ready PR comment, and write the impact assessment back into DataHub. DataHub's Impact Analysis shows you the blast radius; this defuses it."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Blast Radius Autopilot contributors" }]
+keywords = ["datahub", "mcp", "metadata", "lineage", "impact-analysis", "code-generation", "agent", "dbt"]
+
+dependencies = [
+    "sqlglot>=25.0",
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+datahub = ["acryl-datahub>=0.15.0"]
+agent = ["anthropic>=0.40"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+autopilot = "autopilot.run:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

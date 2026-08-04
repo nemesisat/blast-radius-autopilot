@@ -1,0 +1,42 @@
+[
+  {
+    "query_id": "q_looker_dist",
+    "sql": "SELECT pickup_zone, AVG(trip_distance) AS avg_distance FROM nyc.trips GROUP BY pickup_zone",
+    "platform": "looker",
+    "team": "city-analytics",
+    "runs": 18,
+    "last_run": "2026-07-22"
+  },
+  {
+    "query_id": "q_dbt_trip_metrics",
+    "sql": "SELECT trip_id, trip_distance, fare_amount FROM nyc.trips WHERE passenger_count > 0",
+    "platform": "dbt",
+    "team": "mobility-data",
+    "runs": 9,
+    "last_run": "2026-07-22"
+  },
+  {
+    "query_id": "q_filter_dist",
+    "sql": "SELECT COUNT(*) AS long_trips FROM nyc.trips WHERE trip_distance > 30",
+    "platform": "powerbi",
+    "team": "city-analytics",
+    "runs": 7,
+    "last_run": "2026-07-21"
+  },
+  {
+    "query_id": "q_safe_payment",
+    "sql": "SELECT payment_type, COUNT(*) AS n FROM nyc.trips GROUP BY payment_type",
+    "platform": "snowflake",
+    "team": "mobility-data",
+    "runs": 11,
+    "last_run": "2026-07-20"
+  },
+  {
+    "query_id": "q_safe_daily_fares",
+    "sql": "SELECT DATE(pickup_ts) AS day, SUM(fare_amount) AS revenue FROM nyc.trips GROUP BY DATE(pickup_ts)",
+    "platform": "tableau",
+    "team": "finance-ops",
+    "runs": 14,
+    "last_run": "2026-07-22"
+  }
+]

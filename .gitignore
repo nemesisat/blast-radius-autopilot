@@ -1,0 +1,31 @@
+# Secrets — never commit. `.env` holds a live DataHub access token.
+.env
+*.env
+!.env.example
+*.token
+*credentials*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Test / tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# macOS
+.DS_Store
+
+# Scratch output that is explicitly NOT evidence (see blast-radius-autopilot/out/README.md).
+# Everything else under out/ IS the captured evidence and IS tracked on purpose — the
+# submission's claims are backed by those files, so a fresh clone must contain them.
+blast-radius-autopilot/out/b20_3_scratch/

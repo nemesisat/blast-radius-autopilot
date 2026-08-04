@@ -1,0 +1,24 @@
+# Blast Radius Autopilot — loop configuration.
+# Dataset-agnostic: the SAME loop runs every entry; only the data changes.
+# Run:  autopilot --loop loop.config.yaml            (dry-run)
+#       autopilot --loop loop.config.yaml --out out  (also write HTML + PR reports)
+runs:
+  - name: ecommerce-drop-zip
+    catalog: examples/showcase-ecommerce/catalog.json
+    change: "drop analytics.fct_orders.customer_zip"
+
+  - name: nyc-taxi-drop-distance
+    catalog: examples/nyc-taxi/catalog.json
+    change: "drop nyc.trips.trip_distance"
+
+  - name: healthcare-rename-dx        # regulated (require_review from catalog) -> writes queued
+    catalog: examples/healthcare/catalog.json
+    change: "rename clinical.encounters.diagnosis_code icd10_code"
+
+  - name: fiction-retail-drop-tier
+    catalog: examples/fiction-retail/catalog.json
+    change: "drop retail.customers.loyalty_tier"
+
+  - name: finance-rename-revenue      # SOX-scoped (require_review from catalog) -> writes queued
+    catalog: examples/finance/catalog.json
+    change: "rename finance.fct_revenue.revenue_usd net_revenue_usd"

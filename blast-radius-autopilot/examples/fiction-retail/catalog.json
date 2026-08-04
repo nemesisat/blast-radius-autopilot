@@ -1,0 +1,49 @@
+{
+  "name": "fiction-retail",
+  "sql_dialect": "snowflake",
+  "description": "Synthetic clean-canvas retail catalog. Public/synthetic metadata only.",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD)",
+      "name": "customers",
+      "sql_name": "retail.customers",
+      "platform": "snowflake",
+      "owners": ["team:retail-data"],
+      "schema": {
+        "customer_id": "NUMBER",
+        "full_name": "VARCHAR",
+        "email": "VARCHAR",
+        "loyalty_tier": "VARCHAR",
+        "region": "VARCHAR",
+        "signup_date": "DATE"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dashboard:(looker,loyalty_mix)",
+      "name": "Loyalty Mix",
+      "type": "looker_dashboard",
+      "platform": "looker",
+      "owners": ["team:crm-analytics"],
+      "defining_query_id": "q_looker_loyalty"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,retail.rpt_loyalty,PROD)",
+      "name": "rpt_loyalty",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:retail-data"],
+      "dbt_path": "dbt_project/models/rpt_loyalty.sql",
+      "defining_query_id": "q_dbt_loyalty"
+    },
+    {
+      "urn": "urn:li:chart:(powerbi,gold_members)",
+      "name": "Gold Members",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "owners": ["team:crm-analytics"],
+      "defining_query_id": "q_filter_gold"
+    }
+  ]
+}

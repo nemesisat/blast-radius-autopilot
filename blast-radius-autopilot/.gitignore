@@ -1,0 +1,30 @@
+# Secrets — never commit
+.env
+*.token
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Test / tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# `out/` IS TRACKED — deliberately, and this used to say the opposite.
+#
+# It holds the captured evidence every claim in README/PROGRESS/BACKLOG/EXAMPLES points at:
+# the PASS/REVIEW_REQUIRED/FAIL runs, the live GraphQL read-backs, the live-MCP captures, and
+# the UI screenshots. Ignoring it would leave a fresh clone full of dangling references to the
+# exact artifacts that make the claims checkable — which for this project is the whole point.
+# ~15 MB, no secrets (scanned).
+#
+# Only genuinely-scratch output is excluded, at the repo root .gitignore:
+#     blast-radius-autopilot/out/b20_3_scratch/
+*.local.html

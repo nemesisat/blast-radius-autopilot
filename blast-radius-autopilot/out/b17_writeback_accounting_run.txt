@@ -1,0 +1,60 @@
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — save 'Blast Radius Assessment — drop analytics.orders.customer_zip'
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 5 planned, 0 written, 0 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+[write] apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[write] apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — save 'Blast Radius Assessment — drop analytics.orders.customer_zip'
+[write] apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 5 written, 0 queued, 0 failed, 0 skipped.
+[write] apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): 422 unknown aspect version
+[write] apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — save 'Blast Radius Assessment — drop analytics.orders.customer_zip'
+[write] apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): GMS rejected add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): 422 unknown aspect version
+Summary: 0 planned, 3 written, 0 queued, 2 failed, 0 skipped.
+[write] apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): 422 unknown aspect version
+[write] apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — save 'Blast Radius Assessment — drop analytics.orders.customer_zip'
+    ! FAILED save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): 422 unknown aspect version
+[write] apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): GMS rejected add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): 422 unknown aspect version
+Summary: 0 planned, 2 written, 0 queued, 3 failed, 0 skipped.
+[dry-run] would QUEUE for review: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — save 'Blast Radius Assessment — drop analytics.orders.customer_zip'
+[dry-run] would QUEUE for review: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written, 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+
+==============================================================================
+  WRITE-BACK ACCOUNTING — 5 mutations planned on every path
+==============================================================================
+  path                 total written  queued  failed planned skipped  reconciles
+------------------------------------------------------------------------------
+  dry-run                  5       0       0       0       5       0  True
+  live clean               5       5       0       0       0       0  True
+  live 1 tool fails        5       3       0       2       0       0  True
+  live 2 tools fail        5       2       0       3       0       0  True
+  require_review           5       0       5       0       0       0  True
+------------------------------------------------------------------------------
+  dry-run              5 planned, 0 written, 0 queued, 0 failed, 0 skipped
+  live clean           0 planned, 5 written, 0 queued, 0 failed, 0 skipped
+  live 1 tool fails    0 planned, 3 written, 0 queued, 2 failed, 0 skipped
+  live 2 tools fail    0 planned, 2 written, 0 queued, 3 failed, 0 skipped
+  require_review       0 planned, 0 written, 5 queued, 0 failed, 0 skipped
+------------------------------------------------------------------------------
+  FAILED  add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+          GMS rejected add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): 422 unknown aspect version
+  FAILED  save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+          GMS rejected save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): 422 unknown aspect version
+  FAILED  add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD)
+          GMS rejected add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): 422 unknown aspect version
+==============================================================================

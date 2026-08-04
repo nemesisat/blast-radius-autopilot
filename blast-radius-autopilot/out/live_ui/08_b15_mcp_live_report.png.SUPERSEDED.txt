@@ -1,0 +1,5 @@
+⚠️ SUPERSEDED / HISTORICAL ARTIFACT — captured 2026-07-30 under B15 (pre-verification-gates) semantics.
+Re-run live against the CURRENT build (post-B15→B20) on 2026-08-03; the current
+equivalents are: out/live_ui/17_b20_mcp_live_order_details_*.png
+Kept for the record. Do NOT quote these numbers as current.
+------------------------------------------------------------------------------

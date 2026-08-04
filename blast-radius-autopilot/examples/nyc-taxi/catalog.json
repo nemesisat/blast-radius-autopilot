@@ -1,0 +1,51 @@
+{
+  "name": "nyc-taxi",
+  "sql_dialect": "snowflake",
+  "description": "Synthetic operational / time-series taxi-trips catalog. Public/synthetic metadata only.",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD)",
+      "name": "trips",
+      "sql_name": "nyc.trips",
+      "platform": "snowflake",
+      "owners": ["team:mobility-data"],
+      "schema": {
+        "trip_id": "NUMBER",
+        "pickup_ts": "TIMESTAMP",
+        "dropoff_ts": "TIMESTAMP",
+        "passenger_count": "NUMBER",
+        "trip_distance": "FLOAT",
+        "fare_amount": "FLOAT",
+        "pickup_zone": "VARCHAR",
+        "payment_type": "VARCHAR"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dashboard:(looker,avg_distance_by_zone)",
+      "name": "Avg Distance by Zone",
+      "type": "looker_dashboard",
+      "platform": "looker",
+      "owners": ["team:city-analytics"],
+      "defining_query_id": "q_looker_dist"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,nyc.rpt_trip_metrics,PROD)",
+      "name": "rpt_trip_metrics",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:mobility-data"],
+      "dbt_path": "dbt_project/models/rpt_trip_metrics.sql",
+      "defining_query_id": "q_dbt_trip_metrics"
+    },
+    {
+      "urn": "urn:li:chart:(powerbi,long_trips)",
+      "name": "Long Trips Monitor",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "owners": ["team:city-analytics"],
+      "defining_query_id": "q_filter_dist"
+    }
+  ]
+}

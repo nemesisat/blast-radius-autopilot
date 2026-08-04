@@ -1,0 +1,40 @@
+{
+  "name": "verified-migration (synthetic — demonstrates a PASS verification)",
+  "sql_dialect": "snowflake",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD)",
+      "name": "fct_signups",
+      "sql_name": "analytics.fct_signups",
+      "platform": "snowflake",
+      "owners": ["team:growth-eng"],
+      "schema": {
+        "signup_id": "NUMBER",
+        "account_id": "NUMBER",
+        "referrer_code": "TEXT",
+        "plan": "TEXT",
+        "signed_up_at": "TIMESTAMP"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_signups_by_plan,PROD)",
+      "name": "rpt_signups_by_plan",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:growth-eng"],
+      "defining_query_id": "q_dbt_rpt_signups_by_plan",
+      "dbt_path": "dbt_project/models/rpt_signups_by_plan.sql"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_referrals,PROD)",
+      "name": "rpt_referrals",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:growth-eng"],
+      "defining_query_id": "q_dbt_rpt_referrals",
+      "dbt_path": "dbt_project/models/rpt_referrals.sql"
+    }
+  ]
+}

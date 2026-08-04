@@ -1,0 +1,50 @@
+{
+  "name": "finance",
+  "sql_dialect": "snowflake",
+  "description": "SYNTHETIC finance/forecasting catalog — no real company data. SOX-scoped: writes are queued for human review (require_review).",
+  "require_review": true,
+  "compliance_note": "Synthetic/test data only. Renaming a regulated financial column requires Finance/Internal-Audit review and sign-off before use (SOX). This tool assesses and queues; it never auto-applies regulated changes.",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD)",
+      "name": "fct_revenue",
+      "sql_name": "finance.fct_revenue",
+      "platform": "snowflake",
+      "owners": ["team:fp-and-a"],
+      "schema": {
+        "period": "DATE",
+        "revenue_usd": "FLOAT",
+        "cost_usd": "FLOAT",
+        "region": "VARCHAR",
+        "source_system": "VARCHAR"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dashboard:(looker,revenue_by_region)",
+      "name": "Revenue by Region (Board)",
+      "type": "looker_dashboard",
+      "platform": "looker",
+      "owners": ["team:finance-reporting"],
+      "defining_query_id": "q_looker_rev"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,finance.rpt_pnl,PROD)",
+      "name": "rpt_pnl",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:fp-and-a"],
+      "dbt_path": "dbt_project/models/rpt_pnl.sql",
+      "defining_query_id": "q_dbt_pnl"
+    },
+    {
+      "urn": "urn:li:chart:(powerbi,positive_revenue)",
+      "name": "Positive Revenue Audit",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "owners": ["team:internal-audit"],
+      "defining_query_id": "q_filter_rev"
+    }
+  ]
+}

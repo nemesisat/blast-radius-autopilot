@@ -1,0 +1,107 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "reasons": [
+    "breaks_remaining",
+    "ambiguous_consumers_present",
+    "manual_work_remaining"
+  ],
+  "change": "drop analytics.fct_orders.customer_zip",
+  "method": "static",
+  "verified_at": "2026-08-03T10:12:33+00:00",
+  "patch_applied": true,
+  "parse_ok": true,
+  "parse_errors": [],
+  "scope_ok": true,
+  "scope_violations": [],
+  "residual_references": [],
+  "files_patched": [
+    "dbt_project/models/rpt_orders_by_region.sql"
+  ],
+  "file_query_map": {
+    "dbt_project/models/rpt_orders_by_region.sql": "q_dbt_rpt_orders_by_region"
+  },
+  "unmapped_files": [],
+  "deleted_files": [],
+  "renamed_files": [],
+  "unresolved_renames": [],
+  "diff_sql_paths": [
+    "dbt_project/models/rpt_orders_by_region.sql"
+  ],
+  "target_resolved": true,
+  "schema_known": true,
+  "target_problem": "",
+  "before": {
+    "breaks": 6,
+    "degrades": 0,
+    "safe": 3,
+    "unknown": 0,
+    "ambiguous": 1,
+    "queries_total": 10,
+    "analysed": 10,
+    "unassessed": 0,
+    "runs_impacted": 41,
+    "teams": 3
+  },
+  "after": {
+    "breaks": 5,
+    "degrades": 0,
+    "safe": 4,
+    "unknown": 0,
+    "ambiguous": 1,
+    "queries_total": 10,
+    "analysed": 10,
+    "unassessed": 0,
+    "runs_impacted": 35,
+    "teams": 3
+  },
+  "deltas": {
+    "runs_impacted": -6,
+    "unassessed": 0,
+    "ambiguous": 0,
+    "analysed": 0,
+    "teams": 0,
+    "queries_total": 0,
+    "breaks": -1,
+    "degrades": 0,
+    "safe": 1,
+    "unknown": 0
+  },
+  "coverage_before": {
+    "analysed": 10,
+    "total": 10,
+    "unassessed": 0,
+    "line": "10 of 10 analysed"
+  },
+  "coverage_after": {
+    "analysed": 10,
+    "total": 10,
+    "unassessed": 0,
+    "line": "10 of 10 analysed"
+  },
+  "transitions": [
+    {
+      "consumer": "rpt_orders_by_region",
+      "query_id": "q_dbt_rpt_orders_by_region",
+      "before": "BREAKS",
+      "after": "SAFE",
+      "regressed": false,
+      "improved": true,
+      "asset_type": "dbt_model"
+    }
+  ],
+  "unknown_consumers": [],
+  "ambiguous_consumers": [
+    "q_adhoc_ambiguous_zip"
+  ],
+  "manual_work_remaining": [
+    "Revenue by State",
+    "Sales by ZIP",
+    "ZIP Heatmap",
+    "q_adhoc_join_on_zip",
+    "q_adhoc_zip_export"
+  ],
+  "auto_applicable": false,
+  "notes": [
+    "STATIC verification only: the patch was applied in an isolated copy, the patched SQL was re-parsed, and column-level impact was recomputed. No queries were executed, no warehouse was contacted, and no data was read. This is not evidence about runtime behaviour or results."
+  ]
+}

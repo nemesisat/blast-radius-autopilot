@@ -1,0 +1,53 @@
+[dry-run] would QUEUE for review: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — save 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip'
+[dry-run] would QUEUE for review: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review: add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written, 8 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — save 'Blast Radius Assessment — drop nyc.trips.trip_distance'
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,nyc.trips,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dashboard:(looker,avg_distance_by_zone) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,nyc.rpt_trip_metrics,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:chart:(powerbi,long_trips) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 7 planned, 0 written, 0 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+[dry-run] would QUEUE for review: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — save 'Blast Radius Assessment — rename clinical.encounters.diagnosis_code -> icd10_code'
+[dry-run] would QUEUE for review: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD) — append pending-change footer
+[dry-run] would QUEUE for review: add_tags on urn:li:dashboard:(looker,diagnoses_by_month) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,clinical.rpt_diagnoses,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written, 6 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — save 'Blast Radius Assessment — drop retail.customers.loyalty_tier'
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,retail.customers,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dashboard:(looker,loyalty_mix) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,retail.rpt_loyalty,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:chart:(powerbi,gold_members) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 7 planned, 0 written, 0 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+[dry-run] would QUEUE for review: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — save 'Blast Radius Assessment — rename finance.fct_revenue.revenue_usd -> net_revenue_usd'
+[dry-run] would QUEUE for review: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD) — append pending-change footer
+[dry-run] would QUEUE for review: add_tags on urn:li:dashboard:(looker,revenue_by_region) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,finance.rpt_pnl,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:chart:(powerbi,positive_revenue) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written, 7 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+
+==================================================================================
+  BLAST RADIUS AUTOPILOT — LOOP SUMMARY (same loop, many datasets)
+==================================================================================
+  RUN                       RISK       BREAKS  DEGR  SAFE FIXES  WRITE-BACK
+----------------------------------------------------------------------------------
+  ecommerce-drop-zip        CRITICAL        6     0     3     1  0 planned, 0 written, 8 queued, 0 failed, 0 skipped  (dry run)
+  nyc-taxi-drop-distance    CRITICAL        3     0     2     1  7 planned, 0 written, 0 queued, 0 failed, 0 skipped  (dry run)
+  healthcare-rename-dx      CRITICAL        3     0     1     1  0 planned, 0 written, 6 queued, 0 failed, 0 skipped  (dry run)
+  fiction-retail-drop-tier  CRITICAL        3     0     1     1  7 planned, 0 written, 0 queued, 0 failed, 0 skipped  (dry run)
+  finance-rename-revenue    CRITICAL        3     0     1     1  0 planned, 0 written, 7 queued, 0 failed, 0 skipped  (dry run)
+==================================================================================
+

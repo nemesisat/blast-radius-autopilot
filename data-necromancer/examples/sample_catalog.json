@@ -1,0 +1,74 @@
+[
+  {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_revenue,PROD)",
+    "name": "fct_revenue",
+    "current_description": "Monthly revenue facts sourced from Oracle ERP.",
+    "owner": null,
+    "schema_fields": ["month", "revenue", "region"],
+    "lineage_sources": ["snowflake.raw_billing", "dbt.stg_billing"],
+    "downstream_count": 2,
+    "query_count": 340,
+    "query_tokens": ["revenue", "month", "region"],
+    "sibling_terms": ["Revenue"]
+  },
+  {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.dim_customer_legacy,PROD)",
+    "name": "dim_customer_legacy",
+    "current_description": "Deprecated temporary table, do not use.",
+    "owner": "urn:li:corpuser:jdoe",
+    "schema_fields": ["customer_id", "name", "segment"],
+    "lineage_sources": ["snowflake.raw_customers"],
+    "downstream_count": 3,
+    "query_count": 120,
+    "query_tokens": ["customer_id", "segment"],
+    "sibling_terms": ["Customer"]
+  },
+  {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:s3,marketing.stg_marketing_spend,PROD)",
+    "name": "stg_marketing_spend",
+    "current_description": "Campaign spend loaded from Salesforce.",
+    "owner": null,
+    "schema_fields": ["campaign", "spend"],
+    "lineage_sources": ["s3.marketing_raw"],
+    "downstream_count": 0,
+    "query_count": 3,
+    "query_tokens": ["campaign"],
+    "sibling_terms": []
+  },
+  {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.dim_product,PROD)",
+    "name": "dim_product",
+    "current_description": null,
+    "owner": null,
+    "schema_fields": ["product_id", "category", "price"],
+    "lineage_sources": ["snowflake.raw_products", "dbt.stg_products"],
+    "downstream_count": 0,
+    "query_count": 0,
+    "query_tokens": [],
+    "sibling_terms": ["Product"]
+  },
+  {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.dim_date,PROD)",
+    "name": "dim_date",
+    "current_description": "Standard date dimension for time-series joins.",
+    "owner": "urn:li:corpuser:jdoe",
+    "schema_fields": ["date_key", "day", "month", "year"],
+    "lineage_sources": ["dbt.stg_date"],
+    "downstream_count": 5,
+    "query_count": 60,
+    "query_tokens": ["date_key", "month"],
+    "sibling_terms": ["Date"]
+  },
+  {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:s3,raw.mystery_blob,PROD)",
+    "name": "mystery_blob",
+    "current_description": null,
+    "owner": null,
+    "schema_fields": [],
+    "lineage_sources": [],
+    "downstream_count": 0,
+    "query_count": 0,
+    "query_tokens": [],
+    "sibling_terms": []
+  }
+]

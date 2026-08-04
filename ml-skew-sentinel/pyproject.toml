@@ -1,0 +1,39 @@
+[project]
+name = "ml-skew-sentinel"
+version = "0.1.0"
+description = "An agent that walks DataHub ML lineage to catch silent training/serving skew and writes its diagnosis back to the graph."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "ML Skew Sentinel contributors" }]
+keywords = ["datahub", "mcp", "ml-lineage", "data-drift", "agent", "observability"]
+
+dependencies = [
+    # DataHub SDK: seed ML metadata + write structured properties/tags.
+    # Pin to the version matching your local Quickstart if you hit API drift.
+    "acryl-datahub>=0.15.0",
+    # Numerics for drift detection (PSI / KS).
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+# Connect the agent to DataHub over MCP (LangChain / Google ADK, etc.)
+agent = ["datahub-agent-context>=0.1.0", "anthropic>=0.40"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+skew-sentinel = "sentinel.run:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

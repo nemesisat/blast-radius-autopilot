@@ -1,0 +1,7 @@
+-- rpt_pnl: period-level revenue + cost (SYNTHETIC data only).
+-- Owned by team:fp-and-a. Downstream of finance.fct_revenue. SOX-scoped.
+SELECT
+    period,
+    revenue_usd,
+    cost_usd
+FROM finance.fct_revenue

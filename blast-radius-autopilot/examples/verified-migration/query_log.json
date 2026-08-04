@@ -1,0 +1,23 @@
+[
+  {
+    "query_id": "q_dbt_rpt_signups_by_plan",
+    "sql": "SELECT s.signup_id, s.plan, s.referrer_code FROM analytics.fct_signups s WHERE s.plan IS NOT NULL",
+    "platform": "dbt",
+    "team": "growth-eng",
+    "runs": 14
+  },
+  {
+    "query_id": "q_dbt_rpt_referrals",
+    "sql": "SELECT s.signup_id, s.account_id, s.referrer_code, s.signed_up_at FROM analytics.fct_signups s",
+    "platform": "dbt",
+    "team": "growth-eng",
+    "runs": 9
+  },
+  {
+    "query_id": "q_adhoc_plan_mix",
+    "sql": "SELECT plan, COUNT(*) FROM analytics.fct_signups GROUP BY plan",
+    "platform": "snowflake",
+    "team": "growth-eng",
+    "runs": 5
+  }
+]

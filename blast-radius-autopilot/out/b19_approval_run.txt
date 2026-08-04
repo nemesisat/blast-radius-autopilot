@@ -1,0 +1,40 @@
+========================================================================================
+  B19 — REVIEW_REQUIRED -> APPROVAL MANIFEST -> HUMAN-APPROVED WRITE
+========================================================================================
+  verification      REVIEW_REQUIRED  (breaks_remaining, ambiguous_consumers_present, manual_work_remaining)
+  manifest          0a632c76cec17577  created 2026-07-31T21:44:55+00:00
+  awaiting approval 8 mutation(s)
+
+  --- 1. approve it ---
+APPROVED by reviewer@example.com — manifest 0a632c76cec17577 (8 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] apply (human-approved): add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] apply (human-approved): add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest 0a632c76cec17577 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 8 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.
+      applied     8 human-approved / 0 auto     emitted=8
+      exactly the queued set? True
+      reconciles  True   applied_by=human-approved
+      properties  applied_by='human-approved'  approver='reviewer@example.com'  manifest='0a632c76cec17577'
+
+  --- 2. re-approve the same manifest ---
+      REFUSED: already_consumed   mutations applied: 0
+
+  --- 3. approve against a FAIL ---
+      REFUSED: fail_not_approvable   mutations applied: 0
+
+  --- 4. approve with no approver ---
+      REFUSED: no_approver   mutations applied: 0
+
+  --- 5. approve a tampered manifest ---
+      REFUSED: manifest_stale   mutations applied: 0
+
+  --- 6. approve against a different change ---
+      REFUSED: manifest_stale   mutations applied: 0
+
+========================================================================================

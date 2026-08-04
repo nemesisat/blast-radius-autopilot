@@ -1,0 +1,60 @@
+============================================================================================
+  B18 — CHANGES AND DIFFS THAT USED TO PASS
+============================================================================================
+
+B18.1  target dataset not in the catalog        (was PASS)
+  verdict        FAIL
+  reasons        target_not_found, breaks_eliminated
+  breaks         0 -> 0    safe 0 -> 0
+  target         resolved=False  problem=target dataset `analytics.no_such_table` was not found in catalog `synthetic-verify` — nothing was assessed, so no count below describes this change. Datasets the catalog does know: analytics.orders
+  recomputed     {'models/rpt_a.sql': 'q_rpt_a'}
+  unmapped       []
+  deleted        []
+  renamed        []  (unresolved: [])
+  auto_applicable False
+
+B18.1  target column not on the dataset         (was PASS)
+  verdict        FAIL
+  reasons        column_not_found, breaks_eliminated
+  breaks         0 -> 0    safe 1 -> 1
+  target         resolved=False  problem=column `no_such_column` is not in `analytics.orders`'s schema — the dataset resolved, the column did not. Columns it does have: amount, customer_id, customer_zip, order_id, status
+  recomputed     {'models/rpt_a.sql': 'q_rpt_a'}
+  unmapped       []
+  deleted        []
+  renamed        []  (unresolved: [])
+  auto_applicable False
+
+B18.2  diff DELETES a consumer's .sql           (was PASS, safe 1->2)
+  verdict        REVIEW_REQUIRED
+  reasons        breaks_eliminated, patched_file_deleted
+  breaks         1 -> 0    safe 1 -> 2
+  target         resolved=True
+  recomputed     {'models/rpt_a.sql': 'q_rpt_a'}
+  unmapped       []
+  deleted        ['models/rpt_safe.sql']
+  renamed        []  (unresolved: [])
+  auto_applicable False
+
+B18.2  diff RENAMES a consumer's .sql           (was PASS, safe 1->2)
+  verdict        REVIEW_REQUIRED
+  reasons        breaks_eliminated, patched_file_renamed
+  breaks         1 -> 0    safe 1 -> 2
+  target         resolved=True
+  recomputed     {'models/rpt_a.sql': 'q_rpt_a'}
+  unmapped       []
+  deleted        []
+  renamed        [('models/rpt_safe.sql', 'models/rpt_safe_moved.sql')]  (unresolved: [('models/rpt_safe.sql', 'models/rpt_safe_moved.sql')])
+  auto_applicable False
+
+GUARD  a normal, fully-resolved clean fix       (must stay PASS)
+  verdict        PASS
+  reasons        breaks_eliminated
+  breaks         1 -> 0    safe 0 -> 1
+  target         resolved=True
+  recomputed     {'models/rpt_a.sql': 'q_rpt_a'}
+  unmapped       []
+  deleted        []
+  renamed        []  (unresolved: [])
+  auto_applicable True
+
+============================================================================================

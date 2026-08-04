@@ -1,0 +1,83 @@
+
+========================================================================
+  BLAST RADIUS — drop order_entry.orders.promotion_id   (catalog: showcase-ecommerce-live)
+========================================================================
+  drop order_entry.orders.promotion_id breaks 3 and degrades 1 downstream consumer(s) across 2 team(s) (analytics-eng, marketing-bi), spanning 48 query runs in history. Change risk: CRITICAL (100/100).
+------------------------------------------------------------------------
+  [91mBREAKS   [0m order_details [snowflake_table]  · analytics-eng · 18 runs
+            └ projects/derives `promotion_id` (in select) → column removed
+  [91mBREAKS   [0m Customer_Analytics_Measures [powerbi_report]  · marketing-bi · 11 runs
+            └ projects/derives `promotion_id` (in group, select) → column removed
+  [91mBREAKS   [0m q_adhoc_promo_breakdown  · marketing-bi · 5 runs
+            └ projects/derives `promotion_id` (in group, select) → column removed
+  [93mDEGRADES [0m Essential_KPI_Measures [powerbi_report]  · marketing-bi · 14 runs
+            └ references `promotion_id` only in where → column removed
+------------------------------------------------------------------------
+  SCORECARD: risk CRITICAL (100/100)  |  🔴 3 breaks  🟡 1 degrades  🟢 3 safe  |  2 team(s)  ·  48 impacted runs
+========================================================================
+
+
+# Migration Plan — drop order_entry.orders.promotion_id
+
+**Change risk (derived):** CRITICAL (100/100)
+
+## Ordered steps (deepest upstream first → consumers → BI last)
+
+1. **[BREAKS] order_details** _(snowflake_table)_
+    - owner: analytics-eng
+    - action: manual review — no mechanical fix generated
+    - column-analysis (parser) confidence: high
+2. **[BREAKS] q_adhoc_promo_breakdown** _(query)_
+    - owner: marketing-bi
+    - action: manual review — no mechanical fix generated
+    - column-analysis (parser) confidence: high
+3. **[BREAKS] Customer_Analytics_Measures** _(powerbi_report)_
+    - owner: marketing-bi
+    - action: manual review — no mechanical fix generated
+    - column-analysis (parser) confidence: high
+4. **[DEGRADES] Essential_KPI_Measures** _(powerbi_report)_
+    - owner: marketing-bi
+    - action: manual review — no mechanical fix generated
+    - column-analysis (parser) confidence: high
+
+## Teams to involve
+
+analytics-eng, marketing-bi
+
+## Verify after the change (impacted downstreams)
+
+- order_details (BREAKS)
+- q_adhoc_promo_breakdown (BREAKS)
+- Customer_Analytics_Measures (BREAKS)
+- Essential_KPI_Measures (DEGRADES)
+
+## Rollback
+
+- Revert the schema change: re-add column `promotion_id` to `order_entry.orders`.
+- Close the generated migration PR (no auto-fix was applied; revert any manual edits).
+- Re-run Blast Radius Autopilot to confirm the catalog assessment clears.
+
+## Left for a human to decide (not computed)
+
+- Effort: ⟨human to decide⟩
+- Timeline: ⟨human to decide⟩
+- Deployment window: ⟨human to decide⟩
+
+---
+_This plan lists only facts derived from the impact analysis._
+_Effort, timeline, and deployment window are left for a human to decide — not computed._
+_The only confidence shown is the per-step column-analysis (parser) confidence._
+
+Migration plan -> MIGRATION_PLAN.md
+
+WRITE-BACK (dry-run):
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — save 'Blast Radius Assessment — drop order_entry.orders.promotion_id'
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_details,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Customer_Analytics_Measures,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Essential_KPI_Measures,PROD) — tag 'impacted-by-upstream-change' (DEGRADES)
+
+Summary: 7 written, 0 queued for review, 0 skipped.
+HTML report -> out/live_report.html

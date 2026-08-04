@@ -1,0 +1,75 @@
+
+========================================================================
+  BLAST RADIUS — drop analytics.fct_signups.referrer_code   (catalog: verified-migration (synthetic — demonstrates a PASS verification))
+========================================================================
+  drop analytics.fct_signups.referrer_code breaks 2 and degrades 0 downstream consumer(s) across 1 team(s) (growth-eng), spanning 23 query runs in history. Change risk: HIGH (56/100).
+------------------------------------------------------------------------
+  [91mBREAKS   [0m rpt_signups_by_plan [dbt_model]  · growth-eng · 14 runs
+            └ projects/derives `referrer_code` (in select) → column removed
+  [91mBREAKS   [0m rpt_referrals [dbt_model]  · growth-eng · 9 runs
+            └ projects/derives `referrer_code` (in select) → column removed
+------------------------------------------------------------------------
+  SCORECARD: risk HIGH (56/100)  |  🔴 2 breaks  🟡 0 degrades  🟢 1 safe  ⚪ 0 unassessed  ◐ 0 ambiguous  |  1 team(s)  ·  23 impacted runs
+  COVERAGE:  3 of 3 analysed consumer(s)
+========================================================================
+
+FIX (minimal, applicable): rpt_signups_by_plan — dbt_project/models/rpt_signups_by_plan.sql
+--- a/dbt_project/models/rpt_signups_by_plan.sql
++++ b/dbt_project/models/rpt_signups_by_plan.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:growth-eng. Downstream of analytics.fct_signups.
+ SELECT
+     s.signup_id,
+-    s.plan,
+-    s.referrer_code
++    s.plan
+ FROM analytics.fct_signups s
+ WHERE s.plan IS NOT NULL
+
+FIX (minimal, applicable): rpt_referrals — dbt_project/models/rpt_referrals.sql
+--- a/dbt_project/models/rpt_referrals.sql
++++ b/dbt_project/models/rpt_referrals.sql
+@@ -3,6 +3,5 @@
+ SELECT
+     s.signup_id,
+     s.account_id,
+-    s.referrer_code,
+     s.signed_up_at
+ FROM analytics.fct_signups s
+
+========================================================================
+  MIGRATION VERIFICATION (static)  —  [92m✅ PASS[0m
+========================================================================
+  metric          before   after   delta
+  --------------------------------------
+  breaks               2       0      -2
+  degrades             0       0      +0
+  safe                 1       3      +2
+  unassessed           0       0      +0
+  ambiguous            0       0      +0
+  coverage      3 of 3 analysed -> 3 of 3 analysed
+  --------------------------------------
+  transitions:
+      rpt_referrals: BREAKS → SAFE (improved)
+      rpt_signups_by_plan: BREAKS → SAFE (improved)
+  patched files recomputed: dbt_project/models/rpt_referrals.sql -> q_dbt_rpt_referrals, dbt_project/models/rpt_signups_by_plan.sql -> q_dbt_rpt_signups_by_plan
+  why:
+    - breaks_eliminated — no breaking consumers remain among those analysed
+  files patched in isolation: dbt_project/models/rpt_signups_by_plan.sql, dbt_project/models/rpt_referrals.sql
+  scope: STATIC ONLY — no queries executed, no warehouse contacted, no data read.
+========================================================================
+
+Verification -> out/VERIFICATION.md  ·  out/verification.json
+
+WRITE-BACK (dry-run):
+Assessment body -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-signups-referrer-code.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — blast_radius_status=pending-change, risk=HIGH
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.fct_signups.referrer_code' -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-signups-referrer-code.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_signups_by_plan,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_referrals,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 6 planned, 0 written, 0 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+HTML report -> out/b18_pass_report.html
+PR comment -> out/b18_pass_PR_COMMENT.md
+JSON report -> out/b18_pass.json

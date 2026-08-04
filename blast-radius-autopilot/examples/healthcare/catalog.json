@@ -1,0 +1,43 @@
+{
+  "name": "healthcare",
+  "sql_dialect": "snowflake",
+  "description": "SYNTHETIC healthcare catalog — no real PHI. Regulated: writes are queued for human review (require_review).",
+  "require_review": true,
+  "compliance_note": "Synthetic/test data only. A real dataset would route through the approve-before-write gate and require a HIPAA-compliant workflow + BAA.",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,clinical.encounters,PROD)",
+      "name": "encounters",
+      "sql_name": "clinical.encounters",
+      "platform": "snowflake",
+      "owners": ["team:clinical-data"],
+      "schema": {
+        "encounter_id": "NUMBER",
+        "patient_ref": "VARCHAR",
+        "encounter_date": "DATE",
+        "diagnosis_code": "VARCHAR",
+        "provider_id": "NUMBER",
+        "cost": "FLOAT"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dashboard:(looker,diagnoses_by_month)",
+      "name": "Diagnoses by Month",
+      "type": "looker_dashboard",
+      "platform": "looker",
+      "owners": ["team:population-health"],
+      "defining_query_id": "q_looker_dx"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,clinical.rpt_diagnoses,PROD)",
+      "name": "rpt_diagnoses",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:clinical-data"],
+      "dbt_path": "dbt_project/models/rpt_diagnoses.sql",
+      "defining_query_id": "q_dbt_diagnoses"
+    }
+  ]
+}

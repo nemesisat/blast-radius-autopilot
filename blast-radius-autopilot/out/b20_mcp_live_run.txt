@@ -1,0 +1,114 @@
+target auto-selected from MCP ranking: ORDER_DETAILS (24 downstreams)
+
+TARGET  urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_details,PROD)
+
+MCP calls:
+    get_entities(urns=[target]) -> 1 entity
+    list_schema_fields(urn=target) -> 55 fields
+    get_lineage(urn=target, upstream=False, max_hops=2) -> total=24
+    get_dataset_queries(urn=target) -> total=0
+    get_entities(urns=[24 downstreams]) -> 24 entities
+
+COUNTS  columns=55  downstreams=24  mcp_query_history=0
+        sql_name=order_entry_db.analytics.order_details
+
+PROVENANCE  get_dataset_queries returned 0 — the datapack ships NO query history.
+PROVENANCE  impact corpus = 6 REAL SQL definitions read over MCP from downstream viewProperties.logic (source=mcp:view_logic).
+            No seeded/synthetic SQL used in this run.
+              [dbt      ] order_history                        484 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     243 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     280 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     349 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     276 chars  (mcp:view_logic)
+              [snowflake] ORDER_DETAILS_REPLICA                127 chars  (mcp:view_logic)
+PROVENANCE  18 downstream consumer(s) expose NO SQL over MCP and are reported UNASSESSED (UNKNOWN), not safe:
+              [looker   ] Order Details                      (mcp:no_sql_definition)
+              [looker   ] order_details                      (mcp:no_sql_definition)
+              [unknown  ] datahub_order_entries              (mcp:no_sql_definition)
+              [powerbi  ] ORDER_DETAILS                      (mcp:no_sql_definition)
+              [tableau  ] Promotions                         (mcp:no_sql_definition)
+              [tableau  ] Order Mode                         (mcp:no_sql_definition)
+              [tableau  ] Orders By Day                      (mcp:no_sql_definition)
+              [tableau  ] Top Product Category               (mcp:no_sql_definition)
+              [powerbi  ] Customer Analytics Measures        (mcp:no_sql_definition)
+              [powerbi  ] Essential KPI Measures             (mcp:no_sql_definition)
+              [snowflake] ORDER_HISTORY                      (mcp:no_sql_definition)
+              [powerbi  ] Geographic Measures                (mcp:no_sql_definition)
+              [powerbi  ] Product Perfromance Measures       (mcp:no_sql_definition)
+              [powerbi  ] Time Inteligence Measures          (mcp:no_sql_definition)
+              [unknown  ] Customer Analysis                  (mcp:no_sql_definition)
+              [unknown  ] Geographics                        (mcp:no_sql_definition)
+              [unknown  ] Executive Summary                  (mcp:no_sql_definition)
+              [unknown  ] DAX Visual                         (mcp:no_sql_definition)
+
+COLUMN  'category_name' — references across MCP-sourced SQL: {'category_name': 6, 'order_id': 5, 'order_total': 5, 'line_total': 3, 'order_date': 3, 'promotion_name': 3, 'order_mode': 2, 'updated_at': 2}
+
+IMPACT  drop order_entry_db.analytics.order_details.category_name
+        {'breaks': 2, 'degrades': 1, 'safe': 2, 'unknown': 19, 'ambiguous': 0, 'queries_total': 24, 'analysed': 5, 'unassessed': 19, 'runs_impacted': 3, 'teams': 0}
+        risk=HIGH among assessed (50/100)  coverage=5 of 24 analysed  review_required=True
+          BREAKS    Custom SQL Query                   usage=select conf=high group,select,where
+          BREAKS    Custom SQL Query                   usage=select conf=high group,select,where
+          DEGRADES  ORDER_DETAILS_REPLICA              usage=star   conf=medium select(*)
+          SAFE      Custom SQL Query                   usage=none   conf=high 
+          SAFE      Custom SQL Query                   usage=none   conf=high 
+          UNKNOWN   order_history                      usage=parse_error conf=low 
+          UNKNOWN   Order Details                      usage=no_definition conf=low 
+          UNKNOWN   order_details                      usage=no_definition conf=low 
+          UNKNOWN   datahub_order_entries              usage=no_definition conf=low 
+          UNKNOWN   ORDER_DETAILS                      usage=no_definition conf=low 
+          UNKNOWN   Promotions                         usage=no_definition conf=low 
+          UNKNOWN   Order Mode                         usage=no_definition conf=low 
+          UNKNOWN   Orders By Day                      usage=no_definition conf=low 
+          UNKNOWN   Top Product Category               usage=no_definition conf=low 
+          UNKNOWN   Customer Analytics Measures        usage=no_definition conf=low 
+          UNKNOWN   Essential KPI Measures             usage=no_definition conf=low 
+          UNKNOWN   ORDER_HISTORY                      usage=no_definition conf=low 
+          UNKNOWN   Geographic Measures                usage=no_definition conf=low 
+          UNKNOWN   Product Perfromance Measures       usage=no_definition conf=low 
+          UNKNOWN   Time Inteligence Measures          usage=no_definition conf=low 
+          UNKNOWN   Customer Analysis                  usage=no_definition conf=low 
+          UNKNOWN   Geographics                        usage=no_definition conf=low 
+          UNKNOWN   Executive Summary                  usage=no_definition conf=low 
+          UNKNOWN   DAX Visual                         usage=no_definition conf=low 
+        notes:
+          - could not parse query mcp_order_history_0 (parse_error: ParseError) — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Order Details' (looker_dashboard) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'order_details' (looker_dashboard) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'datahub_order_entries' (unknown_asset) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'ORDER_DETAILS' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Promotions' (tableau_workbook) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Order Mode' (tableau_workbook) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Orders By Day' (tableau_workbook) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Top Product Category' (tableau_workbook) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Customer Analytics Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Essential KPI Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'ORDER_HISTORY' (snowflake_table) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Geographic Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Product Perfromance Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Time Inteligence Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Customer Analysis' (unknown_asset) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Geographics' (unknown_asset) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Executive Summary' (unknown_asset) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'DAX Visual' (unknown_asset) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - COVERAGE 5 of 24 analysed — 19 consumer(s) could not be assessed; verdict is 'HIGH among assessed' and the change REQUIRES REVIEW before any write-back.
+
+TIMING  mcp_pull=9.88s  sqlglot_parse+impact=0.009s  total=9.89s
+        (metadata-bound: 55 columns + 6 SQL defs, no table data scanned)
+
+B16  materialised 6 MCP-read SQL definition(s) -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_materialized
+     (synthesised from MCP metadata for verification; NOT a real dbt repo)
+B16  generated 3 mechanical fix(es)
+B16  VERDICT FAIL
+     breaks 2 -> 2 (+0)  degrades 1 -> 1  unassessed 19 -> 19  ambiguous 0 -> 0  coverage 5 of 24 analysed
+     patched files recomputed: 3 of 3
+     - breaks_not_reduced
+     - breaks_remaining
+     - degrades_remaining
+     - unknown_consumers_present
+     - coverage_incomplete
+     - fix_incomplete_column_still_referenced
+     scope: STATIC — no queries executed, no warehouse contacted, no data read.
+wrote /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_VERIFICATION.md
+
+wrote /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_report.html
+wrote /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_report.json

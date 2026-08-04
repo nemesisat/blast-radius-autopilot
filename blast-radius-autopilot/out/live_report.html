@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blast Radius — drop order_entry.orders.promotion_id</title>
+<style>
+:root {
+  color-scheme: light;
+  --plane:#f9f9f7; --surface-1:#fcfcfb; --surface-2:#ffffff;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --border:rgba(11,11,11,0.10); --border-strong:#c3c2b7;
+  --series-1:#2a78d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --plane:#0d0d0d; --surface-1:#1a1a19; --surface-2:#232320;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --border:rgba(255,255,255,0.10); --border-strong:#383835;
+    --series-1:#3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --plane:#0d0d0d; --surface-1:#1a1a19; --surface-2:#232320;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --border:rgba(255,255,255,0.10); --border-strong:#383835;
+  --series-1:#3987e5;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--plane); color:var(--text-primary);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.5; }
+.wrap { max-width:1040px; margin:0 auto; padding:32px 24px 64px; }
+header .pitch { color:var(--text-secondary); font-size:15px; margin:2px 0 0; }
+h1 { font-size:26px; margin:0; letter-spacing:-0.01em; }
+h2 { font-size:18px; margin:32px 0 12px; }
+.change { display:inline-block; margin-top:14px; padding:8px 14px; border-radius:8px;
+  background:var(--surface-2); border:1px solid var(--border); font-size:15px; }
+.change code { color:#d03b3b; font-weight:600; }
+.summary { margin:16px 0 0; padding:14px 16px; border-left:4px solid #d03b3b;
+  background:var(--surface-1); border-radius:0 8px 8px 0; }
+.card { background:var(--surface-1); border:1px solid var(--border); border-radius:12px;
+  padding:20px; margin-top:20px; }
+.tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+.tile { background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+.t-title { font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+.t-value { font-size:30px; font-weight:700; margin:4px 0 2px; }
+.t-value .unit { font-size:14px; color:var(--muted); font-weight:500; }
+.t-sub { font-size:12px; color:var(--text-secondary); }
+.meter { height:6px; border-radius:3px; background:var(--grid); overflow:hidden; margin:6px 0; }
+.meter-fill { height:100%; border-radius:3px; }
+.legend { display:flex; gap:18px; flex-wrap:wrap; margin:6px 0 16px; font-size:13px; color:var(--text-secondary); }
+.lg { display:inline-flex; align-items:center; gap:7px; }
+.dot { width:18px; height:18px; border-radius:50%; color:#fff; font-size:11px; font-weight:700;
+  display:inline-flex; align-items:center; justify-content:center; }
+svg text { font-family:system-ui,-apple-system,sans-serif; }
+.n-title { fill:var(--text-primary); font-size:14px; font-weight:600; }
+.n-sub { fill:var(--text-secondary); font-size:11.5px; }
+.badge { fill:#fff; font-size:12px; font-weight:700; }
+table { width:100%; border-collapse:collapse; font-size:13.5px; }
+th, td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--grid); vertical-align:top; }
+th { font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+td.num { text-align:right; font-variant-numeric:tabular-nums; }
+tr.amb td { color:var(--text-secondary); }
+.muted { color:var(--muted); }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700;
+  color:#fff; background:var(--pc); white-space:nowrap; }
+ol.plan { padding-left:22px; margin:0; }
+ol.plan li { margin:10px 0; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; }
+.fix { margin-top:14px; }
+.fix-head { margin-bottom:6px; }
+.tag { background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1px 7px; font-size:12px; }
+.review { margin:6px 0; color:var(--text-secondary); font-size:13px; }
+pre.diff { background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px;
+  overflow-x:auto; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; line-height:1.55; }
+pre.diff span { display:block; }
+pre.diff .add { background:rgba(12,163,12,0.14); }
+pre.diff .del { background:rgba(208,59,59,0.14); }
+pre.diff .hunk { color:var(--muted); }
+footer { margin-top:36px; color:var(--muted); font-size:12.5px; }
+.toggle { float:right; cursor:pointer; background:var(--surface-2); border:1px solid var(--border);
+  border-radius:8px; padding:6px 12px; font-size:13px; color:var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<button class="toggle" onclick="var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='dark'?'light':'dark')">◐ theme</button>
+<header>
+  <h1>Blast Radius Autopilot</h1>
+  <p class="pitch">DataHub's Impact Analysis shows you the blast radius; this defuses it.</p>
+  <div class="change">Proposed change: <code>drop order_entry.orders.promotion_id</code> &nbsp;·&nbsp; catalog <strong>showcase-ecommerce-live</strong></div>
+  <div class="summary">drop order_entry.orders.promotion_id breaks 3 and degrades 1 downstream consumer(s) across 2 team(s) (analytics-eng, marketing-bi), spanning 48 query runs in history. Change risk: CRITICAL (100/100).</div>
+</header>
+
+<div class="card"><div class="tiles"><div class="tile"><div class="t-title">Change risk</div><div class="t-value" style="color:#d03b3b">100<span class="unit">/100</span></div><div class="meter"><div class="meter-fill" style="width:100%;background:#d03b3b"></div></div><div class="t-sub">CRITICAL</div></div><div class="tile"><div class="t-title">Breaks</div><div class="t-value" style="color:#d03b3b">3</div><div class="t-sub">consumers error / lose data</div></div><div class="tile"><div class="t-title">Degrades</div><div class="t-value" style="color:#fab219">1</div><div class="t-sub">behaviour shifts silently</div></div><div class="tile"><div class="t-title">Safe</div><div class="t-value" style="color:#0ca30c">3</div><div class="t-sub">unaffected</div></div><div class="tile"><div class="t-title">Teams impacted</div><div class="t-value" style="color:var(--series-1)">2</div><div class="t-sub">analytics-eng, marketing-bi</div></div><div class="tile"><div class="t-title">Impacted runs</div><div class="t-value" style="color:var(--series-1)">48</div><div class="t-sub">query executions in history</div></div></div></div>
+
+<h2>Impacted lineage</h2>
+<div class="legend"><span class="lg"><span class="dot" style="background:#d03b3b">✕</span>BREAKS</span><span class="lg"><span class="dot" style="background:#fab219">!</span>DEGRADES</span><span class="lg"><span class="dot" style="background:#0ca30c">✓</span>SAFE</span></div>
+<div class="card"><svg viewBox="0 0 940 374" width="100%" role="img" aria-label="Blast radius lineage graph" style="max-width:100%;height:auto"><g><rect x="40" y="150" width="250" height="74" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="56" y="178" class="n-title">orders</text><text x="56" y="200" class="n-sub">changing column: promotion_id</text></g><path d="M290,187 C425,187 425,63 560,63" fill="none" stroke="#d03b3b" stroke-width="2" opacity="0.75"/><g><rect x="560" y="40" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#d03b3b" stroke-width="1.5"/><rect x="560" y="40" width="6" height="46" rx="3" fill="#d03b3b"/><circle cx="586" cy="63" r="11" fill="#d03b3b"/><text x="586" y="67" text-anchor="middle" class="badge">✕</text><text x="606" y="60" class="n-title">order_details</text><text x="606" y="78" class="n-sub">BREAKS · snowflake table · 18 runs · analytics-eng</text></g><path d="M290,187 C425,187 425,125 560,125" fill="none" stroke="#d03b3b" stroke-width="2" opacity="0.75"/><g><rect x="560" y="102" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#d03b3b" stroke-width="1.5"/><rect x="560" y="102" width="6" height="46" rx="3" fill="#d03b3b"/><circle cx="586" cy="125" r="11" fill="#d03b3b"/><text x="586" y="129" text-anchor="middle" class="badge">✕</text><text x="606" y="122" class="n-title">Customer_Analytics_Measures</text><text x="606" y="140" class="n-sub">BREAKS · powerbi report · 11 runs · marketing-bi</text></g><path d="M290,187 C425,187 425,187 560,187" fill="none" stroke="#d03b3b" stroke-width="2" opacity="0.75"/><g><rect x="560" y="164" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#d03b3b" stroke-width="1.5"/><rect x="560" y="164" width="6" height="46" rx="3" fill="#d03b3b"/><circle cx="586" cy="187" r="11" fill="#d03b3b"/><text x="586" y="191" text-anchor="middle" class="badge">✕</text><text x="606" y="184" class="n-title">q_adhoc_promo_breakdown</text><text x="606" y="202" class="n-sub">BREAKS · marketing-bi · 5 runs · marketing-bi</text></g><path d="M290,187 C425,187 425,249 560,249" fill="none" stroke="#fab219" stroke-width="2" opacity="0.75"/><g><rect x="560" y="226" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#fab219" stroke-width="1.5"/><rect x="560" y="226" width="6" height="46" rx="3" fill="#fab219"/><circle cx="586" cy="249" r="11" fill="#fab219"/><text x="586" y="253" text-anchor="middle" class="badge">!</text><text x="606" y="246" class="n-title">Essential_KPI_Measures</text><text x="606" y="264" class="n-sub">DEGRADES · powerbi report · 14 runs · marketing-bi</text></g><path d="M290,187 C425,187 425,311 560,311" fill="none" stroke="#0ca30c" stroke-width="2" opacity="0.75"/><g><rect x="560" y="288" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#0ca30c" stroke-width="1.5"/><rect x="560" y="288" width="6" height="46" rx="3" fill="#0ca30c"/><circle cx="586" cy="311" r="11" fill="#0ca30c"/><text x="586" y="315" text-anchor="middle" class="badge">✓</text><text x="606" y="308" class="n-title">3 safe consumer(s)</text><text x="606" y="326" class="n-sub">SAFE · unaffected · 32 runs</text></g></svg></div>
+
+<h2>Impacted consumers</h2>
+<div class="card" style="overflow-x:auto">
+<table>
+<thead><tr><th>Impact</th><th>Consumer</th><th>Team</th><th>Uses column</th><th>Runs</th><th>Detail</th></tr></thead>
+<tbody><tr><td><span class="pill" style="--pc:#d03b3b">✕ BREAKS</span></td><td><strong>order_details</strong><br><span class='muted'>snowflake table</span></td><td>analytics-eng</td><td><code>select</code> <span class='muted'>(select)</span></td><td class='num'>18</td><td>projects/derives `promotion_id` (in select) → column removed</td></tr><tr><td><span class="pill" style="--pc:#d03b3b">✕ BREAKS</span></td><td><strong>Customer_Analytics_Measures</strong><br><span class='muted'>powerbi report</span></td><td>marketing-bi</td><td><code>select</code> <span class='muted'>(group, select)</span></td><td class='num'>11</td><td>projects/derives `promotion_id` (in group, select) → column removed</td></tr><tr><td><span class="pill" style="--pc:#d03b3b">✕ BREAKS</span></td><td><strong>q_adhoc_promo_breakdown</strong><br><span class='muted'>marketing-bi</span></td><td>marketing-bi</td><td><code>select</code> <span class='muted'>(group, select)</span></td><td class='num'>5</td><td>projects/derives `promotion_id` (in group, select) → column removed</td></tr><tr><td><span class="pill" style="--pc:#fab219">! DEGRADES</span></td><td><strong>Essential_KPI_Measures</strong><br><span class='muted'>powerbi report</span></td><td>marketing-bi</td><td><code>filter</code> <span class='muted'>(where)</span></td><td class='num'>14</td><td>references `promotion_id` only in where → column removed</td></tr></tbody>
+</table>
+</div>
+
+<h2>Migration plan</h2>
+<div class="card"><p class='muted'>No dbt-model fixes auto-generated — impacted consumers are BI/queries.</p></div>
+
+<h2>Migration plan — grounded step-by-step</h2>
+<div class="card"><ol class='plan'><li><span class='pill' style='--pc:#d03b3b'>BREAKS</span> <strong>order_details</strong> <span class='muted'>(snowflake_table)</span><div class='muted' style='margin:2px 0 0 2px'>owner: analytics-eng · action: manual review — no mechanical fix generated · parser confidence: high</div></li><li><span class='pill' style='--pc:#d03b3b'>BREAKS</span> <strong>q_adhoc_promo_breakdown</strong> <span class='muted'>(query)</span><div class='muted' style='margin:2px 0 0 2px'>owner: marketing-bi · action: manual review — no mechanical fix generated · parser confidence: high</div></li><li><span class='pill' style='--pc:#d03b3b'>BREAKS</span> <strong>Customer_Analytics_Measures</strong> <span class='muted'>(powerbi_report)</span><div class='muted' style='margin:2px 0 0 2px'>owner: marketing-bi · action: manual review — no mechanical fix generated · parser confidence: high</div></li><li><span class='pill' style='--pc:#fab219'>DEGRADES</span> <strong>Essential_KPI_Measures</strong> <span class='muted'>(powerbi_report)</span><div class='muted' style='margin:2px 0 0 2px'>owner: marketing-bi · action: manual review — no mechanical fix generated · parser confidence: high</div></li></ol><p><strong>Teams to involve:</strong> analytics-eng, marketing-bi</p><p><strong>Verify after the change:</strong></p><ul><li>order_details (BREAKS)</li><li>q_adhoc_promo_breakdown (BREAKS)</li><li>Customer_Analytics_Measures (BREAKS)</li><li>Essential_KPI_Measures (DEGRADES)</li></ul><p><strong>Rollback:</strong></p><ul><li>Revert the schema change: re-add column `promotion_id` to `order_entry.orders`.</li><li>Close the generated migration PR (no auto-fix was applied; revert any manual edits).</li><li>Re-run Blast Radius Autopilot to confirm the catalog assessment clears.</li></ul><p class='muted'><strong>Left for a human to decide (not computed):</strong> effort ⟨human to decide⟩ · timeline ⟨human to decide⟩ · deployment window ⟨human to decide⟩</p></div>
+
+
+
+<footer>Blast Radius Assessment — drop order_entry.orders.promotion_id · Generated by Blast Radius Autopilot · public/synthetic data only.</footer>
+</div>
+</body>
+</html>

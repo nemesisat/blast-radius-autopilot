@@ -1,0 +1,81 @@
+{
+  "name": "showcase-ecommerce",
+  "sql_dialect": "snowflake",
+  "description": "Synthetic cross-platform e-commerce catalog (Snowflake -> dbt -> Looker/PowerBI/Tableau). Public/synthetic metadata only; no real company data.",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)",
+      "name": "fct_orders",
+      "sql_name": "analytics.fct_orders",
+      "platform": "snowflake",
+      "owners": ["team:orders-platform"],
+      "schema": {
+        "order_id": "NUMBER",
+        "customer_id": "NUMBER",
+        "order_date": "DATE",
+        "amount": "FLOAT",
+        "customer_zip": "VARCHAR",
+        "ship_state": "VARCHAR",
+        "status": "VARCHAR"
+      }
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.dim_customer,PROD)",
+      "name": "dim_customer",
+      "sql_name": "analytics.dim_customer",
+      "platform": "snowflake",
+      "owners": ["team:orders-platform"],
+      "schema": {
+        "customer_id": "NUMBER",
+        "customer_name": "VARCHAR",
+        "customer_email": "VARCHAR",
+        "customer_zip": "VARCHAR",
+        "customer_segment": "VARCHAR",
+        "signup_date": "DATE"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dashboard:(looker,sales_by_zip)",
+      "name": "Sales by ZIP",
+      "type": "looker_dashboard",
+      "platform": "looker",
+      "owners": ["team:growth-analytics"],
+      "defining_query_id": "q_looker_sales_by_zip"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD)",
+      "name": "rpt_orders_by_region",
+      "type": "dbt_model",
+      "platform": "dbt",
+      "owners": ["team:analytics-eng"],
+      "dbt_path": "dbt_project/models/rpt_orders_by_region.sql",
+      "defining_query_id": "q_dbt_rpt_orders_by_region"
+    },
+    {
+      "urn": "urn:li:chart:(powerbi,zip_heatmap)",
+      "name": "ZIP Heatmap",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "owners": ["team:marketing-bi"],
+      "defining_query_id": "q_powerbi_zip_map"
+    },
+    {
+      "urn": "urn:li:chart:(powerbi,revenue_by_state)",
+      "name": "Revenue by State",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "owners": ["team:marketing-bi"],
+      "defining_query_id": "q_powerbi_revenue_by_state"
+    },
+    {
+      "urn": "urn:li:dashboard:(tableau,daily_orders)",
+      "name": "Daily Orders",
+      "type": "tableau_workbook",
+      "platform": "tableau",
+      "owners": ["team:exec-reporting"],
+      "defining_query_id": "q_tableau_daily_orders"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+
+========================================================================================
+  B20.3 LIVE (1) — emit the synthetic datasets into the running DataHub
+========================================================================================
+   emitted fct_orders  (7 columns)
+   emitted dim_customer  (6 columns)
+
+========================================================================================
+  B20.3 LIVE (2) — impact + static verification
+========================================================================================
+   target      urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)
+   impact      {'breaks': 6, 'degrades': 0, 'safe': 3, 'unknown': 0, 'ambiguous': 1, 'queries_total': 10, 'analysed': 10, 'unassessed': 0, 'runs_impacted': 41, 'teams': 3}
+   verdict     REVIEW_REQUIRED  (breaks_remaining, ambiguous_consumers_present, manual_work_remaining)
+
+========================================================================================
+  B20.3 LIVE (3) — dry run -> approval manifest
+========================================================================================
+Assessment body -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/APPROVAL-drop-analytics-fct-orders-customer-zip.json  (8 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 8 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+   manifest    /Users/adeel.tahir/bra/blast-radius-autopilot/out/APPROVAL-drop-analytics-fct-orders-customer-zip.json
+   awaiting    8 mutation(s)
+
+========================================================================================
+  B20.3 LIVE (4) — approve against LIVE GMS as reviewer@example.com
+========================================================================================
+APPROVED by reviewer@example.com — manifest bfb4e6b0be235a6f (8 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] apply (human-approved): add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] apply (human-approved): add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest bfb4e6b0be235a6f consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 8 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.
+  Approval audit recorded in the catalog: approved_by=reviewer@example.com, at=2026-07-31T22:49:11+00:00, manifest=bfb4e6b0be235a6f, verification_at_approval=REVIEW_REQUIRED, writes=8, failures=0
+   written_human_approved  8
+   written_auto            0
+   failed                  0
+   audit_status            emitted
+
+========================================================================================
+  B20.3 LIVE (5) — GraphQL READ-BACK from DataHub (a separate query, not our object)
+========================================================================================
+   DataHub holds 26 structured propert(ies) on the target
+
+   [   PASS] blast_radius_approved_by                         'reviewer@example.com'
+   [   PASS] blast_radius_approved_at                         '2026-07-31T22:49:11+00:00'
+   [   PASS] blast_radius_manifest_id                         'bfb4e6b0be235a6f'
+   [   PASS] blast_radius_verification_status_at_approval     'REVIEW_REQUIRED'
+   [   PASS] blast_radius_approved_writes                     '8'
+   [   PASS] blast_radius_approved_failures                   '0'
+
+   [   PASS] blast_radius_approved_by == 'reviewer@example.com'   (read back 'reviewer@example.com')
+   [   PASS] blast_radius_manifest_id == 'bfb4e6b0be235a6f'   (read back 'bfb4e6b0be235a6f')
+   [   PASS] blast_radius_verification_status_at_approval == 'REVIEW_REQUIRED'   (read back 'REVIEW_REQUIRED')
+   [   PASS] blast_radius_approved_writes == '8'   (read back '8')
+   [   PASS] blast_radius_approved_failures == '0'   (read back '0')
+   [   PASS] base property preserved: blast_radius_status = 'pending-change'
+   [   PASS] base property preserved: blast_radius_risk = 'CRITICAL'
+   [   PASS] base property preserved: blast_radius_breaks = '6'
+   [   PASS] base property preserved: blast_radius_verification_status = 'REVIEW_REQUIRED'
+
+   ALL ASSERTIONS PASS

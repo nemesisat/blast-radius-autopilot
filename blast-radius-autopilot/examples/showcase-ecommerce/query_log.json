@@ -1,0 +1,92 @@
+[
+  {
+    "query_id": "q_looker_sales_by_zip",
+    "sql": "SELECT customer_zip, SUM(amount) AS total_sales FROM analytics.fct_orders GROUP BY customer_zip",
+    "platform": "looker",
+    "team": "growth-analytics",
+    "actor": "urn:li:corpuser:priya",
+    "runs": 12,
+    "last_run": "2026-07-21"
+  },
+  {
+    "query_id": "q_dbt_rpt_orders_by_region",
+    "sql": "SELECT o.order_id, o.customer_zip, o.amount FROM analytics.fct_orders o WHERE o.status = 'complete'",
+    "platform": "dbt",
+    "team": "analytics-eng",
+    "actor": "urn:li:corpuser:sam",
+    "runs": 6,
+    "last_run": "2026-07-22"
+  },
+  {
+    "query_id": "q_powerbi_zip_map",
+    "sql": "SELECT customer_zip, COUNT(*) AS orders FROM analytics.fct_orders GROUP BY customer_zip",
+    "platform": "powerbi",
+    "team": "marketing-bi",
+    "actor": "urn:li:corpuser:lee",
+    "runs": 5,
+    "last_run": "2026-07-20"
+  },
+  {
+    "query_id": "q_adhoc_zip_export",
+    "sql": "SELECT customer_id, customer_zip, amount FROM analytics.fct_orders WHERE order_date >= '2026-01-01'",
+    "platform": "snowflake",
+    "team": "growth-analytics",
+    "actor": "urn:li:corpuser:priya",
+    "runs": 4,
+    "last_run": "2026-07-19"
+  },
+  {
+    "query_id": "q_powerbi_revenue_by_state",
+    "sql": "SELECT ship_state, SUM(amount) AS revenue FROM analytics.fct_orders WHERE customer_zip IS NOT NULL GROUP BY ship_state",
+    "platform": "powerbi",
+    "team": "marketing-bi",
+    "actor": "urn:li:corpuser:lee",
+    "runs": 9,
+    "last_run": "2026-07-22"
+  },
+  {
+    "query_id": "q_adhoc_join_on_zip",
+    "sql": "SELECT c.customer_segment, SUM(f.amount) AS revenue FROM analytics.fct_orders f JOIN analytics.dim_customer c ON f.customer_zip = c.customer_zip GROUP BY c.customer_segment",
+    "platform": "snowflake",
+    "team": "analytics-eng",
+    "actor": "urn:li:corpuser:sam",
+    "runs": 5,
+    "last_run": "2026-07-18"
+  },
+  {
+    "query_id": "q_tableau_daily_orders",
+    "sql": "SELECT order_date, COUNT(*) AS orders, SUM(amount) AS revenue FROM analytics.fct_orders GROUP BY order_date",
+    "platform": "tableau",
+    "team": "exec-reporting",
+    "actor": "urn:li:corpuser:dana",
+    "runs": 15,
+    "last_run": "2026-07-22"
+  },
+  {
+    "query_id": "q_adhoc_status_breakdown",
+    "sql": "SELECT status, COUNT(*) AS n FROM analytics.fct_orders GROUP BY status",
+    "platform": "snowflake",
+    "team": "exec-reporting",
+    "actor": "urn:li:corpuser:dana",
+    "runs": 7,
+    "last_run": "2026-07-21"
+  },
+  {
+    "query_id": "q_adhoc_customer_orders",
+    "sql": "SELECT customer_id, SUM(amount) AS lifetime_value FROM analytics.fct_orders GROUP BY customer_id",
+    "platform": "snowflake",
+    "team": "growth-analytics",
+    "actor": "urn:li:corpuser:priya",
+    "runs": 8,
+    "last_run": "2026-07-20"
+  },
+  {
+    "query_id": "q_adhoc_ambiguous_zip",
+    "sql": "SELECT customer_zip FROM analytics.fct_orders f JOIN analytics.dim_customer c ON f.customer_id = c.customer_id",
+    "platform": "snowflake",
+    "team": "growth-analytics",
+    "actor": "urn:li:corpuser:priya",
+    "runs": 2,
+    "last_run": "2026-07-17"
+  }
+]

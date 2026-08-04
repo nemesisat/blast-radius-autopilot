@@ -1,0 +1,193 @@
+{
+  "change": "drop analytics.fct_orders.customer_zip",
+  "catalog": "showcase-ecommerce",
+  "target_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD)",
+  "counts": {
+    "breaks": 6,
+    "degrades": 0,
+    "safe": 3,
+    "unknown": 0,
+    "ambiguous": 1,
+    "queries_total": 10,
+    "analysed": 10,
+    "unassessed": 0,
+    "runs_impacted": 41,
+    "teams": 3
+  },
+  "risk": {
+    "score": 100,
+    "level": "CRITICAL",
+    "review_required": true,
+    "coverage": "10 of 10 analysed",
+    "unassessed": 0,
+    "ambiguous": 1,
+    "level_qualifier": "CRITICAL with 1 unresolved reference(s)"
+  },
+  "coverage": {
+    "analysed": 10,
+    "total": 10,
+    "unassessed": 0,
+    "line": "10 of 10 analysed"
+  },
+  "review_required": true,
+  "verdicts": [
+    {
+      "query_id": "q_looker_sales_by_zip",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "group",
+        "select"
+      ],
+      "confidence": "high",
+      "team": "growth-analytics",
+      "runs": 12,
+      "asset": "Sales by ZIP",
+      "asset_type": "looker_dashboard",
+      "reason": "projects/derives `customer_zip` (in group, select) \u2192 column removed"
+    },
+    {
+      "query_id": "q_dbt_rpt_orders_by_region",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "select"
+      ],
+      "confidence": "high",
+      "team": "analytics-eng",
+      "runs": 6,
+      "asset": "rpt_orders_by_region",
+      "asset_type": "dbt_model",
+      "reason": "projects/derives `customer_zip` (in select) \u2192 column removed"
+    },
+    {
+      "query_id": "q_powerbi_zip_map",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "group",
+        "select"
+      ],
+      "confidence": "high",
+      "team": "marketing-bi",
+      "runs": 5,
+      "asset": "ZIP Heatmap",
+      "asset_type": "powerbi_report",
+      "reason": "projects/derives `customer_zip` (in group, select) \u2192 column removed"
+    },
+    {
+      "query_id": "q_adhoc_zip_export",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "select"
+      ],
+      "confidence": "high",
+      "team": "growth-analytics",
+      "runs": 4,
+      "asset": null,
+      "asset_type": null,
+      "reason": "projects/derives `customer_zip` (in select) \u2192 column removed"
+    },
+    {
+      "query_id": "q_powerbi_revenue_by_state",
+      "verdict": "BREAKS",
+      "usage": "filter",
+      "clauses": [
+        "where"
+      ],
+      "confidence": "high",
+      "team": "marketing-bi",
+      "runs": 9,
+      "asset": "Revenue by State",
+      "asset_type": "powerbi_report",
+      "reason": "references `customer_zip` in where \u2192 column removed"
+    },
+    {
+      "query_id": "q_adhoc_join_on_zip",
+      "verdict": "BREAKS",
+      "usage": "filter",
+      "clauses": [
+        "join"
+      ],
+      "confidence": "high",
+      "team": "analytics-eng",
+      "runs": 5,
+      "asset": null,
+      "asset_type": null,
+      "reason": "references `customer_zip` in join \u2192 column removed"
+    },
+    {
+      "query_id": "q_tableau_daily_orders",
+      "verdict": "SAFE",
+      "usage": "none",
+      "clauses": [],
+      "confidence": "high",
+      "team": "exec-reporting",
+      "runs": 15,
+      "asset": "Daily Orders",
+      "asset_type": "tableau_workbook",
+      "reason": "does not reference `customer_zip`"
+    },
+    {
+      "query_id": "q_adhoc_status_breakdown",
+      "verdict": "SAFE",
+      "usage": "none",
+      "clauses": [],
+      "confidence": "high",
+      "team": "exec-reporting",
+      "runs": 7,
+      "asset": null,
+      "asset_type": null,
+      "reason": "does not reference `customer_zip`"
+    },
+    {
+      "query_id": "q_adhoc_customer_orders",
+      "verdict": "SAFE",
+      "usage": "none",
+      "clauses": [],
+      "confidence": "high",
+      "team": "growth-analytics",
+      "runs": 8,
+      "asset": null,
+      "asset_type": null,
+      "reason": "does not reference `customer_zip`"
+    },
+    {
+      "query_id": "q_adhoc_ambiguous_zip",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "select"
+      ],
+      "confidence": "low",
+      "team": "growth-analytics",
+      "runs": 2,
+      "asset": null,
+      "asset_type": null,
+      "reason": "projects/derives `customer_zip` (in select) \u2192 column removed"
+    }
+  ],
+  "fixes": [
+    {
+      "asset": "rpt_orders_by_region",
+      "path": "dbt_project/models/rpt_orders_by_region.sql",
+      "method": "minimal",
+      "applicable": true,
+      "needs_review": []
+    }
+  ],
+  "notes": [
+    "COVERAGE 10 of 10 analysed \u2014 1 column reference(s) could not be confidently attributed to a source table; verdict is 'CRITICAL with 1 unresolved reference(s)' and the change REQUIRES REVIEW before any write-back."
+  ],
+  "writeback": {
+    "total": 8,
+    "written": 0,
+    "queued_for_review": 8,
+    "failed": [],
+    "planned": 0,
+    "skipped": 0,
+    "dry_run": true,
+    "summary": "0 planned, 0 written, 8 queued, 0 failed, 0 skipped"
+  }
+}

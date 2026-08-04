@@ -1,0 +1,705 @@
+{
+  "change": "drop order_entry_db.analytics.order_details.category_name",
+  "catalog": "showcase-ecommerce (real datapack, read over MCP) \u2014 ORDER_DETAILS",
+  "target_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_details,PROD)",
+  "counts": {
+    "breaks": 2,
+    "degrades": 1,
+    "safe": 2,
+    "unknown": 19,
+    "ambiguous": 0,
+    "queries_total": 24,
+    "analysed": 5,
+    "unassessed": 19,
+    "runs_impacted": 3,
+    "teams": 0
+  },
+  "risk": {
+    "score": 50,
+    "level": "HIGH",
+    "review_required": true,
+    "coverage": "5 of 24 analysed",
+    "unassessed": 19,
+    "ambiguous": 0,
+    "level_qualifier": "HIGH among assessed"
+  },
+  "coverage": {
+    "analysed": 5,
+    "total": 24,
+    "unassessed": 19,
+    "line": "5 of 24 analysed"
+  },
+  "review_required": true,
+  "verdicts": [
+    {
+      "query_id": "mcp_order_history_0",
+      "verdict": "UNKNOWN",
+      "usage": "parse_error",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 1,
+      "asset": "order_history",
+      "asset_type": "dbt_model",
+      "reason": "SQL could not be parsed (parse_error: ParseError) \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "mcp_custom_sql_query_1",
+      "verdict": "SAFE",
+      "usage": "none",
+      "clauses": [],
+      "confidence": "high",
+      "team": null,
+      "runs": 1,
+      "asset": "Custom SQL Query",
+      "asset_type": "tableau_workbook",
+      "reason": "does not reference `category_name`"
+    },
+    {
+      "query_id": "mcp_custom_sql_query_2",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "group",
+        "select",
+        "where"
+      ],
+      "confidence": "high",
+      "team": null,
+      "runs": 1,
+      "asset": "Custom SQL Query",
+      "asset_type": "tableau_workbook",
+      "reason": "projects/derives `category_name` (in group, select, where) \u2192 column removed"
+    },
+    {
+      "query_id": "mcp_custom_sql_query_3",
+      "verdict": "SAFE",
+      "usage": "none",
+      "clauses": [],
+      "confidence": "high",
+      "team": null,
+      "runs": 1,
+      "asset": "Custom SQL Query",
+      "asset_type": "tableau_workbook",
+      "reason": "does not reference `category_name`"
+    },
+    {
+      "query_id": "mcp_custom_sql_query_4",
+      "verdict": "BREAKS",
+      "usage": "select",
+      "clauses": [
+        "group",
+        "select",
+        "where"
+      ],
+      "confidence": "high",
+      "team": null,
+      "runs": 1,
+      "asset": "Custom SQL Query",
+      "asset_type": "tableau_workbook",
+      "reason": "projects/derives `category_name` (in group, select, where) \u2192 column removed"
+    },
+    {
+      "query_id": "mcp_order_details_replica_5",
+      "verdict": "DEGRADES",
+      "usage": "star",
+      "clauses": [
+        "select(*)"
+      ],
+      "confidence": "medium",
+      "team": null,
+      "runs": 1,
+      "asset": "ORDER_DETAILS_REPLICA",
+      "asset_type": "snowflake_table",
+      "reason": "selects `*` over a scope that provides `category_name` (in select(*)) \u2192 still runs, output silently loses `category_name`"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:looker,b2fd91.order-entry.explore.order_details,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Order Details",
+      "asset_type": "looker_dashboard",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:looker,b2fd91.order-entry-looker.view.order_details,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "order_details",
+      "asset_type": "looker_dashboard",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dashboard:(powerbi,b2fd91.reports.66666666-7777-8888-9999-000000000000)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "datahub_order_entries",
+      "asset_type": "unknown_asset",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.ORDER_DETAILS,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "ORDER_DETAILS",
+      "asset_type": "powerbi_report",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.b980a8c5-28eb-119e-f6ca-4da32732e5be,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Promotions",
+      "asset_type": "tableau_workbook",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.c067553a-127e-a871-14a0-5f32cb032c78,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Order Mode",
+      "asset_type": "tableau_workbook",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.f8fb6a0b-7be6-690b-cc45-3c6e0fd2bcde,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Orders By Day",
+      "asset_type": "tableau_workbook",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.fadbf744-48be-0929-a47c-5786327a3343,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Top Product Category",
+      "asset_type": "tableau_workbook",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Customer_Analytics_Measures,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Customer Analytics Measures",
+      "asset_type": "powerbi_report",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Essential_KPI_Measures,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Essential KPI Measures",
+      "asset_type": "powerbi_report",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_history,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "ORDER_HISTORY",
+      "asset_type": "snowflake_table",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Geographic_Measures,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Geographic Measures",
+      "asset_type": "powerbi_report",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Product_Perfromance_Measures,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Product Perfromance Measures",
+      "asset_type": "powerbi_report",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Time_Inteligence_Measures,PROD)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Time Inteligence Measures",
+      "asset_type": "powerbi_report",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.217abe0d5c1cd421c384)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Customer Analysis",
+      "asset_type": "unknown_asset",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.3f48c0bf859b2d14dcd0)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Geographics",
+      "asset_type": "unknown_asset",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.83a9aaa3207edd6c721e)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "Executive Summary",
+      "asset_type": "unknown_asset",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    },
+    {
+      "query_id": "no_definition:urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.85e432543b30346a0507)",
+      "verdict": "UNKNOWN",
+      "usage": "no_definition",
+      "clauses": [],
+      "confidence": "low",
+      "team": null,
+      "runs": 0,
+      "asset": "DAX Visual",
+      "asset_type": "unknown_asset",
+      "reason": "consumer exposes no SQL definition \u2014 impact on `category_name` is UNKNOWN, not safe; needs manual review"
+    }
+  ],
+  "fixes": [],
+  "notes": [
+    "could not parse query mcp_order_history_0 (parse_error: ParseError) \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Order Details' (looker_dashboard) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'order_details' (looker_dashboard) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'datahub_order_entries' (unknown_asset) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'ORDER_DETAILS' (powerbi_report) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Promotions' (tableau_workbook) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Order Mode' (tableau_workbook) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Orders By Day' (tableau_workbook) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Top Product Category' (tableau_workbook) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Customer Analytics Measures' (powerbi_report) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Essential KPI Measures' (powerbi_report) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'ORDER_HISTORY' (snowflake_table) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Geographic Measures' (powerbi_report) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Product Perfromance Measures' (powerbi_report) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Time Inteligence Measures' (powerbi_report) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Customer Analysis' (unknown_asset) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Geographics' (unknown_asset) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'Executive Summary' (unknown_asset) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "consumer 'DAX Visual' (unknown_asset) exposes no SQL definition \u2014 reported UNKNOWN (not safe) and routed to manual review",
+    "COVERAGE 5 of 24 analysed \u2014 19 consumer(s) could not be assessed; verdict is 'HIGH among assessed' and the change REQUIRES REVIEW before any write-back."
+  ],
+  "provenance": {
+    "read_path": "mcp-server-datahub 0.6.0 over stdio",
+    "mcp_calls": [
+      "get_entities(urns=[target]) -> 1 entity",
+      "list_schema_fields(urn=target) -> 55 fields",
+      "get_lineage(urn=target, upstream=False, max_hops=2) -> total=24",
+      "get_dataset_queries(urn=target) -> total=0",
+      "get_entities(urns=[24 downstreams]) -> 24 entities"
+    ],
+    "mcp_query_history_total": 0,
+    "sql_corpus": [
+      {
+        "query_id": "mcp_order_history_0",
+        "source": "mcp:view_logic",
+        "asset": "order_history",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,b2fd91.ORDER_ENTRY_DB.analytics.order_history,PROD)",
+        "platform": "dbt",
+        "sql_chars": 484
+      },
+      {
+        "query_id": "mcp_custom_sql_query_1",
+        "source": "mcp:view_logic",
+        "asset": "Custom SQL Query",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.37fcfb15-34ae-973a-5ae3-cf63691d48e3,PROD)",
+        "platform": "tableau",
+        "sql_chars": 243
+      },
+      {
+        "query_id": "mcp_custom_sql_query_2",
+        "source": "mcp:view_logic",
+        "asset": "Custom SQL Query",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.4a3af1dd-fd0c-7077-d5fd-aa2fdf87cb23,PROD)",
+        "platform": "tableau",
+        "sql_chars": 280
+      },
+      {
+        "query_id": "mcp_custom_sql_query_3",
+        "source": "mcp:view_logic",
+        "asset": "Custom SQL Query",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.8bfe7483-1c9a-a0e1-ec84-57207dd37a15,PROD)",
+        "platform": "tableau",
+        "sql_chars": 349
+      },
+      {
+        "query_id": "mcp_custom_sql_query_4",
+        "source": "mcp:view_logic",
+        "asset": "Custom SQL Query",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.f32082e5-06b8-f46e-9047-4611fffe66b0,PROD)",
+        "platform": "tableau",
+        "sql_chars": 276
+      },
+      {
+        "query_id": "mcp_order_details_replica_5",
+        "source": "mcp:view_logic",
+        "asset": "ORDER_DETAILS_REPLICA",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_details_replica,PROD)",
+        "platform": "snowflake",
+        "sql_chars": 127
+      }
+    ],
+    "seeded_queries_used": 0,
+    "no_sql_definition": [
+      {
+        "asset": "Order Details",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:looker,b2fd91.order-entry.explore.order_details,PROD)",
+        "platform": "looker",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "order_details",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:looker,b2fd91.order-entry-looker.view.order_details,PROD)",
+        "platform": "looker",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "datahub_order_entries",
+        "asset_urn": "urn:li:dashboard:(powerbi,b2fd91.reports.66666666-7777-8888-9999-000000000000)",
+        "platform": "unknown",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "ORDER_DETAILS",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.ORDER_DETAILS,PROD)",
+        "platform": "powerbi",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Promotions",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.b980a8c5-28eb-119e-f6ca-4da32732e5be,PROD)",
+        "platform": "tableau",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Order Mode",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.c067553a-127e-a871-14a0-5f32cb032c78,PROD)",
+        "platform": "tableau",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Orders By Day",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.f8fb6a0b-7be6-690b-cc45-3c6e0fd2bcde,PROD)",
+        "platform": "tableau",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Top Product Category",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:tableau,b2fd91.fadbf744-48be-0929-a47c-5786327a3343,PROD)",
+        "platform": "tableau",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Customer Analytics Measures",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Customer_Analytics_Measures,PROD)",
+        "platform": "powerbi",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Essential KPI Measures",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Essential_KPI_Measures,PROD)",
+        "platform": "powerbi",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "ORDER_HISTORY",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_history,PROD)",
+        "platform": "snowflake",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Geographic Measures",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Geographic_Measures,PROD)",
+        "platform": "powerbi",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Product Perfromance Measures",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Product_Perfromance_Measures,PROD)",
+        "platform": "powerbi",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Time Inteligence Measures",
+        "asset_urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Time_Inteligence_Measures,PROD)",
+        "platform": "powerbi",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Customer Analysis",
+        "asset_urn": "urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.217abe0d5c1cd421c384)",
+        "platform": "unknown",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Geographics",
+        "asset_urn": "urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.3f48c0bf859b2d14dcd0)",
+        "platform": "unknown",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "Executive Summary",
+        "asset_urn": "urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.83a9aaa3207edd6c721e)",
+        "platform": "unknown",
+        "source": "mcp:no_sql_definition"
+      },
+      {
+        "asset": "DAX Visual",
+        "asset_urn": "urn:li:chart:(powerbi,b2fd91.pages.66666666-7777-8888-9999-000000000000.85e432543b30346a0507)",
+        "platform": "unknown",
+        "source": "mcp:no_sql_definition"
+      }
+    ],
+    "downstreams_discovered": 24,
+    "downstreams_with_analysable_sql": 6,
+    "downstreams_without_sql_definition": 18,
+    "timing_seconds": {
+      "mcp_pull": 9.31,
+      "sqlglot_parse_and_impact": 0.0099,
+      "total": 9.32
+    },
+    "column_reference_scores": [
+      [
+        "category_name",
+        6
+      ],
+      [
+        "order_id",
+        5
+      ],
+      [
+        "order_total",
+        5
+      ],
+      [
+        "line_total",
+        3
+      ],
+      [
+        "order_date",
+        3
+      ],
+      [
+        "promotion_name",
+        3
+      ],
+      [
+        "order_mode",
+        2
+      ],
+      [
+        "updated_at",
+        2
+      ],
+      [
+        "customer_id",
+        1
+      ],
+      [
+        "discount_percent",
+        1
+      ],
+      [
+        "order_status",
+        1
+      ]
+    ]
+  },
+  "verification": {
+    "status": "FAIL",
+    "reasons": [
+      "breaks_not_reduced",
+      "breaks_remaining",
+      "degrades_remaining",
+      "unknown_consumers_present",
+      "coverage_incomplete",
+      "fix_incomplete_column_still_referenced"
+    ],
+    "change": "drop order_entry_db.analytics.order_details.category_name",
+    "method": "static",
+    "verified_at": "2026-08-03T10:09:01+00:00",
+    "patch_applied": true,
+    "parse_ok": true,
+    "parse_errors": [],
+    "scope_ok": true,
+    "scope_violations": [],
+    "residual_references": [
+      "models/mcp_custom_sql_query_2.sql:6: still references `category_name` \u2014 WHERE category_name IS NOT NULL",
+      "models/mcp_custom_sql_query_2.sql:7: still references `category_name` \u2014 GROUP BY category_name",
+      "models/mcp_custom_sql_query_4.sql:6: still references `category_name` \u2014 WHERE category_name IS NOT NULL",
+      "models/mcp_custom_sql_query_4.sql:7: still references `category_name` \u2014 GROUP BY order_date, category_name"
+    ],
+    "files_patched": [
+      "models/mcp_custom_sql_query_2.sql",
+      "models/mcp_custom_sql_query_4.sql",
+      "models/mcp_order_details_replica_5.sql"
+    ],
+    "file_query_map": {
+      "models/mcp_custom_sql_query_2.sql": "mcp_custom_sql_query_2",
+      "models/mcp_custom_sql_query_4.sql": "mcp_custom_sql_query_4",
+      "models/mcp_order_details_replica_5.sql": "mcp_order_details_replica_5"
+    },
+    "unmapped_files": [],
+    "deleted_files": [],
+    "renamed_files": [],
+    "unresolved_renames": [],
+    "diff_sql_paths": [
+      "models/mcp_custom_sql_query_2.sql",
+      "models/mcp_custom_sql_query_4.sql",
+      "models/mcp_order_details_replica_5.sql"
+    ],
+    "target_resolved": true,
+    "schema_known": true,
+    "target_problem": "",
+    "before": {
+      "breaks": 2,
+      "degrades": 1,
+      "safe": 2,
+      "unknown": 19,
+      "ambiguous": 0,
+      "queries_total": 24,
+      "analysed": 5,
+      "unassessed": 19,
+      "runs_impacted": 3,
+      "teams": 0
+    },
+    "after": {
+      "breaks": 2,
+      "degrades": 1,
+      "safe": 2,
+      "unknown": 19,
+      "ambiguous": 0,
+      "queries_total": 24,
+      "analysed": 5,
+      "unassessed": 19,
+      "runs_impacted": 3,
+      "teams": 0
+    },
+    "deltas": {
+      "degrades": 0,
+      "analysed": 0,
+      "breaks": 0,
+      "runs_impacted": 0,
+      "teams": 0,
+      "unassessed": 0,
+      "safe": 0,
+      "queries_total": 0,
+      "unknown": 0,
+      "ambiguous": 0
+    },
+    "coverage_before": {
+      "analysed": 5,
+      "total": 24,
+      "unassessed": 19,
+      "line": "5 of 24 analysed"
+    },
+    "coverage_after": {
+      "analysed": 5,
+      "total": 24,
+      "unassessed": 19,
+      "line": "5 of 24 analysed"
+    },
+    "transitions": [],
+    "unknown_consumers": [
+      "Customer Analysis",
+      "Customer Analytics Measures",
+      "DAX Visual",
+      "Essential KPI Measures",
+      "Executive Summary",
+      "Geographic Measures",
+      "Geographics",
+      "ORDER_DETAILS",
+      "ORDER_HISTORY",
+      "Order Details",
+      "Order Mode",
+      "Orders By Day",
+      "Product Perfromance Measures",
+      "Promotions",
+      "Time Inteligence Measures",
+      "Top Product Category",
+      "datahub_order_entries",
+      "order_details",
+      "order_history"
+    ],
+    "ambiguous_consumers": [],
+    "manual_work_remaining": [],
+    "auto_applicable": false,
+    "notes": [
+      "STATIC verification only: the patch was applied in an isolated copy, the patched SQL was re-parsed, and column-level impact was recomputed. No queries were executed, no warehouse was contacted, and no data was read. This is not evidence about runtime behaviour or results."
+    ]
+  }
+}

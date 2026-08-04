@@ -1,0 +1,19 @@
+==============================================================================
+  CATALOG FRAGILITY LEADERBOARD — showcase-ecommerce  (riskiest columns to change)
+==============================================================================
+   #  DATASET.COLUMN                           RISK  BREAKS DEGR  RUNS TEAMS
+------------------------------------------------------------------------------
+   1  fct_orders.amount                         100       7    0    59     4   CRITICAL
+   2  fct_orders.customer_zip                   100       6    0    41     3   CRITICAL
+   3  fct_orders.customer_id                     72       3    0    14     1   CRITICAL
+   4  fct_orders.order_date                      60       2    0    19     2   CRITICAL
+   5  fct_orders.status                          56       2    0    13     2   HIGH
+   6  fct_orders.ship_state                      30       1    0     9     1   HIGH
+   7  fct_orders.order_id                        28       1    0     6     1   MODERATE
+   8  dim_customer.customer_zip                  28       1    0     5     1   MODERATE
+   9  dim_customer.customer_segment              28       1    0     5     1   MODERATE
+  10  dim_customer.customer_id                   26       1    0     2     1   MODERATE
+  11  dim_customer.customer_name                  0       0    0     0     0   LOW
+  12  dim_customer.customer_email                 0       0    0     0     0   LOW
+  13  dim_customer.signup_date                    0       0    0     0     0   LOW
+==============================================================================

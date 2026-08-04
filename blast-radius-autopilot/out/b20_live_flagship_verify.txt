@@ -1,0 +1,51 @@
+
+========================================================================
+  BLAST RADIUS — drop order_entry.orders.promotion_id   (catalog: showcase-ecommerce-live)
+========================================================================
+  drop order_entry.orders.promotion_id breaks 4 and degrades 0 downstream consumer(s) across 2 team(s) (analytics-eng, marketing-bi), spanning 48 query runs in history. Change risk: CRITICAL (100/100).
+------------------------------------------------------------------------
+  [91mBREAKS   [0m order_details [snowflake_table]  · analytics-eng · 18 runs
+            └ projects/derives `promotion_id` (in select) → column removed
+  [91mBREAKS   [0m Essential_KPI_Measures [powerbi_report]  · marketing-bi · 14 runs
+            └ references `promotion_id` in where → column removed
+  [91mBREAKS   [0m Customer_Analytics_Measures [powerbi_report]  · marketing-bi · 11 runs
+            └ projects/derives `promotion_id` (in group, select) → column removed
+  [91mBREAKS   [0m q_adhoc_promo_breakdown  · marketing-bi · 5 runs
+            └ projects/derives `promotion_id` (in group, select) → column removed
+------------------------------------------------------------------------
+  SCORECARD: risk CRITICAL (100/100)  |  🔴 4 breaks  🟡 0 degrades  🟢 3 safe  ⚪ 0 unassessed  ◐ 0 ambiguous  |  2 team(s)  ·  48 impacted runs
+  COVERAGE:  7 of 7 analysed consumer(s)
+========================================================================
+
+========================================================================
+  MIGRATION VERIFICATION (static)  —  [91m❌ FAIL[0m
+========================================================================
+  metric          before   after   delta
+  --------------------------------------
+  breaks               4       4      +0
+  degrades             0       0      +0
+  safe                 3       3      +0
+  unassessed           0       0      +0
+  ambiguous            0       0      +0
+  coverage      7 of 7 analysed -> 7 of 7 analysed
+  --------------------------------------
+  why:
+    - no_patch_provided — no patch was supplied
+  files patched in isolation: —
+  scope: STATIC ONLY — no queries executed, no warehouse contacted, no data read.
+========================================================================
+
+Verification -> out/VERIFICATION.md  ·  out/verification.json
+
+WRITE-BACK:
+  gate: verification FAIL — every mutation queued for a human.
+Assessment body -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-order-entry-orders-promotion-id.md  (the catalog stores a link + title to it, not the text)
+[write] QUEUE for review (verification_fail): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[write] QUEUE for review (verification_fail): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — tag 'pending-schema-change'
+[write] QUEUE for review (verification_fail): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop order_entry.orders.promotion_id' -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-order-entry-orders-promotion-id.md (catalog stores the link + title only; the full assessment body is that file)
+[write] QUEUE for review (verification_fail): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD) — append pending-change footer
+[write] QUEUE for review (verification_fail): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_details,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] QUEUE for review (verification_fail): add_tags on urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Customer_Analytics_Measures,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] QUEUE for review (verification_fail): add_tags on urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Essential_KPI_Measures,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 7 queued, 0 failed, 0 skipped.
+  queued because: verification_fail

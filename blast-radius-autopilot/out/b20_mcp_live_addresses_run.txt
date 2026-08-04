@@ -1,0 +1,86 @@
+TARGET  urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.addresses,PROD)
+
+MCP calls:
+    get_entities(urns=[target]) -> 1 entity
+    list_schema_fields(urn=target) -> 9 fields
+    get_lineage(urn=target, upstream=False, max_hops=2) -> total=17
+    get_dataset_queries(urn=target) -> total=0
+    get_entities(urns=[17 downstreams]) -> 17 entities
+
+COUNTS  columns=9  downstreams=17  mcp_query_history=0
+        sql_name=order_entry_db.order_entry.addresses
+
+PROVENANCE  get_dataset_queries returned 0 — the datapack ships NO query history.
+PROVENANCE  impact corpus = 7 REAL SQL definitions read over MCP from downstream viewProperties.logic (source=mcp:view_logic).
+            No seeded/synthetic SQL used in this run.
+              [dbt      ] order_details                       5000 chars  (mcp:view_logic)
+              [dbt      ] order_history                        484 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     243 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     280 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     349 chars  (mcp:view_logic)
+              [tableau  ] Custom SQL Query                     276 chars  (mcp:view_logic)
+              [snowflake] ORDER_DETAILS_REPLICA                127 chars  (mcp:view_logic)
+PROVENANCE  10 downstream consumer(s) expose NO SQL over MCP and are reported UNASSESSED (UNKNOWN), not safe:
+              [dbt      ] addresses                          (mcp:no_sql_definition)
+              [snowflake] ORDER_DETAILS                      (mcp:no_sql_definition)
+              [looker   ] order_details                      (mcp:no_sql_definition)
+              [powerbi  ] ORDER_DETAILS                      (mcp:no_sql_definition)
+              [powerbi  ] Customer Analytics Measures        (mcp:no_sql_definition)
+              [powerbi  ] Essential KPI Measures             (mcp:no_sql_definition)
+              [snowflake] ORDER_HISTORY                      (mcp:no_sql_definition)
+              [powerbi  ] Geographic Measures                (mcp:no_sql_definition)
+              [powerbi  ] Product Perfromance Measures       (mcp:no_sql_definition)
+              [powerbi  ] Time Inteligence Measures          (mcp:no_sql_definition)
+
+COLUMN  'country_id' — references across MCP-sourced SQL: {'country_id': 4, 'customer_id': 4, 'region_id': 4, 'address_id': 2, 'address_line1': 2, 'address_line2': 2, 'town_city': 2, 'zipcode': 2}
+
+IMPACT  drop order_entry_db.order_entry.addresses.country_id
+        {'breaks': 0, 'degrades': 0, 'safe': 5, 'unknown': 12, 'ambiguous': 0, 'queries_total': 17, 'analysed': 5, 'unassessed': 12, 'runs_impacted': 0, 'teams': 0}
+        risk=LOW among assessed (0/100)  coverage=5 of 17 analysed  review_required=True
+          SAFE      Custom SQL Query                   usage=none   conf=high 
+          SAFE      Custom SQL Query                   usage=none   conf=high 
+          SAFE      Custom SQL Query                   usage=none   conf=high 
+          SAFE      Custom SQL Query                   usage=none   conf=high 
+          SAFE      ORDER_DETAILS_REPLICA              usage=none   conf=high 
+          UNKNOWN   order_details                      usage=parse_error conf=low 
+          UNKNOWN   order_history                      usage=parse_error conf=low 
+          UNKNOWN   addresses                          usage=no_definition conf=low 
+          UNKNOWN   ORDER_DETAILS                      usage=no_definition conf=low 
+          UNKNOWN   order_details                      usage=no_definition conf=low 
+          UNKNOWN   ORDER_DETAILS                      usage=no_definition conf=low 
+          UNKNOWN   Customer Analytics Measures        usage=no_definition conf=low 
+          UNKNOWN   Essential KPI Measures             usage=no_definition conf=low 
+          UNKNOWN   ORDER_HISTORY                      usage=no_definition conf=low 
+          UNKNOWN   Geographic Measures                usage=no_definition conf=low 
+          UNKNOWN   Product Perfromance Measures       usage=no_definition conf=low 
+          UNKNOWN   Time Inteligence Measures          usage=no_definition conf=low 
+        notes:
+          - could not parse query mcp_order_details_0 (parse_error: ParseError) — reported UNKNOWN (not safe) and routed to manual review
+          - could not parse query mcp_order_history_1 (parse_error: ParseError) — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'addresses' (dbt_model) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'ORDER_DETAILS' (snowflake_table) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'order_details' (looker_dashboard) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'ORDER_DETAILS' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Customer Analytics Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Essential KPI Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'ORDER_HISTORY' (snowflake_table) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Geographic Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Product Perfromance Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - consumer 'Time Inteligence Measures' (powerbi_report) exposes no SQL definition — reported UNKNOWN (not safe) and routed to manual review
+          - COVERAGE 5 of 17 analysed — 12 consumer(s) could not be assessed; verdict is 'LOW among assessed' and the change REQUIRES REVIEW before any write-back.
+
+TIMING  mcp_pull=9.05s  sqlglot_parse+impact=0.009s  total=9.06s
+        (metadata-bound: 9 columns + 7 SQL defs, no table data scanned)
+
+B16  materialised 7 MCP-read SQL definition(s) -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_addresses_materialized
+     (synthesised from MCP metadata for verification; NOT a real dbt repo)
+B16  generated 0 mechanical fix(es)
+B16  VERDICT FAIL
+     breaks 0 -> 0 (+0)  degrades 0 -> 0  unassessed 12 -> 12  ambiguous 0 -> 0  coverage 5 of 17 analysed
+     patched files recomputed: 0 of 0
+     - no_patch_provided
+     scope: STATIC — no queries executed, no warehouse contacted, no data read.
+wrote /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_addresses_VERIFICATION.md
+
+wrote /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_addresses_report.html
+wrote /Users/adeel.tahir/bra/blast-radius-autopilot/out/b20_mcp_live_addresses_report.json

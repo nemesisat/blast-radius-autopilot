@@ -1,0 +1,222 @@
+FFF.....FFFFFF                                                           [100%]
+=================================== FAILURES ===================================
+___ test_b20_3_human_approved_write_records_the_audit_in_the_emitted_payload ___
+tests/test_approval.py:743: in test_b20_3_human_approved_write_records_the_audit_in_the_emitted_payload
+    assert not missing, f"approval audit never left the process: missing {missing}"
+E   AssertionError: approval audit never left the process: missing ['blast_radius_approved_by', 'blast_radius_approved_at', 'blast_radius_manifest_id', 'blast_radius_verification_status_at_approval', 'blast_radius_approved_writes', 'blast_radius_approved_failures']
+E   assert not ['blast_radius_approved_by', 'blast_radius_approved_at', 'blast_radius_manifest_id', 'blast_radius_verification_status_at_approval', 'blast_radius_approved_writes', 'blast_radius_approved_failures']
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_human_approved_writ0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_human_approved_writ0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_human_approved_writ0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest dce5ff1736bf0469 (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_human_approved_writ0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest dce5ff1736bf0469 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 5 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.
+______________ test_b20_3_audit_does_not_wipe_the_base_properties ______________
+tests/test_approval.py:771: in test_b20_3_audit_does_not_wipe_the_base_properties
+    assert key in final, f"{key} is not in the catalog's final state"
+E   AssertionError: blast_radius_approved_by is not in the catalog's final state
+E   assert 'blast_radius_approved_by' in {'blast_radius_status': 'pending-change', 'blast_radius_risk': 'MODERATE', 'blast_radius_score': '26', 'blast_radius_breaks': '1', ...}
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_does_not_wipe0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_does_not_wipe0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_does_not_wipe0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest 11a055372b65dd95 (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_does_not_wipe0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest 11a055372b65dd95 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 5 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.
+_________ test_b20_3_audit_properties_are_defined_before_they_are_set __________
+tests/test_approval.py:790: in test_b20_3_audit_properties_are_defined_before_they_are_set
+    assert key in defined, f"{key} was set without ever being defined"
+E   AssertionError: blast_radius_approved_by was set without ever being defined
+E   assert 'blast_radius_approved_by' in ['blast_radius_status', 'blast_radius_risk', 'blast_radius_score', 'blast_radius_breaks', 'blast_radius_degrades', 'blast_radius_teams', ...]
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_properties_ar0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_properties_ar0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_properties_ar0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest 68ec5b294d46a798 (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_audit_properties_ar0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest 68ec5b294d46a798 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 5 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.
+_______________ test_b20_3_partial_outcome_is_recorded_honestly ________________
+tests/test_approval.py:878: in test_b20_3_partial_outcome_is_recorded_honestly
+    assert state["blast_radius_approved_writes"] == str(len(res.written_human_approved))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'blast_radius_approved_writes'
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_partial_outcome_is_0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_partial_outcome_is_0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_partial_outcome_is_0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest ef6963be7400ed20 (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected aspect globalTags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_partial_outcome_is_0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): GMS rejected aspect globalTags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD)
+  manifest ef6963be7400ed20 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 3 written (human-approved by reviewer@example.com), 0 queued, 2 failed, 0 skipped.
+_________ test_b20_3_total_failure_still_records_that_a_human_approved _________
+tests/test_approval.py:899: in test_b20_3_total_failure_still_records_that_a_human_approved
+    assert state["blast_radius_approved_by"] == "reviewer@example.com"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'blast_radius_approved_by'
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_total_failure_still0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_total_failure_still0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_total_failure_still0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest 95e16b40e39a5089 (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected aspect globalTags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_total_failure_still0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+    ! FAILED save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected aspect institutionalMemory on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+    ! FAILED update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected aspect editableDatasetProperties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+    ! FAILED add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD): GMS rejected aspect globalTags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD)
+  manifest 95e16b40e39a5089 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 1 written (human-approved by reviewer@example.com), 0 queued, 4 failed, 0 skipped.
+___________ test_b20_3_a_failed_audit_emit_is_reported_not_swallowed ___________
+tests/test_approval.py:916: in test_b20_3_a_failed_audit_emit_is_reported_not_swallowed
+    assert res.audit_status == "failed", res.audit_status
+           ^^^^^^^^^^^^^^^^
+E   AttributeError: 'WriteBackResult' object has no attribute 'audit_status'
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_failed_audit_emit0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_failed_audit_emit0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_failed_audit_emit0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest 06510a755c5753fd (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+    ! FAILED add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD): GMS rejected aspect structuredProperties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD)
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_failed_audit_emit0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest 06510a755c5753fd consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 4 written (human-approved by reviewer@example.com), 0 queued, 1 failed, 0 skipped.
+________________ test_b20_3_a_dry_run_approval_records_nothing _________________
+tests/test_approval.py:933: in test_b20_3_a_dry_run_approval_records_nothing
+    assert res.audit_status == "planned"
+           ^^^^^^^^^^^^^^^^
+E   AttributeError: 'WriteBackResult' object has no attribute 'audit_status'
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_dry_run_approval_0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_dry_run_approval_0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_dry_run_approval_0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest cfe0db969f8c735e (5 mutation(s), verification REVIEW_REQUIRED)
+[dry-run] would apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_a_dry_run_approval_0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Summary: 5 planned, 0 written (auto), 0 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+______ test_b20_3_the_manifest_tells_the_approver_their_name_is_recorded _______
+tests/test_approval.py:949: in test_b20_3_the_manifest_tells_the_approver_their_name_is_recorded
+    assert re.search(r"record", manifest.note, re.I), manifest.note
+E   AssertionError: Static verification returned REVIEW_REQUIRED. Approving this manifest applies exactly the mutations listed above and nothing else. It is single-use and is bound to this change, this verdict and this queue. No query was executed to produce it.
+E   assert None
+E    +  where None = <function search at 0x10239a0c0>('record', 'Static verification returned REVIEW_REQUIRED. Approving this manifest applies exactly the mutations listed above and ... else. It is single-use and is bound to this change, this verdict and this queue. No query was executed to produce it.', re.IGNORECASE)
+E    +    where <function search at 0x10239a0c0> = re.search
+E    +    and   'Static verification returned REVIEW_REQUIRED. Approving this manifest applies exactly the mutations listed above and ... else. It is single-use and is bound to this change, this verdict and this queue. No query was executed to produce it.' = ApprovalManifest(manifest_id='4fcfed2a4b2ad22f', created_at='2026-07-31T22:32:37+00:00', change='drop analytics.orders...else. It is single-use and is bound to this change, this verdict and this queue. No query was executed to produce it.').note
+E    +    and   re.IGNORECASE = re.I
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_the_manifest_tells_0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_the_manifest_tells_0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_the_manifest_tells_0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+________ test_b20_3_manifest_id_is_consistent_across_property_families _________
+tests/test_approval.py:966: in test_b20_3_manifest_id_is_consistent_across_property_families
+    assert doc.properties["blast_radius_manifest_id"] == \
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'blast_radius_manifest_id'
+----------------------------- Captured stdout call -----------------------------
+Assessment body -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_manifest_id_is_cons0/ASSESSMENT-drop-analytics-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_manifest_id_is_cons0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[dry-run] would QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_manifest_id_is_cons0/APPROVAL-drop-analytics-orders-customer-zip.json  (5 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 5 queued, 0 failed, 0 skipped.  (dry run — nothing was written)
+  queued because: verification_review_required+unresolved_impact
+APPROVED by reviewer@example.com — manifest 9a13dc016cfb3187 (5 mutation(s), verification REVIEW_REQUIRED)
+[write] apply (human-approved): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — blast_radius_status=pending-change, risk=MODERATE
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — tag 'pending-schema-change'
+[write] apply (human-approved): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.orders.customer_zip' -> /private/var/folders/73/smt1ntlj4hx1h8cn6dc49z680000gp/T/pytest-of-adeel.tahir/pytest-73/test_b20_3_manifest_id_is_cons0/ASSESSMENT-drop-analytics-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] apply (human-approved): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,synthetic.orders,PROD) — append pending-change footer
+[write] apply (human-approved): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,synthetic.rpt_a,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+  manifest 9a13dc016cfb3187 consumed — approvals are single-use
+Summary: 0 planned, 0 written (auto), 5 written (human-approved by reviewer@example.com), 0 queued, 0 failed, 0 skipped.
+=========================== short test summary info ============================
+FAILED tests/test_approval.py::test_b20_3_human_approved_write_records_the_audit_in_the_emitted_payload
+FAILED tests/test_approval.py::test_b20_3_audit_does_not_wipe_the_base_properties
+FAILED tests/test_approval.py::test_b20_3_audit_properties_are_defined_before_they_are_set
+FAILED tests/test_approval.py::test_b20_3_partial_outcome_is_recorded_honestly
+FAILED tests/test_approval.py::test_b20_3_total_failure_still_records_that_a_human_approved
+FAILED tests/test_approval.py::test_b20_3_a_failed_audit_emit_is_reported_not_swallowed
+FAILED tests/test_approval.py::test_b20_3_a_dry_run_approval_records_nothing
+FAILED tests/test_approval.py::test_b20_3_the_manifest_tells_the_approver_their_name_is_recorded
+FAILED tests/test_approval.py::test_b20_3_manifest_id_is_consistent_across_property_families
+9 failed, 5 passed, 25 deselected in 3.01s

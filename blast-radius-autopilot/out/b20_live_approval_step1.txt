@@ -1,0 +1,80 @@
+
+========================================================================
+  BLAST RADIUS — drop analytics.fct_orders.customer_zip   (catalog: showcase-ecommerce)
+========================================================================
+  drop analytics.fct_orders.customer_zip breaks 6 and degrades 0 downstream consumer(s) across 3 team(s) (analytics-eng, growth-analytics, marketing-bi), spanning 41 query runs in history. Change risk: CRITICAL with 1 unresolved reference(s) (100/100). 1 column reference(s) could not be confidently attributed to a source table (unqualified column across joined tables) — not safe, and not counted as a proven break — REVIEW REQUIRED before applying.
+------------------------------------------------------------------------
+  [91mBREAKS   [0m Sales by ZIP [looker_dashboard]  · growth-analytics · 12 runs
+            └ projects/derives `customer_zip` (in group, select) → column removed
+  [91mBREAKS   [0m Revenue by State [powerbi_report]  · marketing-bi · 9 runs
+            └ references `customer_zip` in where → column removed
+  [91mBREAKS   [0m rpt_orders_by_region [dbt_model]  · analytics-eng · 6 runs
+            └ projects/derives `customer_zip` (in select) → column removed
+  [91mBREAKS   [0m ZIP Heatmap [powerbi_report]  · marketing-bi · 5 runs
+            └ projects/derives `customer_zip` (in group, select) → column removed
+  [91mBREAKS   [0m q_adhoc_join_on_zip  · analytics-eng · 5 runs
+            └ references `customer_zip` in join → column removed
+  [91mBREAKS   [0m q_adhoc_zip_export  · growth-analytics · 4 runs
+            └ projects/derives `customer_zip` (in select) → column removed
+------------------------------------------------------------------------
+  [90mLOW-CONF[0m  q_adhoc_ambiguous_zip · projects/derives `customer_zip` (in select) → column removed  (surfaced, not counted)
+------------------------------------------------------------------------
+  SCORECARD: risk CRITICAL with 1 unresolved reference(s) (100/100)  |  🔴 6 breaks  🟡 0 degrades  🟢 3 safe  ⚪ 0 unassessed  ◐ 1 ambiguous  |  3 team(s)  ·  41 impacted runs
+  COVERAGE:  10 of 10 analysed consumer(s)
+  [93m⚠️  REVIEW REQUIRED[0m — 1 reference(s) could not be attributed to a source table. Unresolved impact must not be auto-applied.
+  note: COVERAGE 10 of 10 analysed — 1 column reference(s) could not be confidently attributed to a source table; verdict is 'CRITICAL with 1 unresolved reference(s)' and the change REQUIRES REVIEW before any write-back.
+========================================================================
+
+FIX (minimal, applicable): rpt_orders_by_region — dbt_project/models/rpt_orders_by_region.sql
+--- a/dbt_project/models/rpt_orders_by_region.sql
++++ b/dbt_project/models/rpt_orders_by_region.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:analytics-eng. Downstream of analytics.fct_orders.
+ SELECT
+     o.order_id,
+-    o.customer_zip,
+     o.amount
+ FROM analytics.fct_orders o
+ WHERE o.status = 'complete'
+
+========================================================================
+  MIGRATION VERIFICATION (static)  —  [93m⚠️  REVIEW REQUIRED[0m
+========================================================================
+  metric          before   after   delta
+  --------------------------------------
+  breaks               6       5      -1
+  degrades             0       0      +0
+  safe                 3       4      +1
+  unassessed           0       0      +0
+  ambiguous            1       1      +0
+  coverage      10 of 10 analysed -> 10 of 10 analysed
+  --------------------------------------
+  transitions:
+      rpt_orders_by_region: BREAKS → SAFE (improved)
+  ambiguous — parsed but not attributable (1): q_adhoc_ambiguous_zip
+  patched files recomputed: dbt_project/models/rpt_orders_by_region.sql -> q_dbt_rpt_orders_by_region
+  manual work: Revenue by State, Sales by ZIP, ZIP Heatmap, q_adhoc_join_on_zip, q_adhoc_zip_export
+  why:
+    - breaks_remaining — breaking consumers still remain
+    - ambiguous_consumers_present — at least one column reference could not be confidently attributed to a source table
+    - manual_work_remaining — consumers remain that no mechanical fix can reach
+  files patched in isolation: dbt_project/models/rpt_orders_by_region.sql
+  scope: STATIC ONLY — no queries executed, no warehouse contacted, no data read.
+========================================================================
+
+Verification -> out/VERIFICATION.md  ·  out/verification.json
+
+WRITE-BACK:
+  gate: verification REVIEW_REQUIRED — every mutation queued for a human.
+Assessment body -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md  (the catalog stores a link + title to it, not the text)
+[write] QUEUE for review (verification_review_required+unresolved_impact): add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[write] QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[write] QUEUE for review (verification_review_required+unresolved_impact): save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — add institutional-memory link 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip' -> /Users/adeel.tahir/bra/blast-radius-autopilot/out/ASSESSMENT-drop-analytics-fct-orders-customer-zip.md (catalog stores the link + title only; the full assessment body is that file)
+[write] QUEUE for review (verification_review_required+unresolved_impact): update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[write] QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[write] QUEUE for review (verification_review_required+unresolved_impact): add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+Approval manifest -> out/APPROVAL-drop-analytics-fct-orders-customer-zip.json  (8 mutation(s) await a human; apply with --approve <that file> --approver <you>)
+Summary: 0 planned, 0 written (auto), 0 written (human-approved), 8 queued, 0 failed, 0 skipped.
+  queued because: verification_review_required+unresolved_impact

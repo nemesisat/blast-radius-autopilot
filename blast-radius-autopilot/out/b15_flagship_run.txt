@@ -1,0 +1,49 @@
+
+========================================================================
+  BLAST RADIUS — drop analytics.fct_orders.customer_zip   (catalog: showcase-ecommerce)
+========================================================================
+  drop analytics.fct_orders.customer_zip breaks 6 and degrades 0 downstream consumer(s) across 3 team(s) (analytics-eng, growth-analytics, marketing-bi), spanning 41 query runs in history. Change risk: CRITICAL (100/100).
+------------------------------------------------------------------------
+  [91mBREAKS   [0m Sales by ZIP [looker_dashboard]  · growth-analytics · 12 runs
+            └ projects/derives `customer_zip` (in group, select) → column removed
+  [91mBREAKS   [0m Revenue by State [powerbi_report]  · marketing-bi · 9 runs
+            └ references `customer_zip` in where → column removed
+  [91mBREAKS   [0m rpt_orders_by_region [dbt_model]  · analytics-eng · 6 runs
+            └ projects/derives `customer_zip` (in select) → column removed
+  [91mBREAKS   [0m ZIP Heatmap [powerbi_report]  · marketing-bi · 5 runs
+            └ projects/derives `customer_zip` (in group, select) → column removed
+  [91mBREAKS   [0m q_adhoc_join_on_zip  · analytics-eng · 5 runs
+            └ references `customer_zip` in join → column removed
+  [91mBREAKS   [0m q_adhoc_zip_export  · growth-analytics · 4 runs
+            └ projects/derives `customer_zip` (in select) → column removed
+------------------------------------------------------------------------
+  [90mLOW-CONF[0m  q_adhoc_ambiguous_zip · projects/derives `customer_zip` (in select) → column removed  (surfaced, not counted)
+------------------------------------------------------------------------
+  SCORECARD: risk CRITICAL (100/100)  |  🔴 6 breaks  🟡 0 degrades  🟢 3 safe  ⚪ 0 unassessed  |  3 team(s)  ·  41 impacted runs
+  COVERAGE:  10 of 10 analysed consumer(s)
+========================================================================
+
+FIX (minimal, applicable): rpt_orders_by_region — dbt_project/models/rpt_orders_by_region.sql
+--- a/dbt_project/models/rpt_orders_by_region.sql
++++ b/dbt_project/models/rpt_orders_by_region.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:analytics-eng. Downstream of analytics.fct_orders.
+ SELECT
+     o.order_id,
+-    o.customer_zip,
+     o.amount
+ FROM analytics.fct_orders o
+ WHERE o.status = 'complete'
+
+
+WRITE-BACK (dry-run):
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — blast_radius_status=pending-change, risk=CRITICAL
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — save 'Blast Radius Assessment — drop analytics.fct_orders.customer_zip'
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_orders,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dashboard:(looker,sales_by_zip) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_orders_by_region,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:chart:(powerbi,zip_heatmap) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:chart:(powerbi,revenue_by_state) — tag 'impacted-by-upstream-change' (BREAKS)
+
+Summary: 8 written, 0 queued for review, 0 skipped.

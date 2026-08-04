@@ -1,0 +1,84 @@
+
+========================================================================
+  BLAST RADIUS — drop analytics.fct_signups.referrer_code   (catalog: verified-migration (synthetic — demonstrates a PASS verification))
+========================================================================
+  drop analytics.fct_signups.referrer_code breaks 2 and degrades 0 downstream consumer(s) across 1 team(s) (growth-eng), spanning 23 query runs in history. Change risk: HIGH (56/100).
+------------------------------------------------------------------------
+  [91mBREAKS   [0m rpt_signups_by_plan [dbt_model]  · growth-eng · 14 runs
+            └ projects/derives `referrer_code` (in select) → column removed
+  [91mBREAKS   [0m rpt_referrals [dbt_model]  · growth-eng · 9 runs
+            └ projects/derives `referrer_code` (in group, select) → column removed
+------------------------------------------------------------------------
+  SCORECARD: risk HIGH (56/100)  |  🔴 2 breaks  🟡 0 degrades  🟢 1 safe  ⚪ 0 unassessed  |  1 team(s)  ·  23 impacted runs
+  COVERAGE:  3 of 3 analysed consumer(s)
+========================================================================
+
+FIX (minimal, applicable): rpt_signups_by_plan — dbt_project/models/rpt_signups_by_plan.sql
+--- a/dbt_project/models/rpt_signups_by_plan.sql
++++ b/dbt_project/models/rpt_signups_by_plan.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:growth-eng. Downstream of analytics.fct_signups.
+ SELECT
+     s.signup_id,
+-    s.plan,
+-    s.referrer_code
++    s.plan
+ FROM analytics.fct_signups s
+ WHERE s.plan IS NOT NULL
+
+FIX (regenerated, applicable): rpt_referrals — dbt_project/models/rpt_referrals.sql
+--- a/dbt_project/models/rpt_referrals.sql
++++ b/dbt_project/models/rpt_referrals.sql
+@@ -1,10 +1,9 @@
+--- rpt_referrals: referral counts per account.
+--- Owned by team:growth-eng. Downstream of analytics.fct_signups.
++/* rpt_referrals: referral counts per account. */
++/* Owned by team:growth-eng. Downstream of analytics.fct_signups. */
+ SELECT
+-    s.account_id,
+-    s.referrer_code,
+-    COUNT(*) AS n
+-FROM analytics.fct_signups s
++  s.account_id,
++  COUNT(*) AS n
++FROM analytics.fct_signups AS s
+ GROUP BY
+-    s.account_id,
+-    s.referrer_code
++  s.account_id,
++  s.referrer_code
+
+========================================================================
+  MIGRATION VERIFICATION (static)  —  [93m⚠️  REVIEW REQUIRED[0m
+========================================================================
+  metric          before   after   delta
+  --------------------------------------
+  breaks               2       1      -1
+  degrades             0       0      +0
+  safe                 1       2      +1
+  unassessed           0       0      +0
+  coverage      3 of 3 analysed -> 3 of 3 analysed
+  --------------------------------------
+  transitions:
+      rpt_signups_by_plan: BREAKS → SAFE (improved)
+  fix incomplete — column still referenced after patching:
+    - dbt_project/models/rpt_referrals.sql:9: still references `referrer_code` — s.referrer_code
+  why:
+    - breaks_remaining — breaking consumers still remain
+    - fix_incomplete_column_still_referenced — a patched file still references the dropped column — the fix is incomplete
+  files patched in isolation: dbt_project/models/rpt_signups_by_plan.sql, dbt_project/models/rpt_referrals.sql
+  scope: STATIC ONLY — no queries executed, no warehouse contacted, no data read.
+========================================================================
+
+Verification -> out/VERIFICATION.md  ·  out/verification.json
+
+WRITE-BACK (dry-run):
+  gate: verification REVIEW_REQUIRED — every mutation queued for a human.
+[dry-run] would QUEUE for review: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — blast_radius_status=pending-change, risk=HIGH
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — tag 'pending-schema-change'
+[dry-run] would QUEUE for review: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — save 'Blast Radius Assessment — drop analytics.fct_signups.referrer_code'
+[dry-run] would QUEUE for review: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — append pending-change footer
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_signups_by_plan,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would QUEUE for review: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_referrals,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+
+Summary: 0 written, 6 queued for review, 0 skipped.

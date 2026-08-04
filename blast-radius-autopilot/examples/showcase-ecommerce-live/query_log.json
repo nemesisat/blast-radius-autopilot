@@ -1,0 +1,58 @@
+[
+  {
+    "query_id": "q_order_details",
+    "sql": "SELECT order_id, customer_id, promotion_id, order_total FROM order_entry.orders WHERE order_status = 1",
+    "platform": "snowflake",
+    "team": "analytics-eng",
+    "runs": 18,
+    "last_run": "2026-07-24"
+  },
+  {
+    "query_id": "q_customer_analytics",
+    "sql": "SELECT customer_id, promotion_id, SUM(order_total) AS spend FROM order_entry.orders GROUP BY customer_id, promotion_id",
+    "platform": "powerbi",
+    "team": "marketing-bi",
+    "runs": 11,
+    "last_run": "2026-07-24"
+  },
+  {
+    "query_id": "q_essential_kpi",
+    "sql": "SELECT SUM(order_total) AS revenue, COUNT(*) AS orders FROM order_entry.orders WHERE promotion_id IS NOT NULL",
+    "platform": "powerbi",
+    "team": "marketing-bi",
+    "runs": 14,
+    "last_run": "2026-07-24"
+  },
+  {
+    "query_id": "q_geographic",
+    "sql": "SELECT warehouse_id, COUNT(*) AS n FROM order_entry.orders GROUP BY warehouse_id",
+    "platform": "powerbi",
+    "team": "ops-analytics",
+    "runs": 9,
+    "last_run": "2026-07-23"
+  },
+  {
+    "query_id": "q_time_intelligence",
+    "sql": "SELECT order_date, SUM(order_total) AS revenue FROM order_entry.orders GROUP BY order_date",
+    "platform": "powerbi",
+    "team": "finance-reporting",
+    "runs": 16,
+    "last_run": "2026-07-24"
+  },
+  {
+    "query_id": "q_adhoc_promo_breakdown",
+    "sql": "SELECT promotion_id, COUNT(*) AS orders FROM order_entry.orders GROUP BY promotion_id",
+    "platform": "snowflake",
+    "team": "marketing-bi",
+    "runs": 5,
+    "last_run": "2026-07-22"
+  },
+  {
+    "query_id": "q_adhoc_status",
+    "sql": "SELECT order_status, COUNT(*) AS n FROM order_entry.orders GROUP BY order_status",
+    "platform": "snowflake",
+    "team": "ops-analytics",
+    "runs": 7,
+    "last_run": "2026-07-22"
+  }
+]

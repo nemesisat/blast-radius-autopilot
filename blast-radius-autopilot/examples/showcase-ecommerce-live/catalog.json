@@ -1,0 +1,68 @@
+{
+  "name": "showcase-ecommerce-live",
+  "sql_dialect": "snowflake",
+  "description": "Wired to DataHub's REAL showcase-ecommerce datapack. Target + downstream URNs are the datapack's actual entities (real schemas). Query history is a seeded FALLBACK — the datapack ships no query history (QUERY entities=0, usageStats topSqlQueries=0), so per SETUP/BUILD_GUIDE we seed a realistic query log against the REAL `orders` columns. Public/synthetic (official DataHub sample) data only.",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.order_entry.orders,PROD)",
+      "name": "orders",
+      "sql_name": "order_entry.orders",
+      "platform": "snowflake",
+      "owners": [],
+      "schema": {
+        "order_id": "NUMBER(38,0)",
+        "order_date": "VARCHAR(16777216)",
+        "order_mode": "VARCHAR(16777216)",
+        "customer_id": "NUMBER(38,0)",
+        "order_status": "NUMBER(38,0)",
+        "order_total": "FLOAT",
+        "sales_rep_id": "NUMBER(38,0)",
+        "promotion_id": "FLOAT",
+        "warehouse_id": "NUMBER(38,0)",
+        "delivery_type": "VARCHAR(16777216)",
+        "cost_of_delivery": "FLOAT",
+        "wait_till_complete_yn": "VARCHAR(16777216)",
+        "billing_address_id": "NUMBER(38,0)",
+        "delivery_address_id": "NUMBER(38,0)",
+        "payment_method_code": "VARCHAR(16777216)"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,b2fd91.order_entry_db.analytics.order_details,PROD)",
+      "name": "order_details",
+      "type": "snowflake_table",
+      "platform": "snowflake",
+      "defining_query_id": "q_order_details"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Customer_Analytics_Measures,PROD)",
+      "name": "Customer_Analytics_Measures",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "defining_query_id": "q_customer_analytics"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Essential_KPI_Measures,PROD)",
+      "name": "Essential_KPI_Measures",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "defining_query_id": "q_essential_kpi"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Geographic_Measures,PROD)",
+      "name": "Geographic_Measures",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "defining_query_id": "q_geographic"
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:powerbi,b2fd91.datahub_order_entries.Time_Inteligence_Measures,PROD)",
+      "name": "Time_Inteligence_Measures",
+      "type": "powerbi_report",
+      "platform": "powerbi",
+      "defining_query_id": "q_time_intelligence"
+    }
+  ]
+}

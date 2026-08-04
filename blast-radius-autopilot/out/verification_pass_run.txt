@@ -1,0 +1,121 @@
+
+========================================================================
+  BLAST RADIUS — drop analytics.fct_signups.referrer_code   (catalog: verified-migration (synthetic — demonstrates a PASS verification))
+========================================================================
+  drop analytics.fct_signups.referrer_code breaks 2 and degrades 0 downstream consumer(s) across 1 team(s) (growth-eng), spanning 23 query runs in history. Change risk: HIGH (56/100).
+------------------------------------------------------------------------
+  [91mBREAKS   [0m rpt_signups_by_plan [dbt_model]  · growth-eng · 14 runs
+            └ projects/derives `referrer_code` (in select) → column removed
+  [91mBREAKS   [0m rpt_referrals [dbt_model]  · growth-eng · 9 runs
+            └ projects/derives `referrer_code` (in select) → column removed
+------------------------------------------------------------------------
+  SCORECARD: risk HIGH (56/100)  |  🔴 2 breaks  🟡 0 degrades  🟢 1 safe  ⚪ 0 unassessed  |  1 team(s)  ·  23 impacted runs
+  COVERAGE:  3 of 3 analysed consumer(s)
+========================================================================
+
+FIX (minimal, applicable): rpt_signups_by_plan — dbt_project/models/rpt_signups_by_plan.sql
+--- a/dbt_project/models/rpt_signups_by_plan.sql
++++ b/dbt_project/models/rpt_signups_by_plan.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:growth-eng. Downstream of analytics.fct_signups.
+ SELECT
+     s.signup_id,
+-    s.plan,
+-    s.referrer_code
++    s.plan
+ FROM analytics.fct_signups s
+ WHERE s.plan IS NOT NULL
+
+FIX (minimal, applicable): rpt_referrals — dbt_project/models/rpt_referrals.sql
+--- a/dbt_project/models/rpt_referrals.sql
++++ b/dbt_project/models/rpt_referrals.sql
+@@ -3,6 +3,5 @@
+ SELECT
+     s.signup_id,
+     s.account_id,
+-    s.referrer_code,
+     s.signed_up_at
+ FROM analytics.fct_signups s
+
+========================================================================
+  MIGRATION VERIFICATION (static)  —  [92m✅ PASS[0m
+========================================================================
+  metric          before   after   delta
+  --------------------------------------
+  breaks               2       0      -2
+  degrades             0       0      +0
+  safe                 1       3      +2
+  unassessed           0       0      +0
+  coverage      3 of 3 analysed -> 3 of 3 analysed
+  --------------------------------------
+  transitions:
+      rpt_referrals: BREAKS → SAFE (improved)
+      rpt_signups_by_plan: BREAKS → SAFE (improved)
+  why:
+    - breaks_eliminated — no breaking consumers remain among those analysed
+  files patched in isolation: dbt_project/models/rpt_signups_by_plan.sql, dbt_project/models/rpt_referrals.sql
+  scope: STATIC ONLY — no queries executed, no warehouse contacted, no data read.
+========================================================================
+
+Verification -> out/VERIFICATION.md  ·  out/verification.json
+
+# Migration Plan — drop analytics.fct_signups.referrer_code
+
+**Change risk (derived):** HIGH (56/100)
+
+## Ordered steps (deepest upstream first → consumers → BI last)
+
+1. **[BREAKS] rpt_referrals** _(dbt_model)_
+    - owner: growth-eng
+    - action: apply generated fix: dbt_project/models/rpt_referrals.sql
+    - column-analysis (parser) confidence: high
+    - static verification: verified-clean after fix (BREAKS -> SAFE)
+2. **[BREAKS] rpt_signups_by_plan** _(dbt_model)_
+    - owner: growth-eng
+    - action: apply generated fix: dbt_project/models/rpt_signups_by_plan.sql
+    - column-analysis (parser) confidence: high
+    - static verification: verified-clean after fix (BREAKS -> SAFE)
+
+## Teams to involve
+
+growth-eng
+
+## Verify after the change (impacted downstreams)
+
+- rpt_referrals (BREAKS)
+- rpt_signups_by_plan (BREAKS)
+
+## Rollback
+
+- Revert the schema change: re-add column `referrer_code` to `analytics.fct_signups`.
+- Close the generated migration PR and revert `dbt_project/models/rpt_signups_by_plan.sql` to its pre-change version.
+- Close the generated migration PR and revert `dbt_project/models/rpt_referrals.sql` to its pre-change version.
+- Re-run Blast Radius Autopilot to confirm the catalog assessment clears.
+
+## Left for a human to decide (not computed)
+
+- Effort: ⟨human to decide⟩
+- Timeline: ⟨human to decide⟩
+- Deployment window: ⟨human to decide⟩
+
+---
+_This plan lists only facts derived from the impact analysis._
+_Effort, timeline, and deployment window are left for a human to decide — not computed._
+_The only confidence shown is the per-step column-analysis (parser) confidence._
+_Coverage: 3 of 3 analysed consumer(s)._
+_Static verification: PASS — breaks 2 -> 0, coverage 3 of 3 analysed._
+_Verification is STATIC: the patch was applied in an isolated copy, the patched SQL re-parsed, and impact recomputed. No queries were executed and no data was read._
+
+Migration plan -> MIGRATION_PLAN.md
+
+WRITE-BACK (dry-run):
+[dry-run] would apply: add_structured_properties on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — blast_radius_status=pending-change, risk=HIGH
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — tag 'pending-schema-change'
+[dry-run] would apply: save_document on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — save 'Blast Radius Assessment — drop analytics.fct_signups.referrer_code'
+[dry-run] would apply: update_description on urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD) — append pending-change footer
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_signups_by_plan,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+[dry-run] would apply: add_tags on urn:li:dataset:(urn:li:dataPlatform:dbt,analytics.rpt_referrals,PROD) — tag 'impacted-by-upstream-change' (BREAKS)
+
+Summary: 6 written, 0 queued for review, 0 skipped.
+HTML report -> out/b16_pass_report.html
+JSON report -> out/b16_pass.json
