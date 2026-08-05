@@ -235,6 +235,14 @@ def build_parser() -> argparse.ArgumentParser:
                          "Never inferred — no approver, no approval.")
     ap.add_argument("--manifest-dir", type=Path,
                     help="Where approval manifests are written/read (default: out/)")
+    ap.add_argument("--sweep", action="store_true",
+                    help="Overnight Catalog Sweep (B21): assess EVERY candidate column change "
+                         "in the catalog with the same impact -> fix -> verify chain, and emit "
+                         "a ranked ledger to out/SWEEP.md + out/SWEEP.html + out/sweep.json. "
+                         "READ-ONLY — a sweep never writes to DataHub.")
+    ap.add_argument("--sweep-limit", type=int,
+                    help="Assess only the N riskiest candidates (fast demo run). The ledger "
+                         "states that it is partial; unassessed candidates are not implied safe.")
     return ap
 
 
@@ -277,6 +285,43 @@ def _main(args) -> None:
             args.json.parent.mkdir(parents=True, exist_ok=True)
             args.json.write_text(json.dumps([r.__dict__ for r in rows], indent=2))
             print(f"Fragility JSON -> {args.json}")
+        return
+
+    if args.sweep:
+        # B21 — the whole-catalog pass. Deliberately returns before any write-back code is
+        # even reached: a sweep is read-only, and the clearest way to guarantee that is for
+        # the write path to be unreachable from here.
+        from .report_sweep import render_sweep_html, render_sweep_md, sweep_json
+        from .sweep import BUCKET_LABEL, BUCKET_ORDER, sweep
+
+        repo_root = args.repo_root or (args.catalog.parent if args.catalog else Path("."))
+        res = sweep(catalog, limit=args.sweep_limit, repo_root=repo_root)
+
+        print("\n" + "=" * 78)
+        print(f"  CATALOG SWEEP — {catalog.name}")
+        print("=" * 78)
+        print(f"  {res.header_line()}")
+        print("-" * 78)
+        for b in BUCKET_ORDER:
+            rows = res.by_bucket()[b]
+            print(f"  {BUCKET_LABEL[b]:<22} {len(rows):>4}")
+            for e in rows[:8]:
+                extra = f" [{e.basis}]" if e.basis else ""
+                print(f"       {e.ref:<34} {e.risk_level:<9} "
+                      f"breaks={e.breaks} unknown={e.unknown}{extra}")
+            if len(rows) > 8:
+                print(f"       … {len(rows) - 8} more (see the ledger)")
+        print("=" * 78)
+        print("  READ-ONLY: nothing was written to DataHub. No query was executed.")
+        print("=" * 78)
+
+        outdir = Path("out")
+        outdir.mkdir(parents=True, exist_ok=True)
+        (outdir / "SWEEP.md").write_text(render_sweep_md(res))
+        (outdir / "SWEEP.html").write_text(render_sweep_html(res))
+        (outdir / "sweep.json").write_text(json.dumps(sweep_json(res), indent=2))
+        print(f"Sweep ledger -> {outdir / 'SWEEP.md'}  ·  {outdir / 'SWEEP.html'}  ·  "
+              f"{outdir / 'sweep.json'}")
         return
 
     change = _parse_change(args)

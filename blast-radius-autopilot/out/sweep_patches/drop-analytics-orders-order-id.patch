@@ -1,0 +1,8 @@
+--- a/models/rpt_orders.sql
++++ b/models/rpt_orders.sql
+@@ -1,5 +1,4 @@
+ -- rpt_orders
+ SELECT
+-    o.order_id,
+     o.amount
+ FROM analytics.orders o

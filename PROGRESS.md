@@ -3,17 +3,23 @@
 Append newest at top. "Verified" means there is evidence (a passing test, a captured run),
 not just "written."
 
-**STATUS: BACKLOG COMPLETE (B0–B19 + B20.3; B17.8 and B20 items 1/2/4/5 skipped by decision).
-FEATURE WORK CLOSED. ALL EVIDENCE GAPS CLOSED as of 2026-08-03 — next is submission (video,
-repo, Skill PR, Devpost).** Full suite **181 tests passing** + a **live DataHub read+write loop
+**STATUS: BACKLOG COMPLETE (B0–B21; B17.8 and B20 items 1/2/4/5 skipped by decision). ALL
+EVIDENCE GAPS CLOSED as of 2026-08-03 — next is submission (video, repo, Skill PR, Devpost).**
+Full suite **198 tests passing** + a **live DataHub read+write loop
 verified** + **both live-MCP targets re-run against the current build** (2026-08-03, so no
 verdict is carried as reasoning any more) + **hardened proof-carrying migrations** (static
 verify → PASS/REVIEW_REQUIRED/FAIL over a **sixteen-clause** PASS conjunction) + a **bound,
 single-use human-approval path** whose **audit trail is written into the catalog and read back
 over GraphQL (26/26 assertions, live)**. Canonical runnable tree:
 `~/bra/blast-radius-autopilot`
-(`cd ~/bra/blast-radius-autopilot && ~/bra/venv/bin/python -m pytest` → 181 passed); mirrored to
-`Desktop/.../blast-radius-autopilot`.
+Canonical tree is the **Desktop** one, under git since 2026-08-04
+(`cd Desktop/AIProject/DataHubHackathon/blast-radius-autopilot && ~/bra/venv/bin/python -m pytest`
+→ **198 passed**). `~/bra` is stale scratch and must never be rsynced onto Desktop again.
+
+**B21 (2026-08-05) adds a whole-catalog pass:** `--sweep` assesses every candidate column change
+with the same impact → fix → verify chain and emits a ranked ledger (25 landmines / 1 needs
+review / 17 verified safe across 43 candidates in the synthetic catalogs). It is **read-only by
+construction** — it cannot write to DataHub, and three tests enforce that.
 
 **Two live findings that affect the demo, recorded 2026-08-03 (not bugs, but they change what
 can be filmed).** (1) The **real-datapack** flagship `drop order_entry.orders.promotion_id`
@@ -69,6 +75,100 @@ claim to.
 ---
 
 ## Done + verified
+
+- **2026-08-05 — B21 Overnight Catalog Sweep built + verified (test-first, additive only).**
+  The per-change loop, generalised to a whole catalog: enumerate every candidate column change,
+  run the **existing** impact → fixgen → verify chain on each, emit a ranked ledger. New
+  `src/autopilot/sweep.py` + `src/autopilot/report_sweep.py` + `--sweep` / `--sweep-limit`.
+  Written failing first: **16 failed** on `No module named 'autopilot.sweep'`. Full suite
+  **181 → 198 passed** (17 new). **No pre-existing test changed expectation.**
+
+  **Additive-only constraint held, verified by diff — not by assertion.**
+
+  | File | Status |
+  |---|---|
+  | `impact.py` `verify.py` `writeback.py` `fixgen.py` `lineage.py` `planner.py` | **UNTOUCHED** (`git diff --quiet` per file) |
+  | `run.py` | **45 insertions, 0 deletions** |
+
+  The demo path is byte-identical: the PASS run still shows `breaks 2 → 0` with 6 planned and
+  0 written; the flagship still shows `breaks 6 → 5`, a manifest, and `0 written / 8 queued`.
+
+  **Real ledger totals** (`out/b21_sweep_capture.txt`, all six synthetic catalogs, offline):
+
+  | Catalog | Datasets | Columns | 🔴 Landmine | ❓ Unassessed | ⚠️ Review | ✅ Safe | Errors | Secs |
+  |---|---:|---:|---:|---:|---:|---:|---:|---:|
+  | showcase-ecommerce | 2 | 13 | 9 | 0 | 0 | 4 | 0 | 0.15 |
+  | nyc-taxi | 1 | 8 | 6 | 0 | 0 | 2 | 0 | 0.10 |
+  | healthcare | 1 | 6 | 4 | 0 | 0 | 2 | 0 | 0.11 |
+  | fiction-retail | 1 | 6 | 2 | 0 | 0 | 4 | 0 | 0.10 |
+  | finance | 1 | 5 | 3 | 0 | 1 | 1 | 0 | 0.08 |
+  | verified-migration | 1 | 5 | 1 | 0 | 0 | 4 | 0 | 0.11 |
+  | **TOTAL** | **7** | **43** | **25** | **0** | **1** | **17** | **0** | **0.65** |
+
+  Every catalog reported **complete coverage** (e.g. "13 of 13 candidate(s) fully assessed"),
+  which is why `unassessed` is 0 — these fixtures parse. The unassessed path is exercised by a
+  test that adds an unparseable consumer, and it asserts **zero** `verified_safe` rows result.
+
+  **THE READ-ONLY GUARANTEE, and how it is enforced.** A sweep never writes to DataHub — not
+  automatically, not gated, not queued. Three independent guards:
+  1. `sweep.py` does not import `writeback` and never constructs a DataHub client. A test
+     asserts the string `WriteBack` does not appear in the module source.
+  2. A test monkeypatches ten `WriteBack` methods, `plan_mutations`, **and**
+     `DataHubGraph.__init__` to raise, then runs two full sweeps: **zero calls**.
+  3. The `--sweep` branch in `run.py` **returns before the write-back code is reachable**, so
+     the guarantee does not depend on the branch behaving well.
+  A test also asserts no function in the module exposes a parameter matching
+  `write|emit|approve|mutat|apply`, so a `--write` cannot be grown here next month without
+  failing the build.
+
+  **The "safe" bucket is split, deliberately.** Two different things were about to be called the
+  same thing: `basis="verified_patch"` (a fix was generated, applied in isolation, re-parsed,
+  and the impact re-run came back clean) versus `basis="no_references"` (nothing that parses
+  references the column, so no patch was needed **and none was verified**). Both are genuinely
+  safe to change; only the first involved verifying anything. Of the **17** safe rows, **8** are
+  `verified_patch` and **9** are `no_references`. Letting the second borrow the first's
+  credibility would be this project's characteristic error in miniature.
+
+  **Bucket precedence, and why.** `unassessed` is checked **first** — everything below it is a
+  statement about a corpus we could read, and if part was unreadable then no such statement is
+  available. Then `landmine` (proven breaks no *generated fix* reaches — derived from the fix
+  list by URN, not inferred from asset type — or a FAIL), then `needs_review`, then
+  `verified_safe`. `_classify()` never inspects SQL, never counts anything itself, and never
+  overrides a verdict.
+
+  **Resilience, tested at both ends of the chain.** A raise inside `verify_migration` and a
+  raise inside `compute_impact` each produce exactly one `error` row while the other three
+  candidates are assessed normally and the buckets reconcile. An error row carries the exception
+  text and **no verdict and no basis** — an error means we do not know, and may not borrow a
+  verdict from anywhere.
+
+  **Isolation is inherited, not reimplemented.** After a full sweep: the real dbt model is
+  byte-identical, `git status --porcelain` on the fixture repo is empty, and no verify/sweep temp
+  directory survives.
+
+  **Three bugs of my own, found during the build and capture.** (1) The resilience test targeted
+  `customer_zip`, which generates no patch and therefore never reaches `verify_migration` — the
+  test proved nothing until retargeted to `amount`; I also added a `compute_impact` failure case
+  so resilience does not depend on which stage broke. (2) The ledger's Detail column was pushed
+  off the table's horizontal scroll, leaving every row tall and apparently empty — moved under
+  the column name. (3) `_entry_detail()` emitted markdown into the HTML renderer, which escapes
+  its input, so `**REVIEW_REQUIRED**` and backticks rendered literally — split by output format.
+  Patch links were also absolute and would break in a fresh clone; now rendered relative to the
+  working directory.
+
+  **Artifacts.** `out/SWEEP.md` · `out/SWEEP.html` · `out/sweep.json` (flagship),
+  `out/sweep/<catalog>/` (all six), `out/b21_sweep_capture.txt`, patches under
+  `out/sweep/<catalog>/patches/`, screenshots
+  `out/live_ui/19_b21_sweep_ledger.png` (+ `_dark`, `_full`, `_dark_full`). New scripts
+  `scripts/b21_sweep_capture.py` and `scripts/b21_capture_sweep_ui.py` — the UI capture **fails**
+  unless the header totals, all five bucket labels and the read-only scope line are really on the
+  rendered page, and unless the page does not scroll horizontally.
+
+  **Deferred by decision: the live-catalog sweep.** The live DataHub is in use for the demo video
+  recording, and a sweep over it — however read-only — would compete for the same GMS the
+  recording depends on. Nothing about the sweep is offline-specific: it takes any `Catalog`, so
+  pointing it at a live read is a matter of loading the catalog online, not new code. **No live
+  instance was touched in this task.**
 
 - **2026-08-04 — Desktop is now the single source of truth under git; full A–K end-to-end test
   pass.** No feature work. Three jobs: stop the file loss, restore what it destroyed, test

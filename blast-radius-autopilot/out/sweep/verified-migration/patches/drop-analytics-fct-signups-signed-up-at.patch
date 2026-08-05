@@ -1,0 +1,10 @@
+--- a/dbt_project/models/rpt_referrals.sql
++++ b/dbt_project/models/rpt_referrals.sql
+@@ -3,6 +3,5 @@
+ SELECT
+     s.signup_id,
+     s.account_id,
+-    s.referrer_code,
+-    s.signed_up_at
++    s.referrer_code
+ FROM analytics.fct_signups s

@@ -1,0 +1,20 @@
+--- a/dbt_project/models/rpt_signups_by_plan.sql
++++ b/dbt_project/models/rpt_signups_by_plan.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:growth-eng. Downstream of analytics.fct_signups.
+ SELECT
+     s.signup_id,
+-    s.plan,
+-    s.referrer_code
++    s.plan
+ FROM analytics.fct_signups s
+ WHERE s.plan IS NOT NULL
+--- a/dbt_project/models/rpt_referrals.sql
++++ b/dbt_project/models/rpt_referrals.sql
+@@ -3,6 +3,5 @@
+ SELECT
+     s.signup_id,
+     s.account_id,
+-    s.referrer_code,
+     s.signed_up_at
+ FROM analytics.fct_signups s

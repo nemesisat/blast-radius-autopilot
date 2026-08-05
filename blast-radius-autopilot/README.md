@@ -252,7 +252,7 @@ cannot be mistaken for a clean bill of health. Full call log, counts and timing:
 ## Tests
 
 ```bash
-pytest        # 181 tests: impact classification, WHERE/JOIN supplement, fix gen (+ git apply),
+pytest        # 198 tests: impact classification, WHERE/JOIN supplement, fix gen (+ git apply),
               # write-back gate + truthful accounting, safety semantics (UNKNOWN / ambiguous /
               # coverage / fail-closed), proof-carrying verification, target + schema
               # resolution, destructive diffs (delete/rename, incl. git-quoted unicode paths),
@@ -280,6 +280,37 @@ Only a **PASS** may auto-apply the write-back. Captured contrasts (2026-07-30):
 | live MCP datapack target `addresses` | **FAIL** | `no_patch_provided` — 0 breaks among the 5 analysable consumers, so no patch is generated and there is nothing to verify. Coverage **5 of 17 analysed**, 12 UNKNOWN. See the calibration note in `MCP_EVIDENCE.md`: FAIL is the one verdict a human can never approve, so a target needing no mechanical fix currently has no route to record its assessment. |
 
 Runs are captured in `out/verification_*_run.txt`, `out/b17_pass*`, and `out/b17_review*`.
+
+## Overnight Catalog Sweep (B21)
+
+`--verify` answers "is *this* change safe?". `--sweep` answers the bigger question: across the
+whole catalog, which columns can be changed, which need a human, and which are landmines.
+
+```bash
+autopilot --catalog examples/showcase-ecommerce/catalog.json --sweep
+autopilot --catalog examples/showcase-ecommerce/catalog.json --sweep --sweep-limit 5   # fast
+# -> out/SWEEP.md + out/SWEEP.html + out/sweep.json
+```
+
+It enumerates every candidate column change in fragility order, runs the **same** impact → fix →
+verify chain on each, and files the result in one of five buckets, worst first: 🔴 Landmines ·
+❓ Unassessed · ⚠️ Needs review · ✅ Verified safe · ⚠️ Errors. Across the six synthetic catalogs
+(43 candidates, 7 datasets, 0.65 s): **25 landmines, 1 needs review, 17 verified safe, 0 errors**.
+
+Two properties worth stating plainly:
+
+- **A sweep is READ-ONLY by construction.** It cannot write to DataHub — the module does not
+  import the write layer, never constructs a client, and the CLI branch returns before any
+  write-back code is reachable. Three tests enforce it, including one that makes every
+  `WriteBack` method and `DataHubGraph.__init__` raise and then runs two full sweeps.
+- **"Verified safe" is split by `basis`.** `verified_patch` means a fix was generated, applied in
+  isolation and re-checked. `no_references` means nothing that parses referenced the column, so
+  no patch was needed and **none was verified**. Both are safe to change; only one involved
+  verifying anything, and the ledger never lets the second borrow the first's credibility. (8 of
+  the 17 above are `verified_patch`; 9 are `no_references`.)
+
+`unassessed` is evaluated before every other bucket: if any consumer could not be read, zero
+breaks is not a clean bill of health and the row cannot be called safe.
 
 ## Documentation
 

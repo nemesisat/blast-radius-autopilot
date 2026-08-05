@@ -1,0 +1,18 @@
+--- a/dbt_project/models/rpt_diagnoses.sql
++++ b/dbt_project/models/rpt_diagnoses.sql
+@@ -1,8 +1,9 @@
+--- rpt_diagnoses: encounter-level diagnosis + cost (SYNTHETIC data only).
+--- Owned by team:clinical-data. Downstream of clinical.encounters.
++/* rpt_diagnoses: encounter-level diagnosis + cost (SYNTHETIC data only). */
++/* Owned by team:clinical-data. Downstream of clinical.encounters. */
+ SELECT
+-    encounter_id,
+-    diagnosis_code,
+-    cost
++  encounter_id,
++  diagnosis_code,
++  cost
+ FROM clinical.encounters
+-WHERE encounter_date >= '2026-01-01'
++WHERE
++  encounter_date >= '2026-01-01'

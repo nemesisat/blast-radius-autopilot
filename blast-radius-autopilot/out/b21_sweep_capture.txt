@@ -1,0 +1,19 @@
+============================================================================================================
+  B21 CATALOG SWEEP — every synthetic example catalog (OFFLINE; nothing written)
+============================================================================================================
+  CATALOG                 DS  COLS  LAND  UNASS  REVIEW  SAFE  ERR   SECS  COVERAGE
+------------------------------------------------------------------------------------------------------------
+  showcase-ecommerce       2    13     9      0       0     4    0   0.18  13 of 13 candidate(s) fully assessed
+  nyc-taxi                 1     8     6      0       0     2    0   0.13  8 of 8 candidate(s) fully assessed
+  healthcare               1     6     4      0       0     2    0   0.17  6 of 6 candidate(s) fully assessed
+  fiction-retail           1     6     2      0       0     4    0   0.08  6 of 6 candidate(s) fully assessed
+  finance                  1     5     3      0       1     1    0   0.07  5 of 5 candidate(s) fully assessed
+  verified-migration       1     5     1      0       0     4    0   0.13  5 of 5 candidate(s) fully assessed
+------------------------------------------------------------------------------------------------------------
+  TOTAL                    7    43    25      0       1    17    0   0.76
+============================================================================================================
+  READ-ONLY: no DataHub client was constructed and no mutation was attempted.
+============================================================================================================
+
+  Of 17 'verified safe': 8 had a patch generated, applied in isolation and re-checked (`verified_patch`); 9 were referenced by nothing that parses, so no patch was needed and none was verified (`no_references`).
+  Ledgers -> /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/<catalog>/  and the flagship at /Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/SWEEP.md

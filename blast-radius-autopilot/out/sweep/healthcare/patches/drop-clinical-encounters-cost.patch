@@ -1,0 +1,11 @@
+--- a/dbt_project/models/rpt_diagnoses.sql
++++ b/dbt_project/models/rpt_diagnoses.sql
+@@ -2,7 +2,6 @@
+ -- Owned by team:clinical-data. Downstream of clinical.encounters.
+ SELECT
+     encounter_id,
+-    diagnosis_code,
+-    cost
++    diagnosis_code
+ FROM clinical.encounters
+ WHERE encounter_date >= '2026-01-01'

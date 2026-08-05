@@ -1,6 +1,6 @@
 # Approval required — `drop analytics.fct_orders.customer_zip`
 
-**Manifest** `f8f3d50a0d328fb5` · created 2026-08-04T14:33:12+00:00
+**Manifest** `7637e83c55f5b27d` · created 2026-08-05T17:31:57+00:00
 
 **Static verification:** REVIEW_REQUIRED — `breaks_remaining`, `ambiguous_consumers_present`, `manual_work_remaining`
 
@@ -25,7 +25,7 @@ Approving this applies **exactly these 8 mutation(s)**, and nothing else:
 |---|---|
 | `blast_radius_approved_by` | the `--approver` you pass — never inferred |
 | `blast_radius_approved_at` | when you approved |
-| `blast_radius_manifest_id` | `f8f3d50a0d328fb5` |
+| `blast_radius_manifest_id` | `7637e83c55f5b27d` |
 | `blast_radius_verification_status_at_approval` | `REVIEW_REQUIRED` |
 | `blast_radius_approved_writes` | how many of the mutations above landed |
 | `blast_radius_approved_failures` | how many were attempted and failed |

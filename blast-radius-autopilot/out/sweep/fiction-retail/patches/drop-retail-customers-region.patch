@@ -1,0 +1,10 @@
+--- a/dbt_project/models/rpt_loyalty.sql
++++ b/dbt_project/models/rpt_loyalty.sql
+@@ -2,6 +2,5 @@
+ -- Owned by team:retail-data. Downstream of retail.customers.
+ SELECT
+     customer_id,
+-    loyalty_tier,
+-    region
++    loyalty_tier
+ FROM retail.customers

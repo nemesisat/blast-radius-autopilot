@@ -1,0 +1,212 @@
+{
+  "catalog": "finance",
+  "started_at": "2026-08-05T17:35:30+00:00",
+  "duration_seconds": 0.068,
+  "ops": [
+    "drop"
+  ],
+  "order": "fragility",
+  "limit": null,
+  "datasets_scanned": 1,
+  "candidates_total": 5,
+  "columns_assessed": 5,
+  "coverage_line": "5 of 5 candidate(s) fully assessed",
+  "reconciles": true,
+  "read_only": true,
+  "scope": "static analysis only; no query executed, no warehouse contacted, no data read, and nothing written to DataHub",
+  "totals": {
+    "verified_safe": 1,
+    "needs_review": 1,
+    "landmine": 3,
+    "unassessed": 0,
+    "error": 0
+  },
+  "entries": [
+    {
+      "dataset": "fct_revenue",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD)",
+      "column": "revenue_usd",
+      "op": "drop",
+      "change": "drop finance.fct_revenue.revenue_usd",
+      "bucket": "landmine",
+      "basis": "",
+      "breaks": 3,
+      "degrades": 0,
+      "safe": 1,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "4 of 4 analysed",
+      "coverage_complete": true,
+      "risk_level": "CRITICAL",
+      "risk_score": 93,
+      "fragility_score": 93,
+      "runs_impacted": 36,
+      "teams": 3,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/finance/patches/drop-finance-fct-revenue-revenue-usd.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_pnl"
+      ],
+      "blocking_consumers": [
+        "Revenue by Region (Board)",
+        "Positive Revenue Audit"
+      ],
+      "verdict": "REVIEW_REQUIRED",
+      "reasons": [
+        "breaks_remaining",
+        "manual_work_remaining",
+        "2 breaking consumer(s) no mechanical fix reaches"
+      ],
+      "breaks_before": 3,
+      "breaks_after": 2,
+      "error": ""
+    },
+    {
+      "dataset": "fct_revenue",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD)",
+      "column": "region",
+      "op": "drop",
+      "change": "drop finance.fct_revenue.region",
+      "bucket": "landmine",
+      "basis": "",
+      "breaks": 3,
+      "degrades": 0,
+      "safe": 1,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "4 of 4 analysed",
+      "coverage_complete": true,
+      "risk_level": "CRITICAL",
+      "risk_score": 92,
+      "fragility_score": 92,
+      "runs_impacted": 34,
+      "teams": 3,
+      "patch_generated": false,
+      "patch_path": null,
+      "fix_method": "",
+      "fixable_consumers": [],
+      "blocking_consumers": [
+        "Revenue by Region (Board)",
+        "Positive Revenue Audit",
+        "query q_safe_cost"
+      ],
+      "verdict": null,
+      "reasons": [
+        "3 breaking consumer(s) no mechanical fix reaches"
+      ],
+      "breaks_before": null,
+      "breaks_after": null,
+      "error": ""
+    },
+    {
+      "dataset": "fct_revenue",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD)",
+      "column": "cost_usd",
+      "op": "drop",
+      "change": "drop finance.fct_revenue.cost_usd",
+      "bucket": "landmine",
+      "basis": "",
+      "breaks": 2,
+      "degrades": 0,
+      "safe": 2,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "4 of 4 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 54,
+      "fragility_score": 54,
+      "runs_impacted": 18,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/finance/patches/drop-finance-fct-revenue-cost-usd.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_pnl"
+      ],
+      "blocking_consumers": [
+        "query q_safe_cost"
+      ],
+      "verdict": "REVIEW_REQUIRED",
+      "reasons": [
+        "breaks_remaining",
+        "manual_work_remaining",
+        "1 breaking consumer(s) no mechanical fix reaches"
+      ],
+      "breaks_before": 2,
+      "breaks_after": 1,
+      "error": ""
+    },
+    {
+      "dataset": "fct_revenue",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD)",
+      "column": "period",
+      "op": "drop",
+      "change": "drop finance.fct_revenue.period",
+      "bucket": "needs_review",
+      "basis": "",
+      "breaks": 1,
+      "degrades": 0,
+      "safe": 3,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "4 of 4 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 30,
+      "fragility_score": 30,
+      "runs_impacted": 10,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/finance/patches/drop-finance-fct-revenue-period.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_pnl"
+      ],
+      "blocking_consumers": [],
+      "verdict": "REVIEW_REQUIRED",
+      "reasons": [
+        "breaks_eliminated",
+        "fix_incomplete_column_still_referenced",
+        "verification REVIEW_REQUIRED \u2014 a human must confirm"
+      ],
+      "breaks_before": 1,
+      "breaks_after": 0,
+      "error": ""
+    },
+    {
+      "dataset": "fct_revenue",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,finance.fct_revenue,PROD)",
+      "column": "source_system",
+      "op": "drop",
+      "change": "drop finance.fct_revenue.source_system",
+      "bucket": "verified_safe",
+      "basis": "no_references",
+      "breaks": 0,
+      "degrades": 0,
+      "safe": 4,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "4 of 4 analysed",
+      "coverage_complete": true,
+      "risk_level": "LOW",
+      "risk_score": 0,
+      "fragility_score": 0,
+      "runs_impacted": 0,
+      "teams": 0,
+      "patch_generated": false,
+      "patch_path": null,
+      "fix_method": "",
+      "fixable_consumers": [],
+      "blocking_consumers": [],
+      "verdict": null,
+      "reasons": [
+        "no consumer that parses references this column; no patch was needed"
+      ],
+      "breaks_before": null,
+      "breaks_after": null,
+      "error": ""
+    }
+  ]
+}

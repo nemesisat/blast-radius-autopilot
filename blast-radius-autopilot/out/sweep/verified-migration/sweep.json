@@ -1,0 +1,209 @@
+{
+  "catalog": "verified-migration (synthetic \u2014 demonstrates a PASS verification)",
+  "started_at": "2026-08-05T17:35:30+00:00",
+  "duration_seconds": 0.133,
+  "ops": [
+    "drop"
+  ],
+  "order": "fragility",
+  "limit": null,
+  "datasets_scanned": 1,
+  "candidates_total": 5,
+  "columns_assessed": 5,
+  "coverage_line": "5 of 5 candidate(s) fully assessed",
+  "reconciles": true,
+  "read_only": true,
+  "scope": "static analysis only; no query executed, no warehouse contacted, no data read, and nothing written to DataHub",
+  "totals": {
+    "verified_safe": 4,
+    "needs_review": 0,
+    "landmine": 1,
+    "unassessed": 0,
+    "error": 0
+  },
+  "entries": [
+    {
+      "dataset": "fct_signups",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD)",
+      "column": "signup_id",
+      "op": "drop",
+      "change": "drop analytics.fct_signups.signup_id",
+      "bucket": "verified_safe",
+      "basis": "verified_patch",
+      "breaks": 2,
+      "degrades": 0,
+      "safe": 1,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "3 of 3 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 56,
+      "fragility_score": 56,
+      "runs_impacted": 23,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/verified-migration/patches/drop-analytics-fct-signups-signup-id.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_signups_by_plan",
+        "rpt_referrals"
+      ],
+      "blocking_consumers": [],
+      "verdict": "PASS",
+      "reasons": [
+        "breaks_eliminated"
+      ],
+      "breaks_before": 2,
+      "breaks_after": 0,
+      "error": ""
+    },
+    {
+      "dataset": "fct_signups",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD)",
+      "column": "referrer_code",
+      "op": "drop",
+      "change": "drop analytics.fct_signups.referrer_code",
+      "bucket": "verified_safe",
+      "basis": "verified_patch",
+      "breaks": 2,
+      "degrades": 0,
+      "safe": 1,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "3 of 3 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 56,
+      "fragility_score": 56,
+      "runs_impacted": 23,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/verified-migration/patches/drop-analytics-fct-signups-referrer-code.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_signups_by_plan",
+        "rpt_referrals"
+      ],
+      "blocking_consumers": [],
+      "verdict": "PASS",
+      "reasons": [
+        "breaks_eliminated"
+      ],
+      "breaks_before": 2,
+      "breaks_after": 0,
+      "error": ""
+    },
+    {
+      "dataset": "fct_signups",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD)",
+      "column": "plan",
+      "op": "drop",
+      "change": "drop analytics.fct_signups.plan",
+      "bucket": "landmine",
+      "basis": "",
+      "breaks": 2,
+      "degrades": 0,
+      "safe": 1,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "3 of 3 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 54,
+      "fragility_score": 54,
+      "runs_impacted": 19,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/verified-migration/patches/drop-analytics-fct-signups-plan.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_signups_by_plan"
+      ],
+      "blocking_consumers": [
+        "query q_adhoc_plan_mix"
+      ],
+      "verdict": "FAIL",
+      "reasons": [
+        "breaks_not_reduced",
+        "breaks_remaining",
+        "manual_work_remaining",
+        "fix_incomplete_column_still_referenced",
+        "static verification returned FAIL"
+      ],
+      "breaks_before": 2,
+      "breaks_after": 2,
+      "error": ""
+    },
+    {
+      "dataset": "fct_signups",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD)",
+      "column": "account_id",
+      "op": "drop",
+      "change": "drop analytics.fct_signups.account_id",
+      "bucket": "verified_safe",
+      "basis": "verified_patch",
+      "breaks": 1,
+      "degrades": 0,
+      "safe": 2,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "3 of 3 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 30,
+      "fragility_score": 30,
+      "runs_impacted": 9,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/verified-migration/patches/drop-analytics-fct-signups-account-id.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_referrals"
+      ],
+      "blocking_consumers": [],
+      "verdict": "PASS",
+      "reasons": [
+        "breaks_eliminated"
+      ],
+      "breaks_before": 1,
+      "breaks_after": 0,
+      "error": ""
+    },
+    {
+      "dataset": "fct_signups",
+      "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,analytics.fct_signups,PROD)",
+      "column": "signed_up_at",
+      "op": "drop",
+      "change": "drop analytics.fct_signups.signed_up_at",
+      "bucket": "verified_safe",
+      "basis": "verified_patch",
+      "breaks": 1,
+      "degrades": 0,
+      "safe": 2,
+      "unknown": 0,
+      "ambiguous": 0,
+      "coverage": "3 of 3 analysed",
+      "coverage_complete": true,
+      "risk_level": "HIGH",
+      "risk_score": 30,
+      "fragility_score": 30,
+      "runs_impacted": 9,
+      "teams": 1,
+      "patch_generated": true,
+      "patch_path": "/Users/adeel.tahir/Desktop/AIProject/DataHubHackathon/blast-radius-autopilot/out/sweep/verified-migration/patches/drop-analytics-fct-signups-signed-up-at.patch",
+      "fix_method": "minimal",
+      "fixable_consumers": [
+        "rpt_referrals"
+      ],
+      "blocking_consumers": [],
+      "verdict": "PASS",
+      "reasons": [
+        "breaks_eliminated"
+      ],
+      "breaks_before": 1,
+      "breaks_after": 0,
+      "error": ""
+    }
+  ]
+}

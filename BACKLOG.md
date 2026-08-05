@@ -1,7 +1,8 @@
 # BACKLOG.md — Prioritized Tasks
 
-Status: ☐ todo · ◐ in progress · ☑ done · ⏸ blocked. **ALL TASKS COMPLETE (B0–B13).**
-Evidence in `PROGRESS.md`. **39 tests green** + live DataHub read+write verified.
+Status: ☐ todo · ◐ in progress · ☑ done · ⏸ blocked. **ALL TASKS COMPLETE (B0–B21;
+B17.8 and B20 items 1/2/4/5 skipped by decision).** Evidence in `PROGRESS.md`.
+**198 tests green** + live DataHub read+write verified + both live-MCP targets re-run.
 
 ## P0 — path to a working end-to-end demo
 
@@ -142,6 +143,86 @@ Evidence in `PROGRESS.md`. **39 tests green** + live DataHub read+write verified
     consumers are all dbt models, so it can actually reach PASS. Honest note recorded: no
     pre-existing example can PASS, because every one of them has BI consumers no mechanical fix
     reaches.
+
+## P1 — whole-catalog assessment (added 2026-08-05)
+
+- ☑ **B21 — Overnight Catalog Sweep.** `--verify` answers "is *this* change safe?". The
+  question a platform team actually has is bigger: *"across everything we own, which columns
+  can we change tomorrow, which need a human, and which are landmines?"* B21 generalises the
+  per-change loop to the whole catalog: enumerate every candidate column change, run the
+  **existing** impact → fixgen → verify chain on each, and emit a ranked ledger.
+  **ADDITIVE ONLY, verified by diff:** `impact.py`, `verify.py`, `writeback.py`, `fixgen.py`,
+  `lineage.py` and `planner.py` are **untouched** (`git diff --quiet` per file); `run.py` gained
+  **45 insertions and 0 deletions**. The demo path is byte-identical — the PASS run still shows
+  breaks 2→0 and the flagship still shows breaks 6→5 with a manifest and 0 written.
+  - ☑ **READ-ONLY, structurally rather than behaviourally.** A sweep never writes to DataHub —
+    not automatically, not gated, not queued. `sweep.py` does not import `writeback`, never
+    constructs a client, and the `--sweep` branch in `run.py` **returns before the write-back
+    code is reachable at all**. Three tests: one monkeypatches ten `WriteBack` methods plus
+    `plan_mutations` plus `DataHubGraph.__init__` to raise and runs two full sweeps
+    (**zero calls**); one asserts no function in the module exposes a parameter matching
+    `write|emit|approve|mutat|apply`; one asserts the string `WriteBack` never appears in the
+    source. An assessment pass that *could* mutate what it assesses is a different and far more
+    dangerous tool, so the read-only one is made incapable rather than merely well-behaved.
+  - ☑ **Borrowed semantics, not new ones.** Every verdict comes from `verify._decide()` and
+    every count from `compute_impact()`. `_classify()` files the result in a bucket; it never
+    re-decides, never inspects SQL, and never counts anything itself. PASS is the same
+    sixteen-clause PASS.
+  - ☑ **The "safe" bucket is split, because two different things were about to be conflated.**
+    `basis="verified_patch"` — a fix was generated, applied in isolation, re-parsed and the
+    impact re-run came back clean. `basis="no_references"` — nothing that parses references the
+    column, so no patch was needed **and none was verified**. Both are genuinely safe to
+    change; only the first involved verifying anything, and letting the second borrow the
+    first's credibility would be this project's characteristic error in miniature. On the real
+    sweep: **8 of 17** safe rows are `verified_patch`, **9** are `no_references`.
+  - ☑ **Unassessed is checked FIRST, before any other bucket.** Everything below it is a
+    statement about a corpus we could read; if part was unreadable, no such statement is
+    available. A test asserts that a catalog containing one unparseable consumer yields
+    **zero** `verified_safe` rows — zero breaks over a partial corpus is never safe.
+  - ☑ **Landmine is computed, not guessed.** A break is a landmine when no *generated fix*
+    reaches its consumer — derived from the fix list by URN, not inferred from the asset type.
+  - ☑ **Resilient at every stage.** Each candidate is assessed inside a try/except; a failure
+    becomes an `error` row carrying the exception text and **no verdict and no basis**, because
+    an error means we do not know and may not borrow a verdict from anywhere. Tested at both
+    ends of the chain: a raise inside `verify_migration` and a raise inside `compute_impact`.
+    In both cases all 4 candidates are still accounted for and the buckets reconcile.
+  - ☑ **Isolation inherited, not reimplemented.** `verify_migration()` already copies to a temp
+    workspace and cleans up in a `finally`. A test asserts the real model is byte-identical,
+    `git status --porcelain` is empty, and no verify/sweep temp directory survives a full sweep.
+  - ☑ **Ordered by the existing fragility ranking** — `fragility_leaderboard()` is reused, and
+    a test asserts the sweep order **is** fragility's order rather than merely resembling it.
+  - ☑ **Ledger** (`report_sweep.py`): markdown + HTML + JSON, grouped worst-first (Landmines →
+    Unassessed → Needs review → Verified safe → Errors). Header carries real totals — datasets,
+    columns assessed of candidates total, coverage, measured wall-clock duration. Every row with
+    a patch links to it. The renderer computes nothing: no averages, no estimates, no "time
+    saved". Coverage is a **count of fully-assessed candidates**, not an average of ratios,
+    because averaging coverage across candidates yields a number that describes nothing. A
+    `--sweep-limit` run carries a banner stating it is partial and that unassessed candidates
+    are **not** implied safe.
+  - ☑ **Wired in:** `--sweep` and `--sweep-limit N` on `run.py` → `out/SWEEP.md` +
+    `out/SWEEP.html` + `out/sweep.json`.
+  - *Verified:* **17 new tests** in `tests/test_sweep.py`, written failing first — **16 failed**
+    on `No module named 'autopilot.sweep'` (the first run also had 2 fixture errors of my own,
+    two fixtures creating the same `repo` dir; fixed before implementing). Full suite
+    **181 → 198 passed**. No pre-existing test changed expectation.
+  - *Captured (offline — the live DataHub was in use for video recording):*
+    `out/b21_sweep_capture.txt` — all six synthetic catalogs, **7 datasets / 43 candidates /
+    25 landmines / 0 unassessed / 1 needs review / 17 verified safe / 0 errors / 0.65 s total**;
+    per-catalog ledgers in `out/sweep/<catalog>/`; the flagship at `out/SWEEP.{md,html}` +
+    `out/sweep.json`; screenshots `out/live_ui/19_b21_sweep_ledger.png` (+ `_dark`, `_full`, `_dark_full`).
+    New scripts `scripts/b21_sweep_capture.py` and `scripts/b21_capture_sweep_ui.py` (the UI
+    capture **fails** unless the header totals, all five bucket labels and the read-only scope
+    line are really on the page, and unless the page does not scroll horizontally).
+  - *Two rendering bugs I introduced and fixed during the capture:* the Detail column was pushed
+    off the table's horizontal scroll, leaving every row tall and apparently empty — moved under
+    the column name; and `_entry_detail()` emitted markdown into the HTML renderer, which escapes
+    its input, so `**REVIEW_REQUIRED**` and backticks rendered literally — split by output
+    format. Patch links were also absolute, which would break in a fresh clone; they are now
+    rendered relative to the working directory.
+  - ☒ **Live-catalog sweep — deferred by decision.** The live DataHub instance is in use for the
+    demo video recording, and a sweep over it (however read-only) would compete for the same GMS
+    the recording depends on. The sweep is dataset-agnostic and takes any `Catalog`, so pointing
+    it at a live read is a matter of loading the catalog online, not new code.
 
 ## P0 — the approval trail belongs in the graph (added 2026-08-01)
 

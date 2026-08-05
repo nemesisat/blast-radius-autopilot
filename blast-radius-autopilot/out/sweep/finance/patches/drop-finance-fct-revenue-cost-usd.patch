@@ -1,0 +1,10 @@
+--- a/dbt_project/models/rpt_pnl.sql
++++ b/dbt_project/models/rpt_pnl.sql
+@@ -2,6 +2,5 @@
+ -- Owned by team:fp-and-a. Downstream of finance.fct_revenue. SOX-scoped.
+ SELECT
+     period,
+-    revenue_usd,
+-    cost_usd
++    revenue_usd
+ FROM finance.fct_revenue

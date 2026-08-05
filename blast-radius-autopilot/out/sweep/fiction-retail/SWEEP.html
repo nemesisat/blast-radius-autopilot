@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog Sweep — fiction-retail</title>
+<style>
+:root { color-scheme:light; --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --muted:#898781;
+  --grid:#e1e0d9; --border:rgba(11,11,11,0.10); }
+@media (prefers-color-scheme:dark){ :root:where(:not([data-theme="light"])){ color-scheme:dark;
+  --plane:#0d0d0d; --surface:#1a1a19; --ink:#fff; --muted:#898781; --grid:#2c2c2a;
+  --border:rgba(255,255,255,0.10); } }
+:root[data-theme="dark"]{ color-scheme:dark; --plane:#0d0d0d; --surface:#1a1a19; --ink:#fff;
+  --muted:#898781; --grid:#2c2c2a; --border:rgba(255,255,255,0.10); }
+:root[data-theme="light"]{ color-scheme:light; --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b;
+  --muted:#898781; --grid:#e1e0d9; --border:rgba(11,11,11,0.10); }
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+  font-family:system-ui,-apple-system,sans-serif;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 24px 64px}
+h1{font-size:26px;margin:0} h2{font-size:17px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+p.sub{color:var(--muted);margin:4px 0 14px;font-size:14px}
+.hdr{margin:14px 0 20px;padding:14px 16px;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;font-size:14px}
+.tiles{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 24px}
+.tile{flex:1 1 150px;background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px}
+.tnum{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.tlab{font-size:12px;color:var(--muted);margin-top:2px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.count{color:var(--muted);font-weight:400}
+section{margin:0 0 30px}
+.tablewrap, table{width:100%}
+section > table{display:block;overflow-x:auto;white-space:nowrap}
+table{border-collapse:collapse;font-size:13px;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;overflow:hidden}
+th,td{padding:9px 11px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td:first-child{white-space:normal;min-width:340px;max-width:520px}
+.detail{margin-top:3px;font-size:12px;color:var(--muted);white-space:normal}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.scope{margin:0 0 20px;padding:12px 14px;border-left:3px solid var(--muted);
+  background:var(--surface);border-radius:0 8px 8px 0;font-size:13px;color:var(--muted)}
+.warn{margin:0 0 20px;padding:12px 14px;border-left:3px solid #fab219;
+  background:var(--surface);border-radius:0 8px 8px 0;font-size:13px}
+a{color:inherit}
+</style></head><body><div class="wrap">
+<h1>Catalog Sweep</h1>
+<p class="sub">fiction-retail — every candidate column change, assessed with the same
+impact → fix → verify chain as a single run.</p>
+<div class="hdr"><strong>1 dataset(s) · 6 column(s) assessed of 6 · 6 of 6 candidate(s) fully assessed · 2 landmine(s) · 0 unassessed · 0 need review · 4 verified safe · 0 error(s) · duration 0.1s</strong></div>
+
+<div class="tiles"><div class='tile'><div class='tnum' style='color:#d03b3b'>2</div><div class='tlab'>🔴 Landmines</div></div><div class='tile'><div class='tnum' style='color:#898781'>0</div><div class='tlab'>❓ Unassessed</div></div><div class='tile'><div class='tnum' style='color:#fab219'>0</div><div class='tlab'>⚠️ Needs review</div></div><div class='tile'><div class='tnum' style='color:#0ca30c'>4</div><div class='tlab'>✅ Verified safe</div></div><div class='tile'><div class='tnum' style='color:#ec835a'>0</div><div class='tlab'>⚠️ Errors</div></div></div>
+<div class="scope">Static analysis only. Patches were applied in isolated copies and re-parsed; no query was executed, no warehouse was contacted, no data was read, and nothing was written to DataHub — a sweep is read-only by construction.</div>
+<section><h2><span class='dot' style='background:#d03b3b'></span>🔴 Landmines <span class='count'>(2)</span></h2><p class='sub'>Proven breakage that no mechanical fix reaches, or a failed verification. Changing these needs a migration plan and owners in the room.</p><table><thead><tr><th>Column &amp; detail</th><th>Risk</th><th>Breaks</th><th>Degr</th><th>Safe</th><th>Unknown</th><th>Coverage</th><th>Patch</th></tr></thead><tbody><tr><td><code>customers.loyalty_tier</code><div class='detail'>verification REVIEW_REQUIRED · breaks 3→2 · unreachable by any mechanical fix: Loyalty Mix, Gold Members · breaks_remaining, manual_work_remaining, 2 breaking consumer(s) no mechanical fix reaches</div></td><td>CRITICAL (84)</td><td class='num'>3</td><td class='num'>0</td><td class='num'>1</td><td class='num'>0</td><td>4 of 4 analysed</td><td><a href='out/sweep/fiction-retail/patches/drop-retail-customers-loyalty-tier.patch'>patch</a></td></tr><tr><td><code>customers.region</code><div class='detail'>verification REVIEW_REQUIRED · breaks 3→2 · unreachable by any mechanical fix: Gold Members, query q_safe_region · breaks_remaining, manual_work_remaining, fix_incomplete_column_still_referenced, 2 breaking consumer(s) no mechanical fix reaches</div></td><td>CRITICAL (80)</td><td class='num'>3</td><td class='num'>0</td><td class='num'>1</td><td class='num'>0</td><td>4 of 4 analysed</td><td><a href='out/sweep/fiction-retail/patches/drop-retail-customers-region.patch'>patch</a></td></tr></tbody></table></section><section><h2><span class='dot' style='background:#898781'></span>❓ Unassessed <span class='count'>(0)</span></h2><p class='sub'>At least one consumer could not be read (unparseable SQL, or no SQL definition at all). **Not safe** — nothing is known about them. Zero breaks over a partial corpus is not a clean bill of health.</p><p class='sub'>None.</p></section><section><h2><span class='dot' style='background:#fab219'></span>⚠️ Needs review <span class='count'>(0)</span></h2><p class='sub'>Improved, ambiguous, or incomplete. A human decides.</p><p class='sub'>None.</p></section><section><h2><span class='dot' style='background:#0ca30c'></span>✅ Verified safe <span class='count'>(4)</span></h2><p class='sub'>Safe to change. Read the `basis` column: `verified_patch` means a fix was generated, applied in isolation and re-checked; `no_references` means nothing that parses referenced the column, so no patch was needed and none was verified.</p><table><thead><tr><th>Column &amp; detail</th><th>Risk</th><th>Breaks</th><th>Degr</th><th>Safe</th><th>Unknown</th><th>Coverage</th><th>Patch</th></tr></thead><tbody><tr><td><code>customers.customer_id</code><div class='detail'>verification PASS · breaks 1→0 · basis verified_patch · breaks_eliminated</div></td><td>MODERATE (28)</td><td class='num'>1</td><td class='num'>0</td><td class='num'>3</td><td class='num'>0</td><td>4 of 4 analysed</td><td><a href='out/sweep/fiction-retail/patches/drop-retail-customers-customer-id.patch'>patch</a></td></tr><tr><td><code>customers.full_name</code><div class='detail'>basis no_references · no consumer that parses references this column; no patch was needed</div></td><td>LOW (0)</td><td class='num'>0</td><td class='num'>0</td><td class='num'>4</td><td class='num'>0</td><td>4 of 4 analysed</td><td>—</td></tr><tr><td><code>customers.email</code><div class='detail'>basis no_references · no consumer that parses references this column; no patch was needed</div></td><td>LOW (0)</td><td class='num'>0</td><td class='num'>0</td><td class='num'>4</td><td class='num'>0</td><td>4 of 4 analysed</td><td>—</td></tr><tr><td><code>customers.signup_date</code><div class='detail'>basis no_references · no consumer that parses references this column; no patch was needed</div></td><td>LOW (0)</td><td class='num'>0</td><td class='num'>0</td><td class='num'>4</td><td class='num'>0</td><td>4 of 4 analysed</td><td>—</td></tr></tbody></table></section><section><h2><span class='dot' style='background:#ec835a'></span>⚠️ Errors <span class='count'>(0)</span></h2><p class='sub'>The sweep could not assess these. An error is not a verdict — nothing is claimed about them either way.</p><p class='sub'>None.</p></section>
+<p class="sub">Generated by Blast Radius Autopilot · ops drop ·
+public/synthetic data only.</p>
+</div></body></html>

@@ -1,0 +1,18 @@
+--- a/dbt_project/models/rpt_trip_metrics.sql
++++ b/dbt_project/models/rpt_trip_metrics.sql
+@@ -1,8 +1,9 @@
+--- rpt_trip_metrics: per-trip distance + fare for operational reporting.
+--- Owned by team:mobility-data. Downstream of nyc.trips.
++/* rpt_trip_metrics: per-trip distance + fare for operational reporting. */
++/* Owned by team:mobility-data. Downstream of nyc.trips. */
+ SELECT
+-    trip_id,
+-    trip_distance,
+-    fare_amount
++  trip_id,
++  trip_distance,
++  fare_amount
+ FROM nyc.trips
+-WHERE passenger_count > 0
++WHERE
++  passenger_count > 0
