@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blast Radius Autopilot — live demo</title>
+<meta name="description" content="DataHub shows the blast radius of a schema change. Autopilot defuses it — then checks its own work. Real generated output, nothing mocked.">
+<style>
+  :root{
+    --bg:#ffffff; --fg:#14171a; --muted:#5b6570; --line:#e3e8ee; --card:#fbfcfd;
+    --accent:#2f6fd0; --pass:#1a7f43; --review:#a76a00; --fail:#c0392b; --code:#f4f6f8;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1216; --fg:#e6eaef; --muted:#98a3b0; --line:#242a32; --card:#151a20;
+      --accent:#6ba4f0; --pass:#4ec97f; --review:#e0a53a; --fail:#f0736a; --code:#171c22;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:56px 24px 96px}
+  h1{font-size:34px; line-height:1.2; letter-spacing:-0.02em; margin:0 0 12px}
+  h2{font-size:20px; letter-spacing:-0.01em; margin:52px 0 6px; padding-top:22px; border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0; padding-top:0}
+  .lede{font-size:19px; color:var(--fg); margin:0 0 18px}
+  .sub{color:var(--muted); margin:0 0 10px}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  code{background:var(--code); padding:2px 6px; border-radius:4px; font-size:13.5px;
+       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  pre{background:var(--code); border:1px solid var(--line); border-radius:10px;
+      padding:16px 18px; overflow-x:auto; font-size:13.5px; line-height:1.55;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  pre code{background:none; padding:0}
+  .meta{display:flex; flex-wrap:wrap; gap:8px 18px; color:var(--muted); font-size:14.5px; margin:0 0 30px}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:18px 0 6px}
+  .card{
+    display:block; border:1px solid var(--line); border-radius:12px; padding:16px 18px;
+    background:var(--card); color:inherit; transition:border-color .12s ease, transform .12s ease;
+  }
+  .card:hover{border-color:var(--accent); text-decoration:none; transform:translateY(-1px)}
+  .card .verdict{font-size:12.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase}
+  .card h3{margin:7px 0 5px; font-size:15.5px; letter-spacing:-0.01em;
+           font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-weight:600; word-break:break-word}
+  .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.5}
+  .pass .verdict{color:var(--pass)} .review .verdict{color:var(--review)} .fail .verdict{color:var(--fail)}
+  .note{border-left:3px solid var(--line); padding:2px 0 2px 16px; color:var(--muted); margin:18px 0}
+  .rule{border-left:3px solid var(--accent); padding:10px 0 10px 18px; margin:22px 0; font-size:18px}
+  ul{padding-left:20px} li{margin:6px 0}
+  .shots{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin:18px 0}
+  .shots figure{margin:0}
+  .shots img{width:100%; border:1px solid var(--line); border-radius:10px; display:block}
+  .shots figcaption{color:var(--muted); font-size:13px; margin-top:7px}
+  .btn{display:inline-block; background:var(--accent); color:#fff; padding:11px 20px;
+       border-radius:9px; font-weight:600; font-size:15px; margin:6px 8px 6px 0}
+  .btn:hover{text-decoration:none; opacity:.9}
+  .btn.alt{background:transparent; color:var(--accent); border:1px solid var(--line)}
+  footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Blast Radius Autopilot</h1>
+  <p class="lede"><strong>DataHub's Impact Analysis shows you the blast radius of a schema change.
+  Blast Radius Autopilot <em>defuses</em> it — then checks its own work.</strong></p>
+
+  <div class="meta">
+    <span>📦 <a href="https://github.com/nemesisat/blast-radius-autopilot">Source on GitHub</a></span>
+    <span>📺 <a href="https://www.youtube.com/watch?v=-DOwanGh9oM">3-minute demo</a></span>
+    <span>⚖️ Apache-2.0</span>
+    <span>✅ 198 tests</span>
+  </div>
+
+  <p>Blast Radius Autopilot is a command-line agent, so there is no app to log into. What is
+  below instead is <strong>its actual output</strong> — every report on this page was written by
+  the tool during a real run. Nothing here is a mockup, a screenshot of a design, or a hand-edited
+  file. Open any of them and you are reading exactly what a data engineer would see.</p>
+
+  <p class="sub">If you would rather run it yourself, that takes about 30 seconds —
+  <a href="#run">jump to the bottom</a>.</p>
+
+  <h2>Start here — the three verdicts</h2>
+  <p class="sub">The agent takes a proposed schema change, works out what breaks, writes the dbt
+  migration, and then tries to <em>falsify its own fix</em>. It ships all three possible answers on
+  real runs, including the ones that don't flatter it.</p>
+
+  <div class="grid">
+    <a class="card pass" href="reports/pass.html">
+      <div class="verdict">✅ Pass</div>
+      <h3>drop fct_signups.referrer_code</h3>
+      <p>Two consumers break. The generated patch is applied to an isolated copy, every patched
+      file re-parses, impact is recomputed: breaks 2 → 0. All sixteen gates hold, so the catalog
+      write is allowed automatically.</p>
+    </a>
+    <a class="card review" href="reports/review.html">
+      <div class="verdict">⚠️ Review required</div>
+      <h3>drop fct_orders.customer_zip</h3>
+      <p>The fix helps but cannot finish the job — one reference stays unresolved. No automatic
+      write. Eight mutations are queued behind a single-use approval manifest that a human must
+      sign.</p>
+    </a>
+    <a class="card fail" href="https://github.com/nemesisat/blast-radius-autopilot/blob/main/blast-radius-autopilot/out/mcp_live_VERIFICATION.md">
+      <div class="verdict">❌ Fail</div>
+      <h3>the live target, refused</h3>
+      <p>On a real DataHub instance the fix generator deliberately refuses to rewrite columns used
+      in <code>WHERE</code> and <code>GROUP BY</code>. Verification returns FAIL, and a FAIL can
+      never be approved by anyone.</p>
+    </a>
+  </div>
+
+  <div class="rule">
+    <strong>Missing evidence must never read as proof of safety.</strong>
+  </div>
+
+  <p>That rule came from two false negatives we found in our own tool, both on live data. A SQL
+  parse failure was being scored <code>SAFE / confidence high</code> — it filed a Jinja-templated
+  dbt model as safe while that model referenced the target column four times. And a dropped column
+  referenced only in a <code>WHERE</code> was graded <code>DEGRADES</code>, when dropping it
+  actually makes the query <em>error</em>.</p>
+
+  <p>Both were fixed test-first. Parse failures became a distinct fourth verdict,
+  <strong>UNKNOWN</strong> — never counted safe, never inflated into a break, and it blocks any
+  PASS. Coverage is reported as its own dimension rather than folded into a reassuring score.
+  You can see this in the reports: look for the <em>"N of M analysed"</em> tile.</p>
+
+  <h2>The whole catalog at once</h2>
+  <p class="sub">The same chain, run unattended against every column in a catalog. Read-only by
+  construction — the sweep module never imports the write layer, so it <em>cannot</em> write to
+  DataHub even if asked.</p>
+
+  <div class="grid">
+    <a class="card" href="reports/sweep.html">
+      <h3>Catalog sweep ledger</h3>
+      <p>Every candidate column change, ranked: landmine, needs review, verified safe, unassessed.
+      43 candidate columns across six catalogs in under a second.</p>
+    </a>
+    <a class="card" href="reports/fragility.html">
+      <h3>Fragility leaderboard</h3>
+      <p>Which columns in the catalog are riskiest to touch at all, ranked by how much depends
+      on them.</p>
+    </a>
+  </div>
+
+  <div class="note">
+    <p style="margin:0">The ledger reports the <em>basis</em> of every safe row —
+    <code>verified_patch</code> (a fix was generated, applied and re-checked) versus
+    <code>no_references</code> (nothing that parses referenced the column, so nothing was
+    verified). Both are safe to change, but only one involved verifying anything, and letting the
+    second borrow the first's credibility would have been this project's characteristic error in
+    miniature.</p>
+  </div>
+
+  <h2>It ran against a real DataHub</h2>
+  <p class="sub">A local <code>datahub docker quickstart</code> loaded with the official
+  <code>showcase-ecommerce</code> datapack, read over the official
+  <code>mcp-server-datahub</code>, written back over the Python SDK and read back over GraphQL.</p>
+
+  <div class="grid">
+    <a class="card" href="reports/live-mcp-order-details.html">
+      <h3>Live · order_details.category_name</h3>
+      <p>Read live over MCP. Only 6 of 24 downstream consumers expose parseable SQL; the other 18
+      are reported unassessed, not safe.</p>
+    </a>
+    <a class="card" href="reports/live-mcp-addresses.html">
+      <h3>Live · addresses.country_id</h3>
+      <p>The run that exposed the first false negative. It now reads UNKNOWN and the whole run is
+      REVIEW REQUIRED.</p>
+    </a>
+  </div>
+
+  <div class="shots">
+    <figure>
+      <img src="img/datahub-properties.png" alt="DataHub Properties tab showing blast_radius structured properties written by the agent">
+      <figcaption>Risk properties the agent wrote, as DataHub renders them.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/approval-audit.png" alt="DataHub Properties tab showing the human approval audit trail">
+      <figcaption>The approval audit trail — who approved, when, against which verdict.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/datahub-lineage.png" alt="DataHub lineage view of a downstream impacted dataset">
+      <figcaption>A downstream consumer tagged <code>impacted-by-upstream-change</code>.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Five different dataset shapes, one code path</h2>
+  <p class="sub">Nothing about the agent is specialised to e-commerce. The regulated examples route
+  every write to human review. All example data is public or synthetic.</p>
+
+  <div class="grid">
+    <a class="card" href="reports/ecommerce.html"><h3>e-commerce</h3><p>drop <code>fct_orders.customer_zip</code></p></a>
+    <a class="card" href="reports/nyc-taxi.html"><h3>nyc-taxi</h3><p>drop <code>trips.trip_distance</code></p></a>
+    <a class="card" href="reports/healthcare.html"><h3>healthcare</h3><p>rename <code>diagnosis_code</code> → <code>icd10_code</code></p></a>
+    <a class="card" href="reports/finance.html"><h3>finance</h3><p>rename <code>revenue_usd</code> → <code>net_revenue_usd</code></p></a>
+    <a class="card" href="reports/fiction-retail.html"><h3>fiction-retail</h3><p>drop <code>customers.loyalty_tier</code></p></a>
+    <a class="card" href="reports/sweep-healthcare.html"><h3>healthcare sweep</h3><p>the full ledger for a regulated catalog</p></a>
+  </div>
+
+  <h2>What verification does and does not prove</h2>
+  <p><strong>Proves:</strong> the patch applies cleanly in isolation, every patched SQL file
+  re-parses, the diff stayed in scope, and the analyzer can no longer find a broken or unassessed
+  consumer.</p>
+  <p><strong>Does not prove:</strong> that anything ran. <strong>No query is executed</strong> — no
+  warehouse is contacted, no data is read, no dbt build is invoked. It is evidence about SQL text,
+  not runtime behaviour.</p>
+  <p>Residual risks we chose not to close are written down in
+  <a href="https://github.com/nemesisat/blast-radius-autopilot/blob/main/blast-radius-autopilot/LIMITATIONS.md">LIMITATIONS.md</a>
+  rather than left to be discovered.</p>
+
+  <h2 id="run">Run it yourself</h2>
+  <p class="sub">One click, nothing to install locally — Codespaces opens a ready Linux
+  environment in your browser. Run the commands below in its terminal:</p>
+
+  <p>
+    <a class="btn" href="https://codespaces.new/nemesisat/blast-radius-autopilot">▶ Open in GitHub Codespaces</a>
+    <a class="btn alt" href="https://github.com/nemesisat/blast-radius-autopilot">View the source</a>
+  </p>
+
+  <p class="sub">Or clone it locally — no DataHub instance required either way:</p>
+
+<pre><code>git clone https://github.com/nemesisat/blast-radius-autopilot.git
+cd blast-radius-autopilot/blast-radius-autopilot
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -e '.[dev]'
+
+# impact + generated fix + self-verification
+autopilot --catalog examples/verified-migration/catalog.json \
+          --change "drop analytics.fct_signups.referrer_code" --verify
+# → ✅ PASS · breaks 2 → 0 · coverage 3 of 3
+
+# the whole catalog, read-only
+autopilot --sweep --catalog examples/showcase-ecommerce/catalog.json
+
+pytest    # 198 passed
+</code></pre>
+
+  <footer>
+    Built for <strong>Build with DataHub: The Agent Hackathon</strong>. Apache-2.0.
+    All example data is public or synthetic — no real, production or company data.
+    <br>
+    <a href="https://github.com/nemesisat/blast-radius-autopilot">Repository</a> ·
+    <a href="https://www.youtube.com/watch?v=-DOwanGh9oM">Demo video</a> ·
+    <a href="https://github.com/nemesisat/blast-radius-autopilot/blob/main/PROGRESS.md">Evidence log</a>
+  </footer>
+
+</div>
+</body>
+</html>

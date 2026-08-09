@@ -1,0 +1,27 @@
+{
+  "name": "Blast Radius Autopilot",
+
+  // Pinned to 3.12: acryl-datahub does not support 3.13+, and the write-back and
+  // sweep suites import the DataHub SDK.
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+
+  // Installs the package plus the dev extra (pytest, ruff, acryl-datahub) into the
+  // container's Python, so `pytest` is green on first open with no DataHub instance.
+  "postCreateCommand": "pip install --upgrade pip && pip install -e './blast-radius-autopilot[dev]'",
+
+  // Prove the environment is good before the user types anything.
+  "postAttachCommand": "cd blast-radius-autopilot && python -m pytest -q",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": ["blast-radius-autopilot/tests"]
+      }
+    }
+  }
+}

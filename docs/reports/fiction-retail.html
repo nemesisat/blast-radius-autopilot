@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blast Radius — drop retail.customers.loyalty_tier</title>
+<style>
+:root {
+  color-scheme: light;
+  --plane:#f9f9f7; --surface-1:#fcfcfb; --surface-2:#ffffff;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --border:rgba(11,11,11,0.10); --border-strong:#c3c2b7;
+  --series-1:#2a78d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --plane:#0d0d0d; --surface-1:#1a1a19; --surface-2:#232320;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --border:rgba(255,255,255,0.10); --border-strong:#383835;
+    --series-1:#3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --plane:#0d0d0d; --surface-1:#1a1a19; --surface-2:#232320;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --border:rgba(255,255,255,0.10); --border-strong:#383835;
+  --series-1:#3987e5;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--plane); color:var(--text-primary);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.5; }
+.wrap { max-width:1040px; margin:0 auto; padding:32px 24px 64px; }
+header .pitch { color:var(--text-secondary); font-size:15px; margin:2px 0 0; }
+h1 { font-size:26px; margin:0; letter-spacing:-0.01em; }
+h2 { font-size:18px; margin:32px 0 12px; }
+.change { display:inline-block; margin-top:14px; padding:8px 14px; border-radius:8px;
+  background:var(--surface-2); border:1px solid var(--border); font-size:15px; }
+.change code { color:#d03b3b; font-weight:600; }
+.summary { margin:16px 0 0; padding:14px 16px; border-left:4px solid #d03b3b;
+  background:var(--surface-1); border-radius:0 8px 8px 0; }
+.card { background:var(--surface-1); border:1px solid var(--border); border-radius:12px;
+  padding:20px; margin-top:20px; }
+.tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+.tile { background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+.t-title { font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+.t-value { font-size:30px; font-weight:700; margin:4px 0 2px; }
+.t-value .unit { font-size:14px; color:var(--muted); font-weight:500; }
+.t-sub { font-size:12px; color:var(--text-secondary); }
+.meter { height:6px; border-radius:3px; background:var(--grid); overflow:hidden; margin:6px 0; }
+.meter-fill { height:100%; border-radius:3px; }
+.legend { display:flex; gap:18px; flex-wrap:wrap; margin:6px 0 16px; font-size:13px; color:var(--text-secondary); }
+.lg { display:inline-flex; align-items:center; gap:7px; }
+.dot { width:18px; height:18px; border-radius:50%; color:#fff; font-size:11px; font-weight:700;
+  display:inline-flex; align-items:center; justify-content:center; }
+svg text { font-family:system-ui,-apple-system,sans-serif; }
+.n-title { fill:var(--text-primary); font-size:14px; font-weight:600; }
+.n-sub { fill:var(--text-secondary); font-size:11.5px; }
+.badge { fill:#fff; font-size:12px; font-weight:700; }
+table { width:100%; border-collapse:collapse; font-size:13.5px; }
+th, td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--grid); vertical-align:top; }
+th { font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+td.num { text-align:right; font-variant-numeric:tabular-nums; }
+tr.amb td { color:var(--text-secondary); }
+.muted { color:var(--muted); }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700;
+  color:#fff; background:var(--pc); white-space:nowrap; }
+ol.plan { padding-left:22px; margin:0; }
+ol.plan li { margin:10px 0; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; }
+.fix { margin-top:14px; }
+.fix-head { margin-bottom:6px; }
+.tag { background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1px 7px; font-size:12px; }
+.review { margin:6px 0; color:var(--text-secondary); font-size:13px; }
+pre.diff { background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px;
+  overflow-x:auto; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; line-height:1.55; }
+pre.diff span { display:block; }
+pre.diff .add { background:rgba(12,163,12,0.14); }
+pre.diff .del { background:rgba(208,59,59,0.14); }
+pre.diff .hunk { color:var(--muted); }
+footer { margin-top:36px; color:var(--muted); font-size:12.5px; }
+.toggle { float:right; cursor:pointer; background:var(--surface-2); border:1px solid var(--border);
+  border-radius:8px; padding:6px 12px; font-size:13px; color:var(--text-primary); }
+/* B17.7 — the verdict, above the fold. */
+.vbanner { margin-top:20px; padding:18px 20px; border-radius:12px; background:var(--surface-1);
+  border:1px solid var(--border); border-left:6px solid var(--vc); }
+.vhead { font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted);
+  font-weight:700; }
+.vverdict { font-size:28px; letter-spacing:-0.01em; color:var(--vc); display:block; margin-top:2px; }
+.vmetrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:10px;
+  margin-top:14px; }
+.vm { background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:9px 12px; }
+.vm-l { font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+.vm-v { font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; margin-top:2px; }
+.vm-b { color:var(--muted); font-weight:600; }
+.vg { color:#0ca30c; }
+.vb { color:#d03b3b; }
+.vgap { margin-top:12px; font-size:13px; color:#d03b3b; }
+.vnote { margin-top:12px; font-size:12.5px; color:var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<button class="toggle" onclick="var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='dark'?'light':'dark')">◐ theme</button>
+<header>
+  <h1>Blast Radius Autopilot</h1>
+  <p class="pitch">DataHub's Impact Analysis shows you the blast radius; this defuses it.</p>
+  <div class="change">Proposed change: <code>drop retail.customers.loyalty_tier</code> &nbsp;·&nbsp; catalog <strong>fiction-retail</strong></div>
+  <div class="summary">drop retail.customers.loyalty_tier breaks 3 and degrades 0 downstream consumer(s) across 2 team(s) (crm-analytics, retail-data), spanning 28 query runs in history. Change risk: CRITICAL (84/100).</div>
+</header>
+
+
+<div class="card"><div class="tiles"><div class="tile"><div class="t-title">Change risk</div><div class="t-value" style="color:#d03b3b">84<span class="unit">/100</span></div><div class="meter"><div class="meter-fill" style="width:84%;background:#d03b3b"></div></div><div class="t-sub">CRITICAL</div></div><div class="tile"><div class="t-title">Breaks</div><div class="t-value" style="color:#d03b3b">3</div><div class="t-sub">consumers error / lose data</div></div><div class="tile"><div class="t-title">Degrades</div><div class="t-value" style="color:#fab219">0</div><div class="t-sub">runs, output changes</div></div><div class="tile"><div class="t-title">Safe</div><div class="t-value" style="color:#0ca30c">1</div><div class="t-sub">proven unaffected</div></div><div class="tile"><div class="t-title">Unassessed</div><div class="t-value" style="color:#898781">0</div><div class="t-sub">no SQL / unparseable — not safe</div></div><div class="tile"><div class="t-title">Coverage</div><div class="t-value" style="color:var(--series-1)">4 of 4 analysed</div><div class="t-sub">consumers we could analyse</div></div><div class="tile"><div class="t-title">Teams impacted</div><div class="t-value" style="color:var(--series-1)">2</div><div class="t-sub">crm-analytics, retail-data</div></div><div class="tile"><div class="t-title">Impacted runs</div><div class="t-value" style="color:var(--series-1)">28</div><div class="t-sub">query executions in history</div></div></div></div>
+
+<h2>Impacted lineage</h2>
+<div class="legend"><span class="lg"><span class="dot" style="background:#d03b3b">✕</span>BREAKS</span><span class="lg"><span class="dot" style="background:#fab219">!</span>DEGRADES</span><span class="lg"><span class="dot" style="background:#0ca30c">✓</span>SAFE</span><span class="lg"><span class="dot" style="background:#898781">?</span>UNKNOWN</span></div>
+<div class="card"><svg viewBox="0 0 940 312" width="100%" role="img" aria-label="Blast radius lineage graph" style="max-width:100%;height:auto"><g><rect x="40" y="119" width="250" height="74" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="56" y="147" class="n-title">customers</text><text x="56" y="169" class="n-sub">changing column: loyalty_tier</text></g><path d="M290,156 C425,156 425,63 560,63" fill="none" stroke="#d03b3b" stroke-width="2" opacity="0.75"/><g><rect x="560" y="40" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#d03b3b" stroke-width="1.5"/><rect x="560" y="40" width="6" height="46" rx="3" fill="#d03b3b"/><circle cx="586" cy="63" r="11" fill="#d03b3b"/><text x="586" y="67" text-anchor="middle" class="badge">✕</text><text x="606" y="60" class="n-title">Loyalty Mix</text><text x="606" y="78" class="n-sub">BREAKS · looker dashboard · 16 runs · crm-analytics</text></g><path d="M290,156 C425,156 425,125 560,125" fill="none" stroke="#d03b3b" stroke-width="2" opacity="0.75"/><g><rect x="560" y="102" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#d03b3b" stroke-width="1.5"/><rect x="560" y="102" width="6" height="46" rx="3" fill="#d03b3b"/><circle cx="586" cy="125" r="11" fill="#d03b3b"/><text x="586" y="129" text-anchor="middle" class="badge">✕</text><text x="606" y="122" class="n-title">rpt_loyalty</text><text x="606" y="140" class="n-sub">BREAKS · dbt model · 7 runs · retail-data</text></g><path d="M290,156 C425,156 425,187 560,187" fill="none" stroke="#d03b3b" stroke-width="2" opacity="0.75"/><g><rect x="560" y="164" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#d03b3b" stroke-width="1.5"/><rect x="560" y="164" width="6" height="46" rx="3" fill="#d03b3b"/><circle cx="586" cy="187" r="11" fill="#d03b3b"/><text x="586" y="191" text-anchor="middle" class="badge">✕</text><text x="606" y="184" class="n-title">Gold Members</text><text x="606" y="202" class="n-sub">BREAKS · powerbi report · 5 runs · crm-analytics</text></g><path d="M290,156 C425,156 425,249 560,249" fill="none" stroke="#0ca30c" stroke-width="2" opacity="0.75"/><g><rect x="560" y="226" width="340" height="46" rx="9" fill="var(--surface-2)" stroke="#0ca30c" stroke-width="1.5"/><rect x="560" y="226" width="6" height="46" rx="3" fill="#0ca30c"/><circle cx="586" cy="249" r="11" fill="#0ca30c"/><text x="586" y="253" text-anchor="middle" class="badge">✓</text><text x="606" y="246" class="n-title">1 safe consumer(s)</text><text x="606" y="264" class="n-sub">SAFE · unaffected · 9 runs</text></g></svg></div>
+
+<h2>Impacted consumers</h2>
+<div class="card" style="overflow-x:auto">
+<table>
+<thead><tr><th>Impact</th><th>Consumer</th><th>Team</th><th>Uses column</th><th>Runs</th><th>Detail</th></tr></thead>
+<tbody><tr><td><span class="pill" style="--pc:#d03b3b">✕ BREAKS</span></td><td><strong>Loyalty Mix</strong><br><span class='muted'>looker dashboard</span></td><td>crm-analytics</td><td><code>select</code> <span class='muted'>(group, select)</span></td><td class='num'>16</td><td>projects/derives `loyalty_tier` (in group, select) → column removed</td></tr><tr><td><span class="pill" style="--pc:#d03b3b">✕ BREAKS</span></td><td><strong>rpt_loyalty</strong><br><span class='muted'>dbt model</span></td><td>retail-data</td><td><code>select</code> <span class='muted'>(select)</span></td><td class='num'>7</td><td>projects/derives `loyalty_tier` (in select) → column removed</td></tr><tr><td><span class="pill" style="--pc:#d03b3b">✕ BREAKS</span></td><td><strong>Gold Members</strong><br><span class='muted'>powerbi report</span></td><td>crm-analytics</td><td><code>filter</code> <span class='muted'>(where)</span></td><td class='num'>5</td><td>references `loyalty_tier` in where → column removed</td></tr></tbody>
+</table>
+</div>
+
+<h2>Migration plan</h2>
+<div class="card"><div class='fix'><div class='fix-head'><strong>rpt_loyalty</strong> <code>dbt_project/models/rpt_loyalty.sql</code> <span class='tag'>auto-generated ✓</span> <span class='muted'>(minimal)</span></div><pre class='diff'><span class="">--- a/dbt_project/models/rpt_loyalty.sql</span>
+<span class="">+++ b/dbt_project/models/rpt_loyalty.sql</span>
+<span class="hunk">@@ -2,6 +2,5 @@</span>
+<span class=""> -- Owned by team:retail-data. Downstream of retail.customers.</span>
+<span class=""> SELECT</span>
+<span class="">     customer_id,</span>
+<span class="del">-    loyalty_tier,</span>
+<span class="">     region</span>
+<span class=""> FROM retail.customers</span></pre></div></div>
+
+<h2>Migration plan — grounded step-by-step</h2>
+<div class="card"><ol class='plan'><li><span class='pill' style='--pc:#d03b3b'>BREAKS</span> <strong>rpt_loyalty</strong> <span class='muted'>(dbt_model)</span><div class='muted' style='margin:2px 0 0 2px'>owner: retail-data · action: apply generated fix: dbt_project/models/rpt_loyalty.sql · parser confidence: high</div></li><li><span class='pill' style='--pc:#d03b3b'>BREAKS</span> <strong>Gold Members</strong> <span class='muted'>(powerbi_report)</span><div class='muted' style='margin:2px 0 0 2px'>owner: crm-analytics · action: manual review — no mechanical fix generated · parser confidence: high</div></li><li><span class='pill' style='--pc:#d03b3b'>BREAKS</span> <strong>Loyalty Mix</strong> <span class='muted'>(looker_dashboard)</span><div class='muted' style='margin:2px 0 0 2px'>owner: crm-analytics · action: manual review — no mechanical fix generated · parser confidence: high</div></li></ol><p><strong>Teams to involve:</strong> retail-data, crm-analytics</p><p><strong>Verify after the change:</strong></p><ul><li>rpt_loyalty (BREAKS)</li><li>Gold Members (BREAKS)</li><li>Loyalty Mix (BREAKS)</li></ul><p><strong>Rollback:</strong></p><ul><li>Revert the schema change: re-add column `loyalty_tier` to `retail.customers`.</li><li>Close the generated migration PR and revert `dbt_project/models/rpt_loyalty.sql` to its pre-change version.</li><li>Re-run Blast Radius Autopilot to confirm the catalog assessment clears.</li></ul><p class='muted'><strong>Left for a human to decide (not computed):</strong> effort ⟨human to decide⟩ · timeline ⟨human to decide⟩ · deployment window ⟨human to decide⟩</p></div>
+
+
+
+<h2>Catalog write-back</h2>
+<div class="card">
+  <p><strong>7 planned, 0 written, 0 queued, 0 failed, 0 skipped</strong> &nbsp; <span class='muted'>dry run — nothing was written</span></p>
+  <div style="overflow-x:auto"><table>
+    <thead><tr><th>Outcome</th><th class='num'>Count</th></tr></thead>
+    <tbody><tr><td>Planned (total)</td><td class='num'>7</td></tr><tr><td>Written</td><td class='num'>0</td></tr><tr><td>Queued for review</td><td class='num'>0</td></tr><tr><td>Failed</td><td class='num'>0</td></tr><tr><td>Not attempted (dry run)</td><td class='num'>7</td></tr><tr><td>Skipped</td><td class='num'>0</td></tr></tbody>
+  </table></div>
+  
+</div>
+
+
+
+
+<footer>Blast Radius Assessment — drop retail.customers.loyalty_tier · Generated by Blast Radius Autopilot · public/synthetic data only.</footer>
+</div>
+</body>
+</html>
