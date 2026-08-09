@@ -121,6 +121,22 @@ claim to.
   or removed videos do not return. Replaced `VIDEO_URL_HERE` in the root `README.md` and the
   remaining URL placeholders in `DEVPOST_SUBMISSION.md` and `SUBMIT_CHECKLIST.md`.
 
+- **2026-08-09 — GitHub Pages demo site live; Codespaces devcontainer added.**
+  <https://nemesisat.github.io/blast-radius-autopilot/> — enabled from `main` `/docs`, build
+  status `built`. Verified by HTTP, not by assumption: **all 16 assets return 200** (index, 12
+  report pages, 3 screenshots). The site is the generated HTML reports themselves — a judge can
+  read real PASS / REVIEW_REQUIRED output and the sweep ledger with nothing installed.
+  Scanned before publishing: no absolute paths, no secrets, all 15 internal links resolve.
+
+  **Devcontainer authored** (`.devcontainer/devcontainer.json`) — Python **3.12** image, pinned
+  because `acryl-datahub` does not support 3.13+ and the box default is 3.14. `postCreateCommand`
+  installs `./blast-radius-autopilot[dev]`; `postAttachCommand` runs `pytest`, so a Codespace
+  proves itself green on open. Install command dry-run first: resolves to acryl-datahub 1.7.0 +
+  pytest + ruff + sqlglot. File is JSONC (comments are spec-legal; a strict JSON parser rejects it).
+
+  Submission scaffolding (`DEVPOST_ABOUT.md`, `DEVPOST_SUBMISSION.md`, `SUBMIT_CHECKLIST.md`)
+  removed from the public repo in `fb66bc5`; recoverable from history via `git show c5fbe0c:<file>`.
+
 - **2026-08-05 — B21 Overnight Catalog Sweep built + verified (test-first, additive only).**
   The per-change loop, generalised to a whole catalog: enumerate every candidate column change,
   run the **existing** impact → fixgen → verify chain on each, emit a ranked ledger. New
