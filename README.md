@@ -8,7 +8,7 @@ it. What it doesn't do is **act**: it won't write the migration, it won't check 
 migration actually worked, and it won't record the verdict for the next engineer. That's this.
 
 Built for **Build with DataHub: The Agent Hackathon**.
-📺 **[3-minute demo](VIDEO_URL_HERE)** · 📦 [Apache-2.0](LICENSE) · ✅ 198 tests
+📺 **[3-minute demo](https://www.youtube.com/watch?v=-DOwanGh9oM)** · 📦 [Apache-2.0](LICENSE) · ✅ 198 tests
 
 ---
 

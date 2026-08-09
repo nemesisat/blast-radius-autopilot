@@ -113,9 +113,13 @@ claim to.
   | `autopilot --sweep --catalog examples/showcase-ecommerce/catalog.json` | ledger renders · 13 of 13 assessed · 9 landmines · 4 verified safe · 0 unassessed · 0.2s · read-only |
   | Present in clone | root `LICENSE`, `blast-radius-autopilot/LICENSE`, `LIMITATIONS.md`, `README.md`, `demo/`, `datahub-skill/`, `examples/` |
 
-  Root `README.md` links audited: all 12 relative paths resolve. **One placeholder is still
-  live — `VIDEO_URL_HERE`** — the YouTube URL does not appear anywhere in the repo and must be
-  filled in before submission.
+  Root `README.md` links audited: all 12 relative paths resolve.
+
+  **Demo video linked (same day).** <https://www.youtube.com/watch?v=-DOwanGh9oM> — confirmed
+  publicly reachable via YouTube's oEmbed endpoint (HTTP 200, title *"Blast Radius Autopilot —
+  AI agent that verifies its own schema migrations (DataHub Agent Hackathon)"*), which private
+  or removed videos do not return. Replaced `VIDEO_URL_HERE` in the root `README.md` and the
+  remaining URL placeholders in `DEVPOST_SUBMISSION.md` and `SUBMIT_CHECKLIST.md`.
 
 - **2026-08-05 — B21 Overnight Catalog Sweep built + verified (test-first, additive only).**
   The per-change loop, generalised to a whole catalog: enumerate every candidate column change,
@@ -1160,9 +1164,9 @@ _Feature work is closed as of B18. Everything below is submission work._
    <https://github.com/nemesisat/blast-radius-autopilot>, public, description + 6 topics set.
 2. ~~**Set Apache-2.0 visible in the repo "About"**~~ — **done 2026-08-09** via a root `LICENSE`;
    GitHub reports `licenseInfo.key = apache-2.0`.
-3. **Record the <3-min demo video** (`blast-radius-autopilot/demo/demo_script.md` is the shot list).
-   The cut exists locally and is gitignored; **its public YouTube URL still has to replace
-   `VIDEO_URL_HERE` in the root `README.md`.**
+3. ~~**Record the <3-min demo video**~~ — **done 2026-08-09**:
+   <https://www.youtube.com/watch?v=-DOwanGh9oM>, public, linked from the root `README.md`.
+   The rendered cut stays gitignored; `demo/` carries the shot list, storyboard and captions.
 4. **Open the real upstream Skill PR** to `datahub-skills` for `blast-radius-autopilot/datahub-skill/`
    (needs GitHub auth; confirm that repo's contribution layout first).
 5. **Open the real dbt migration PR** on the on-camera repo (needs GitHub auth; the tool already

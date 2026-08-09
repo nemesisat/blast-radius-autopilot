@@ -139,8 +139,8 @@ Open the PR with this description:
 | Elevator pitch | DataHub shows the blast radius of a schema change. Autopilot defuses it — impact, dbt fix, self-verification, gated write-back — one column, or a ranked ledger for the whole catalog. |
 | About the project | paste everything below the `---` in `DEVPOST_ABOUT.md` |
 | Built with | `datahub, mcp, mcp-server-datahub, python, sqlglot, graphql, dbt, docker, git, pytest, playwright, html, svg, claude` |
-| Repo URL | your public GitHub URL |
-| Video URL | your public YouTube URL |
+| Repo URL | `https://github.com/nemesisat/blast-radius-autopilot` |
+| Video URL | `https://www.youtube.com/watch?v=-DOwanGh9oM` |
 | Try it / project URL | the repo URL (setup instructions are in the README) |
 | Category | **Metadata-Aware Code Generation & Development** (add *Agents That Do Real Work* only if the form allows multiple) |
 | DataHub technologies | ✅ DataHub OSS / Core Platform · ✅ DataHub MCP Server · ✅ DataHub Skills |

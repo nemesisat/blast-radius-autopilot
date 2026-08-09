@@ -139,8 +139,8 @@ Against a live instance: `--online --target-urn "<urn>" --verify --write`.
 `python` · `datahub` · `mcp` · `mcp-server-datahub` · `sqlglot` · `dbt` · `graphql` · `docker`
 · `pytest`
 
-## Links to fill in
+## Links
 
-- Repo: `<public GitHub URL — Apache-2.0 visible in About>`
-- Video (<3 min, public): `<YouTube/Vimeo URL>`
+- Repo: <https://github.com/nemesisat/blast-radius-autopilot> — public, Apache-2.0 detected by GitHub.
+- Video (<3 min, public): <https://www.youtube.com/watch?v=-DOwanGh9oM>
 - DataHub Skill PR: `<datahub-skills PR URL>`
