@@ -29,3 +29,7 @@ htmlcov/
 # Everything else under out/ IS the captured evidence and IS tracked on purpose — the
 # submission's claims are backed by those files, so a fresh clone must contain them.
 blast-radius-autopilot/out/b20_3_scratch/
+
+# Rendered demo video + narration masters. The 3-minute cut lives on YouTube; the
+# storyboard, captions and build scripts that produce it are tracked under demo/.
+blast-radius-autopilot/out/demo_video/

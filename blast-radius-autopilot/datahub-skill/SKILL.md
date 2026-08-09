@@ -10,7 +10,7 @@ description: >
   complete — and it says plainly which consumers it could not assess.
 license: Apache-2.0
 version: 0.1.0
-homepage: https://github.com/<your-org>/blast-radius-autopilot
+homepage: https://github.com/nemesisat/blast-radius-autopilot
 tags: [impact-analysis, lineage, schema-change, code-generation, dbt]
 ---
 

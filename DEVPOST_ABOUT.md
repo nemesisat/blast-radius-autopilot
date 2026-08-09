@@ -1,4 +1,4 @@
-# Devpost — "About the project" (paste as Markdown)
+# Devpost — "About the project" (paste everything below as Markdown)
 
 ---
 
@@ -31,7 +31,12 @@ Given `drop order_entry.orders.promotion_id`, the agent:
 5. **gates every catalog write on that verdict** — no PASS, no automatic write; a human can approve a
    REVIEW_REQUIRED via a single-use manifest; a FAIL can never be approved;
 6. writes the assessment, the impact tags, the risk properties and the **human-approval audit trail**
-   back into DataHub, where the next engineer inherits them.
+   back into DataHub, where the next engineer inherits them;
+7. **runs that same chain unattended across the whole catalog** — a read-only **Catalog Sweep**
+   enumerates every candidate column change, scores each one, and emits a ranked ledger:
+   verified-safe (with the patch attached), needs-review, landmine, or unassessed. Across six
+   synthetic catalogs it assessed **43 candidate columns in 0.65 seconds**. The sweep never writes to
+   DataHub — it proposes a ledger; a human picks.
 
 ## How we built it
 
@@ -43,13 +48,15 @@ GraphQL for the write-back, and a local `datahub docker quickstart` loaded with 
 Two architectural decisions carried the whole build:
 
 **Offline-first.** Every capability runs against JSON fixtures that mirror the MCP read surface, so
-the entire test suite (now **181 tests**) executes with no DataHub instance at all. A live instance
+the entire test suite (now **198 tests**) executes with no DataHub instance at all. A live instance
 became a *stronger* evidence path, never a prerequisite. That decision saved the project on the day
 Docker wasn't running.
 
 **Metadata-only.** The agent never reads a single row of data — only schemas, lineage, query text and
 ownership. A 6 TB table and a 6 MB table look identical to it. On the live run, the MCP pull took
-~11.5 s and the entire column analysis took **14 ms**.
+~11.5 s and the entire column analysis took **14 ms**. That is also why the catalog-wide sweep is
+viable at all: 43 candidate columns, each assessed and verified, in 0.65 seconds — the cost scales
+with metadata, not with data.
 
 We also built it under a discipline that turned out to matter more than any feature: **every fix was
 written as a failing test first**, and nothing was recorded as done without either a passing test or
@@ -89,6 +96,17 @@ The PASS conjunction ended up with sixteen named clauses, all of which must hold
 in the code — because we learned that a verdict synthesised in two places will eventually disagree
 with itself.
 
+### And once more in the sweep — caught before shipping this time
+
+The catalog sweep wanted to report a single "verified safe" count. Two different claims were about to
+share that label: columns where a fix was generated, applied in isolation and re-checked
+(`verified_patch`), and columns where nothing that parses referenced them at all, so no patch was
+needed and nothing was verified (`no_references`). Both are safe to change — but only one involved
+verifying anything, and letting the second borrow the first's credibility would have been this
+project's characteristic error in miniature. The ledger reports the basis of every row:
+**8 verified_patch, 9 no_references**. We also check `unassessed` before every other bucket, because
+everything below it is a statement about a corpus we could actually read.
+
 ### The catalog couldn't store what we claimed
 
 We had been saying the full Impact Assessment was written into DataHub. We probed the actual aspect
@@ -112,11 +130,14 @@ demoed green would have been more impressive and less true. We ship all three ve
 
 ## Accomplishments we're proud of
 
-- **181 passing tests**, every safety property written failing-first.
+- **198 passing tests**, every safety property written failing-first.
 - A **live DataHub round-trip** verified by independent GraphQL read-back — including the approval
   audit trail (who approved, when, against which verdict, under which manifest).
 - **All three verdicts on real runs**: a PASS (breaks 2 → 0, every gate independently satisfied), a
   REVIEW_REQUIRED (breaks 6 → 5), and a FAIL that correctly refuses to certify an incomplete fix.
+- A **read-only Catalog Sweep** that generalises the whole chain to every column in the catalog and
+  emits a ranked ledger — with the read-only guarantee enforced *structurally* (the module never
+  imports the write layer), not by convention.
 - The same code path across **five very different dataset types**, with the regulated examples
   (healthcare, finance) routing every write to human review.
 - A `LIMITATIONS.md` that documents our own residual risks rather than leaving them to be found.
