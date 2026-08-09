@@ -76,6 +76,47 @@ claim to.
 
 ## Done + verified
 
+- **2026-08-09 — Published to a public GitHub repo; judge simulation caught a real defect.**
+  Repo: <https://github.com/nemesisat/blast-radius-autopilot> · **PUBLIC** · licence detected by
+  GitHub as **Apache-2.0** · 378 tracked files · 35 MB clone (15 MB of git objects).
+
+  **The 23 MB demo video was deliberately excluded** — `blast-radius-autopilot/out/demo_video/`
+  is gitignored (the cut lives on YouTube). The storyboard, captions, narration text and build
+  scripts under `demo/` are tracked. `out/submission_banners/` (1.7 MB) is tracked, as are the
+  rest of the captured runs — sample outputs are explicitly recommended by the hackathon rules.
+  Verified before every commit that no `.mp4`, no `.mp3` and no `.env` was staged; `.env` is
+  absent from the entire history (`git log --all -- '**/.env'` empty), and no key-shaped string
+  (`sk-…`, `eyJ…`) appears in any tracked file.
+
+  **Licence detection needed a root `LICENSE`.** GitHub's licensee only reads the repository
+  root, and this repo's root is the workspace — the Apache-2.0 files sat one level down in each
+  project. `licenseInfo` came back `null` until an unmodified copy was placed at the root; the
+  per-project `blast-radius-autopilot/LICENSE` stayed in place.
+
+  **The clean-clone run is what found the bug.** The working copy showed 198 passed, but a fresh
+  clone + fresh venv + `pip install -e '.[dev]'` — the exact command the README gives a judge —
+  reported **189 passed / 9 failed**. Root cause: `acryl-datahub` was only in the `datahub`
+  extra, while `test_approval.py` (7), `test_sweep.py` (1) and `test_verify.py` (1) exercise the
+  real DataHub client surface. Two failed on `ModuleNotFoundError: No module named 'datahub'`;
+  the other seven failed *silently plausibly* — writes landed in `failed=[…]` with
+  `written_auto=[]` rather than erroring, which is the more dangerous shape. Fixed by adding
+  `acryl-datahub>=0.15.0` to the `dev` extra. Skipping those tests instead would have kept the
+  suite green while quietly retiring the write-back guarantees and contradicting the advertised
+  198. Re-verified from a second clean clone: **198 passed in 21.78s**.
+
+  **Judge simulation, from a clean clone at `/tmp/judge` (not the working copy):**
+
+  | Check | Result |
+  |---|---|
+  | `pip install -e '.[dev]'` → `pytest` | **198 passed** in 21.78s |
+  | `autopilot … --change "drop analytics.fct_signups.referrer_code" --verify` | **✅ PASS** · breaks **2 → 0** · coverage 3 of 3 · both consumers BREAKS → SAFE |
+  | `autopilot --sweep --catalog examples/showcase-ecommerce/catalog.json` | ledger renders · 13 of 13 assessed · 9 landmines · 4 verified safe · 0 unassessed · 0.2s · read-only |
+  | Present in clone | root `LICENSE`, `blast-radius-autopilot/LICENSE`, `LIMITATIONS.md`, `README.md`, `demo/`, `datahub-skill/`, `examples/` |
+
+  Root `README.md` links audited: all 12 relative paths resolve. **One placeholder is still
+  live — `VIDEO_URL_HERE`** — the YouTube URL does not appear anywhere in the repo and must be
+  filled in before submission.
+
 - **2026-08-05 — B21 Overnight Catalog Sweep built + verified (test-first, additive only).**
   The per-change loop, generalised to a whole catalog: enumerate every candidate column change,
   run the **existing** impact → fixgen → verify chain on each, emit a ranked ledger. New
@@ -1115,9 +1156,13 @@ claim to.
 
 _Feature work is closed as of B18. Everything below is submission work._
 
-1. **Push to a public GitHub repo** (needs your GitHub auth).
-2. **Set Apache-2.0 visible in the repo "About"** (GitHub UI).
+1. ~~**Push to a public GitHub repo**~~ — **done 2026-08-09**:
+   <https://github.com/nemesisat/blast-radius-autopilot>, public, description + 6 topics set.
+2. ~~**Set Apache-2.0 visible in the repo "About"**~~ — **done 2026-08-09** via a root `LICENSE`;
+   GitHub reports `licenseInfo.key = apache-2.0`.
 3. **Record the <3-min demo video** (`blast-radius-autopilot/demo/demo_script.md` is the shot list).
+   The cut exists locally and is gitignored; **its public YouTube URL still has to replace
+   `VIDEO_URL_HERE` in the root `README.md`.**
 4. **Open the real upstream Skill PR** to `datahub-skills` for `blast-radius-autopilot/datahub-skill/`
    (needs GitHub auth; confirm that repo's contribution layout first).
 5. **Open the real dbt migration PR** on the on-camera repo (needs GitHub auth; the tool already
